@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PayScore MVP Prototype</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#app">본문으로 건너뛰기</a>
+
+    <header class="app-header" role="banner">
+      <div class="container">
+        <div class="brand" aria-label="Paytrace">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <div class="brand-text">
+            <div class="brand-title">
+              <span class="brand-pay">Pay</span><span class="brand-trace">trace</span>
+            </div>
+            <div class="brand-tagline">CREDIT MADE SIMPLE</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="app" class="container" role="main">
+      <!-- Landing -->
+      <section id="view-landing" class="view" aria-labelledby="landing-title">
+        <div class="landing">
+          <div class="landing-hero">
+            <h1 id="landing-title" class="landing-title">
+              <span>월세 납부,</span>
+              <span>신용에 도움 될까요?</span>
+            </h1>
+            <p class="landing-subtitle">
+              <span>숨겨진 납부 내역으로</span>
+              <span>실제 금융 생활을 편리하게</span>
+            </p>
+            <button id="btn-start" class="btn btn-primary btn-full" type="button">
+              고정 지출 정보 입력 시작
+            </button>
+          </div>
+
+          <section class="card landing-card" aria-labelledby="how-title">
+            <h2 id="how-title" class="landing-section-title">어떻게 도움이 되나요?</h2>
+            <div class="info-list" role="list">
+              <div class="info-item" role="listitem">
+                <div class="info-icon" aria-hidden="true">A+</div>
+                <div class="info-text">
+                  <div class="info-title">신용점수 향상</div>
+                  <div class="info-desc">정기 납부 내역 반영</div>
+                </div>
+              </div>
+              <div class="info-item" role="listitem">
+                <div class="info-icon" aria-hidden="true">₩</div>
+                <div class="info-text">
+                  <div class="info-title">지출 관리</div>
+                  <div class="info-desc">월세·관리비 한눈에</div>
+                </div>
+              </div>
+              <div class="info-item no-border" role="listitem">
+                <div class="info-icon" aria-hidden="true">🔒</div>
+                <div class="info-text">
+                  <div class="info-title">안전한 보안</div>
+                  <div class="info-desc">금융급 암호화 적용</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="landing-steps" aria-labelledby="steps-title">
+            <h2 id="steps-title" class="landing-section-title">3분이면 충분합니다</h2>
+            <div class="step-list">
+              <div class="card step-card">
+                <div class="step-num" aria-hidden="true">1</div>
+                <div class="step-text">
+                  <div class="step-title">고정 지출 정보 입력</div>
+                  <div class="step-desc">월세, 관리비, 통신비 등</div>
+                </div>
+              </div>
+              <div class="card step-card">
+                <div class="step-num" aria-hidden="true">2</div>
+                <div class="step-text">
+                  <div class="step-title">납부 내역 연동</div>
+                  <div class="step-desc">자동으로 기록 관리</div>
+                </div>
+              </div>
+              <div class="card step-card">
+                <div class="step-num" aria-hidden="true">3</div>
+                <div class="step-text">
+                  <div class="step-title">신용 관리 시작</div>
+                  <div class="step-desc">금융 생활 개선 효과</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card trust-card" aria-label="신뢰 안내">
+            <div class="trust-pill" role="status">
+              <span class="trust-check" aria-hidden="true">✓</span>
+              금융위원회 인증 서비스
+            </div>
+            <p class="trust-sub">개인정보는 안전하게 보호됩니다</p>
+          </section>
+
+          <footer class="landing-footer" aria-label="푸터">
+            <p class="landing-copy">© 2026 Paytrace. All rights reserved.</p>
+          </footer>
+        </div>
+      </section>
+
+      <!-- Contract + fixed expenses input -->
+      <section id="view-form" class="view hidden" aria-labelledby="form-title">
+        <div class="form-screen">
+          <button id="btn-form-back" class="form-topbar" type="button">← 이전으로</button>
+
+          <header class="form-hero">
+            <h2 id="form-title" class="form-title">고정 지출 정보 입력</h2>
+            <p class="form-subtitle">월세 및 정기 지출 내역을 입력해 주세요</p>
+          </header>
+
+          <form id="contract-form" class="form" novalidate>
+            <section class="form-section" aria-label="임대차 계약 정보">
+              <h3 class="form-section-title">임대차 계약 정보</h3>
+
+              <div class="field">
+                <div class="label">
+                  계약 기간 <span class="req" aria-label="필수">*</span>
+                </div>
+
+                <div class="date-row">
+                  <div class="field compact">
+                    <label class="sr-only" for="startDate">계약 시작일</label>
+                    <input id="startDate" name="startDate" type="date" autocomplete="off" />
+                    <p id="err-startDate" class="error" role="alert" aria-live="polite"></p>
+                  </div>
+                  <div class="field compact">
+                    <label class="sr-only" for="endDate">만료일</label>
+                    <input id="endDate" name="endDate" type="date" autocomplete="off" />
+                    <p id="err-endDate" class="error" role="alert" aria-live="polite"></p>
+                  </div>
+                </div>
+
+                <p class="help">계약 시작일과 만료일을 선택해 주세요 (최소 1개월, 최대 36개월)</p>
+                <p id="hint-contractMonths" class="hint" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label for="rentAmount" class="label">
+                  월세 금액 <span class="req" aria-label="필수">*</span>
+                </label>
+                <div class="input-suffix">
+                  <input
+                    id="rentAmount"
+                    name="rentAmount"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="0"
+                  />
+                  <span class="suffix" aria-hidden="true">원</span>
+                </div>
+                <p class="help">1원 이상의 금액을 입력해 주세요</p>
+                <p id="warn-rentAmount" class="warn" aria-live="polite"></p>
+                <p id="err-rentAmount" class="error" role="alert" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <div class="label">
+                  관리비 포함 여부 <span class="req" aria-label="필수">*</span>
+                </div>
+                <div class="radio-inline" role="radiogroup" aria-labelledby="mgmtLabel">
+                  <span id="mgmtLabel" class="sr-only">관리비 포함 여부</span>
+                  <label class="radio-inline-item">
+                    <input type="radio" name="mgmtIncluded" value="true" />
+                    포함
+                  </label>
+                  <label class="radio-inline-item">
+                    <input type="radio" name="mgmtIncluded" value="false" />
+                    미포함
+                  </label>
+                </div>
+                <p id="err-mgmtIncluded" class="error" role="alert" aria-live="polite"></p>
+              </div>
+
+              <div id="mgmtAmountWrap" class="field mgmt-panel hidden">
+                <div class="label">
+                  관리비 금액 <span class="req" aria-label="조건부 필수">*</span>
+                </div>
+                <div class="input-suffix">
+                  <input
+                    id="mgmtAmount"
+                    name="mgmtAmount"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="0"
+                  />
+                  <span class="suffix" aria-hidden="true">원</span>
+                </div>
+                <p id="err-mgmtAmount" class="error" role="alert" aria-live="polite"></p>
+              </div>
+            </section>
+
+            <div class="form-divider" aria-hidden="true"></div>
+
+            <section class="form-section" aria-label="고정비 정보">
+              <h3 class="form-section-title">고정비 정보</h3>
+              <p class="help">
+                월 단위로 정기 납부 중인 고정 지출 (단, 중간에 연체 없이, 실제로 연속 납부한 월 구독
+                금액을 입력해주세요.)
+              </p>
+
+              <div class="checklist">
+                <label class="check check-box">
+                  <input type="checkbox" name="fixedType" value="OTT" />
+                  OTT
+                </label>
+                <div id="fixed-OTT" class="fixed-detail hidden" aria-label="OTT 입력">
+                  <div class="fixed-grid-head">
+                    <div class="fixed-head">
+                      월 구독료 <span class="req" aria-label="필수">*</span>
+                    </div>
+                    <div class="fixed-head">
+                      구독 개월 수 <span class="req" aria-label="필수">*</span>
+                    </div>
+                  </div>
+                  <div class="fixed-rows" data-fixed-type="OTT" aria-label="OTT 구독 행 목록"></div>
+                  <div class="fixed-row-actions">
+                    <button class="btn btn-ghost btn-add-row" type="button" data-action="add-row" data-fixed-type="OTT">
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <label class="check check-box">
+                  <input type="checkbox" name="fixedType" value="MUSIC" />
+                  음악 스트리밍
+                </label>
+                <div id="fixed-MUSIC" class="fixed-detail hidden" aria-label="음악 스트리밍 입력">
+                  <div class="fixed-grid-head">
+                    <div class="fixed-head">
+                      월 구독료 <span class="req" aria-label="필수">*</span>
+                    </div>
+                    <div class="fixed-head">
+                      구독 개월 수 <span class="req" aria-label="필수">*</span>
+                    </div>
+                  </div>
+                  <div class="fixed-rows" data-fixed-type="MUSIC" aria-label="음악 스트리밍 구독 행 목록"></div>
+                  <div class="fixed-row-actions">
+                    <button class="btn btn-ghost btn-add-row" type="button" data-action="add-row" data-fixed-type="MUSIC">
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <label class="check check-box">
+                  <input type="checkbox" name="fixedType" value="EBOOK" />
+                  전자책 구독
+                </label>
+                <div id="fixed-EBOOK" class="fixed-detail hidden" aria-label="전자책 구독 입력">
+                  <div class="fixed-grid-head">
+                    <div class="fixed-head">
+                      월 구독료 <span class="req" aria-label="필수">*</span>
+                    </div>
+                    <div class="fixed-head">
+                      구독 개월 수 <span class="req" aria-label="필수">*</span>
+                    </div>
+                  </div>
+                  <div class="fixed-rows" data-fixed-type="EBOOK" aria-label="전자책 구독 행 목록"></div>
+                  <div class="fixed-row-actions">
+                    <button class="btn btn-ghost btn-add-row" type="button" data-action="add-row" data-fixed-type="EBOOK">
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div class="form-actions">
+              <button id="btn-submit" class="btn btn-primary btn-full" type="submit" disabled>
+                <span class="btn-label">입력 완료</span>
+                <span class="spinner hidden" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Contract match result -->
+      <section id="view-match" class="view hidden" aria-labelledby="match-title">
+        <div class="result-screen">
+          <button id="btn-match-back" class="result-topbar" type="button">← 이전으로</button>
+
+          <header class="result-header">
+            <h2 id="match-title" class="result-title">입력 정보 확인 결과</h2>
+          </header>
+
+          <div class="result-body">
+            <div class="result-state" aria-label="인증 상태">
+              <div class="result-icon" aria-hidden="true">✓</div>
+              <div id="match-badge" class="result-pill" aria-live="polite"></div>
+              <h3 id="match-main" class="result-main">입력하신 정보가 확인되었습니다</h3>
+              <p id="match-sub" class="result-sub">
+                입력하신 월세 및 고정비 정보를 바탕으로 PayScore를 산출할 수 있습니다.
+              </p>
+              <ul id="match-reasons" class="reason-list" aria-live="polite"></ul>
+            </div>
+
+            <section class="card result-summary" aria-label="입력하신 정보">
+              <div class="summary-head">입력하신 정보</div>
+              <div id="match-summary" class="summary-rows"></div>
+              <div class="summary-fixed">
+                <div class="summary-fixed-head">
+                  <div class="k">선택한 고정비</div>
+                  <div id="match-fixed-count" class="v"></div>
+                </div>
+                <div id="match-fixed-list" class="fixed-list" aria-label="선택 고정비 목록"></div>
+              </div>
+            </section>
+          </div>
+
+          <div class="result-actions">
+            <button id="btn-to-score" class="btn btn-primary btn-full" type="button">PayScore 확인하기</button>
+            <button id="btn-edit-input" class="btn btn-ghost btn-full" type="button">입력 내용 수정</button>
+          </div>
+
+          <div class="result-foot">
+            <button id="btn-open-criteria" class="criteria-link" type="button">PayScore 산출 기준 보기</button>
+            <p class="criteria-note">
+              입력하신 정보는 PayScore 산출에만 사용되며<br />
+              다른 용도로 활용되지 않습니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contract submit errors -->
+      <section id="view-error-server" class="view hidden" aria-labelledby="err-server-title">
+        <div class="error-screen">
+          <button id="btn-error-topbar-1" class="error-topbar" type="button">← 이전으로</button>
+
+          <div class="error-body">
+            <div class="error-icon" aria-hidden="true">!</div>
+            <h2 id="err-server-title" class="error-title">일시적인 오류가 발생했습니다</h2>
+            <p class="error-sub">
+              제출에 실패했습니다.<br />
+              입력하신 내용은 유지되니 다시 시도해 주세요.
+            </p>
+
+            <div class="error-timecard" aria-label="발생 시각">
+              <div class="k">발생 시각</div>
+              <div id="err-server-time" class="v"></div>
+            </div>
+
+            <div class="error-actions">
+              <button id="btn-retry-server" class="btn btn-primary btn-full" type="button">다시 시도하기</button>
+              <button id="btn-back-to-form-1" class="btn btn-ghost btn-full" type="button">
+                입력 화면으로 돌아가기
+              </button>
+            </div>
+
+            <section class="error-help" aria-label="오류 안내">
+              <div class="error-help-title">💡 이런 경우 오류가 발생할 수 있습니다</div>
+              <ul class="error-help-list">
+                <li>네트워크 연결이 불안정한 경우</li>
+                <li>서버가 일시적으로 응답하지 않는 경우</li>
+                <li>브라우저의 쿠키/캐시 문제</li>
+                <li>동시 접속자가 많은 경우</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-error-timeout" class="view hidden" aria-labelledby="err-timeout-title">
+        <div class="error-screen">
+          <button id="btn-error-topbar-2" class="error-topbar" type="button">← 이전으로</button>
+
+          <div class="error-body">
+            <div class="error-icon" aria-hidden="true">!</div>
+            <h2 id="err-timeout-title" class="error-title">요청 시간이 초과되었습니다</h2>
+            <p class="error-sub">
+              네트워크가 불안정하거나<br />
+              서버 응답이 지연되고 있습니다.
+            </p>
+
+            <div class="error-timecard" aria-label="발생 시각">
+              <div class="k">발생 시각</div>
+              <div id="err-timeout-time" class="v"></div>
+            </div>
+
+            <div class="error-actions">
+              <button id="btn-retry-timeout" class="btn btn-primary btn-full" type="button">다시 시도하기</button>
+              <button id="btn-back-to-form-2" class="btn btn-ghost btn-full" type="button">
+                입력 화면으로 돌아가기
+              </button>
+            </div>
+
+            <section class="error-help" aria-label="오류 안내">
+              <div class="error-help-title">💡 이런 경우 오류가 발생할 수 있습니다</div>
+              <ul class="error-help-list">
+                <li>네트워크 연결이 불안정한 경우</li>
+                <li>서버가 일시적으로 응답하지 않는 경우</li>
+                <li>브라우저의 쿠키/캐시 문제</li>
+                <li>동시 접속자가 많은 경우</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- PayScore -->
+      <section id="view-score-loading" class="view hidden" aria-labelledby="score-loading-title">
+        <h2 id="score-loading-title" class="sr-only">PayScore 산출 중</h2>
+        <div class="score-loading">
+          <div class="score-loading-content" aria-live="polite">
+            <div class="score-loading-spinner" aria-hidden="true"></div>
+            <div class="score-loading-title">PayScore 산출 중...</div>
+            <div class="score-loading-sub">잠시만 기다려 주세요</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-score" class="view hidden" aria-labelledby="score-title">
+        <h2 id="score-title" class="sr-only">PayScore 결과</h2>
+
+        <!-- 입력 내역 + 예상 점수 버튼 (IDLE 시에만 표시) -->
+        <div id="score-entry-block" class="score-entry-block">
+          <div class="card">
+            <h3 class="card-title">입력 내역 요약</h3>
+            <div class="table-wrap">
+              <table class="table" aria-label="입력 내역 요약 리스트">
+                <thead>
+                  <tr>
+                    <th scope="col">항목명</th>
+                    <th scope="col">월 납부액</th>
+                    <th scope="col">납부개월수</th>
+                    <th scope="col">선택 여부</th>
+                  </tr>
+                </thead>
+                <tbody id="selection-rows"></tbody>
+              </table>
+            </div>
+            <div class="actions">
+              <button id="btn-score" class="btn btn-primary" type="button">예상 점수 알아보기</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 결과 영역 (Figma: 우정인_PayScore 결과) -->
+        <div id="score-result-block" class="score-result-screen hidden">
+          <button id="btn-score-back" class="score-result-topbar" type="button">← 이전으로</button>
+          <header class="score-result-header">
+            <h3 class="score-result-title">PayScore 결과</h3>
+          </header>
+          <div class="score-result-body">
+            <div id="score-success-content">
+            <div class="score-result-card" aria-label="점수 카드">
+              <span id="score-badge" class="score-result-badge" aria-live="polite"></span>
+              <div id="score-number" class="score-result-number" aria-live="polite"></div>
+              <div class="score-result-scale">100점 기준</div>
+            </div>
+            <section class="score-credit-section" aria-label="신용점수 상승 예상">
+              <h4 class="score-section-title">신용점수 상승 예상</h4>
+              <div class="score-credit-rows">
+                <div class="score-credit-row">
+                  <span class="k">NICE</span>
+                  <span id="score-credit-nice" class="v"></span>
+                </div>
+                <div class="score-credit-row">
+                  <span class="k">KCB</span>
+                  <span id="score-credit-kcb" class="v"></span>
+                </div>
+              </div>
+            </section>
+            <section class="score-basis-section" aria-label="산출 근거">
+              <h4 class="score-section-title">산출 근거</h4>
+              <div id="score-basis-list" class="score-basis-list"></div>
+            </section>
+            <p class="score-result-hint">본 결과는 예상 범위의 보조 지표로 참고용입니다.</p>
+            </div>
+            <div id="score-fail-content" class="score-fail-content hidden" aria-live="polite">
+              <p class="score-fail-msg">오류가 발생했습니다</p>
+              <div id="score-actions"></div>
+            </div>
+          </div>
+          <div class="score-result-actions">
+            <button id="btn-report" class="btn btn-primary btn-full" type="button" disabled>
+              이 점수 기준으로 리포트 생성
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Report processing (Figma: 김민하_리포트생성중) -->
+      <section id="view-report-processing" class="view hidden" aria-labelledby="processing-title">
+        <div class="report-processing-screen">
+          <header class="report-processing-header">
+            <h2 id="processing-title" class="report-processing-title">PayScore 분석 중</h2>
+            <p class="report-processing-sub">잠시만 기다려주세요</p>
+          </header>
+          <div class="report-processing-body">
+            <div class="report-processing-spinner" aria-hidden="true"></div>
+            <div class="report-progress-wrap">
+              <div class="progress-bar" aria-hidden="true">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+              </div>
+              <div class="report-progress-meta">
+                <span id="progress-pct" class="report-progress-pct" aria-live="polite">0%</span>
+                <span class="report-progress-label">분석 진행 중</span>
+              </div>
+            </div>
+            <div class="report-steps">
+              <div id="report-step-1" class="report-step-card is-done" data-step="1" aria-label="데이터 검증">
+                <div class="report-step-icon report-step-icon-done" aria-hidden="true">✓</div>
+                <div class="report-step-text">입력하신 정보를 확인했습니다</div>
+              </div>
+              <div id="report-step-2" class="report-step-card" data-step="2" aria-label="점수 산출">
+                <div class="report-step-icon report-step-icon-num" aria-hidden="true">2</div>
+                <div class="report-step-text">납부 이력을 바탕으로 PayScore를 계산하고 있습니다</div>
+              </div>
+              <div id="report-step-3" class="report-step-card" data-step="3" aria-label="리포트 생성">
+                <div class="report-step-icon report-step-icon-num" aria-hidden="true">3</div>
+                <div class="report-step-text">금융 기관 제출 가능한 리포트를 만들고 있습니다</div>
+              </div>
+            </div>
+            <section class="report-processing-tip" aria-label="알고 계셨나요?">
+              <h3 class="report-tip-title">알고 계셨나요?</h3>
+              <p class="report-tip-text">정기적인 월세 납부는 신용평가에서 긍정적으로 평가될 수 있습니다.</p>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- Report fail (Figma: 유지민_payscore 분석 실패) -->
+      <section id="view-report-fail" class="view hidden" aria-labelledby="report-fail-title">
+        <div class="report-fail-screen">
+          <header class="report-fail-header">
+            <button id="btn-report-fail-back" class="report-fail-back" type="button">← 이전으로</button>
+            <h2 id="report-fail-title" class="report-fail-title">리포트 생성 실패</h2>
+          </header>
+          <div class="report-fail-body">
+            <div class="report-fail-icon" aria-hidden="true">!</div>
+            <h3 class="report-fail-main">리포트 생성에 실패했습니다</h3>
+            <p class="report-fail-sub">일시적인 오류가 발생했습니다</p>
+            <div class="report-fail-actions">
+              <button id="btn-report-retry" class="btn btn-primary btn-full" type="button">다시 시도</button>
+              <button id="btn-report-cancel" class="btn btn-ghost btn-full" type="button">취소</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Report send fail (Figma: 유지민_payscore 분석 리포트 전송 실패) -->
+      <section id="view-report-send-fail" class="view hidden" aria-labelledby="report-send-fail-title">
+        <div class="report-send-fail-screen">
+          <header class="report-send-fail-header">
+            <h2 id="report-send-fail-title" class="report-send-fail-title">리포트 전송 실패</h2>
+          </header>
+          <div class="report-send-fail-body">
+            <div class="report-send-fail-icon" aria-hidden="true">!</div>
+            <h3 class="report-send-fail-main">리포트 전송 실패</h3>
+            <p class="report-send-fail-sub">리포트 전송 중 문제가 발생했습니다.</p>
+            <div class="report-send-fail-reason" aria-label="전송 실패 사유">
+              <div class="report-send-fail-reason-head">
+                <span class="report-send-fail-reason-icon" aria-hidden="true">▲</span>
+                <strong>전송 실패 사유</strong>
+              </div>
+              <p id="report-send-fail-reason-text" class="report-send-fail-reason-text">알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도 해주세요.</p>
+            </div>
+            <div class="report-send-fail-check" aria-label="이메일 주소 확인 사항">
+              <h4 class="report-send-fail-check-title">이메일 주소 확인 사항</h4>
+              <ul class="report-send-fail-check-list">
+                <li>이메일 주소가 올바르게 입력되었는지 확인</li>
+                <li>오타가 없는지 확인 (예: gamil.com → gmail.com)</li>
+                <li>메일함 용량이 가득 차지 않았는지 확인</li>
+              </ul>
+            </div>
+            <div class="report-send-fail-actions">
+              <button id="btn-report-send-fail-to-start" class="btn btn-ghost btn-full" type="button">초기 화면으로 돌아가기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Report complete (Figma: 유지민_payscore 분석 리포트 전송 완료) -->
+      <section id="view-report-complete" class="view hidden" aria-labelledby="report-complete-title">
+        <div class="report-complete-screen">
+          <header class="report-complete-header">
+            <h2 id="report-complete-title" class="report-complete-title">리포트 전송 완료</h2>
+          </header>
+          <div class="report-complete-body">
+            <div class="report-complete-icon" aria-hidden="true">✓</div>
+            <h3 class="report-complete-main">리포트 전송 완료</h3>
+            <p class="report-complete-email">
+              입력한 이메일로<br />
+              리포트 전송을 요청했습니다 <strong id="masked-email"></strong>
+            </p>
+            <div class="report-complete-tip">
+              <span class="report-complete-tip-icon" aria-hidden="true">i</span>
+              <span class="report-complete-tip-text">메일이 보이지 않을 경우 스팸함을 먼저 확인해 주세요.</span>
+            </div>
+            <div class="report-complete-actions">
+              <button id="btn-report-guide" class="btn btn-primary btn-full" type="button">리포트 활용 가이드 보기</button>
+              <button id="btn-report-to-start" class="btn btn-ghost btn-full" type="button">초기 화면으로 돌아가기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Report preview (Figma: 김민하_리포트미리보기) -->
+      <section id="view-report-preview" class="view hidden" aria-labelledby="report-preview-title">
+        <div class="report-preview-screen">
+          <header class="report-preview-header">
+            <button id="btn-report-preview-back" class="report-preview-back" type="button">← 이전으로</button>
+            <div class="report-preview-heading">
+              <h2 id="report-preview-title" class="report-preview-title">PayScore 리포트</h2>
+              <p class="report-preview-sub">금융 기관 제출 가능한 리포트입니다</p>
+              <span class="report-preview-verified">검증 완료</span>
+            </div>
+          </header>
+          <div class="report-preview-body">
+            <section class="report-preview-section" aria-label="내 PayScore">
+              <h3 class="report-preview-section-title">내 PayScore</h3>
+              <div class="report-preview-score-card">
+                <span id="report-preview-badge" class="report-preview-pill" aria-live="polite"></span>
+                <div id="report-preview-score" class="report-preview-score-num" aria-live="polite"></div>
+                <div class="report-preview-scale">100점 만점 기준</div>
+              </div>
+              <div class="report-preview-credit-row">
+                <div class="report-preview-credit-card">
+                  <span class="k">NICE 예상 상승폭</span>
+                  <span id="report-preview-nice" class="v"></span>
+                </div>
+                <div class="report-preview-credit-card">
+                  <span class="k">KCB 예상 상승폭</span>
+                  <span id="report-preview-kcb" class="v"></span>
+                </div>
+              </div>
+              <div class="report-preview-notice">
+                <span class="report-preview-notice-icon" aria-hidden="true">▲</span>
+                <strong>중요 안내</strong>
+                <p>PayScore는 참고용 보조 지표이며, 공식 신용점수가 아닙니다.</p>
+              </div>
+            </section>
+
+            <section class="report-preview-section" aria-label="리포트 활용 가이드">
+              <h3 class="report-preview-section-title">리포트 활용 가이드</h3>
+              <ul class="report-preview-guide-list">
+                <li>카드/대출 심사 시 보조 자료로 제출 가능</li>
+                <li>월세 납부 이력을 금융 거래 증빙으로 활용</li>
+                <li>신용점수 개선 계획 수립 시 참고 자료</li>
+                <li>정기 납부 습관의 금융적 가치 입증</li>
+              </ul>
+              <div class="report-preview-guide-actions">
+                <button id="btn-report-share" class="btn btn-ghost" type="button">리포트 공유하기</button>
+                <button id="btn-report-download" class="btn btn-ghost" type="button">PDF 다운로드</button>
+              </div>
+            </section>
+
+            <section class="report-preview-section" aria-label="추천 금융 상품">
+              <h3 class="report-preview-section-title">추천 금융 상품</h3>
+              <p id="report-preview-product-basis" class="report-preview-product-basis">PayScore 85점 기준 추천</p>
+              <div class="report-preview-products">
+                <div class="report-preview-product-card">
+                  <span class="report-preview-product-type">카드</span>
+                  <h4 class="report-preview-product-name">KB국민 청춘대로 톡톡</h4>
+                  <p class="report-preview-product-desc">전월실적 30만원 · 연회비 국내전용 1만원</p>
+                  <button type="button" class="btn btn-ghost btn-sm">상세보기</button>
+                </div>
+                <div class="report-preview-product-card">
+                  <span class="report-preview-product-type">카드</span>
+                  <h4 class="report-preview-product-name">신한 Deep Dream</h4>
+                  <p class="report-preview-product-desc">전월실적 없음 · 연회비 국내전용 1.5만원</p>
+                  <button type="button" class="btn btn-ghost btn-sm">상세보기</button>
+                </div>
+                <div class="report-preview-product-card">
+                  <span class="report-preview-product-type">대출</span>
+                  <h4 class="report-preview-product-name">토스뱅크 마이너스통장</h4>
+                  <p class="report-preview-product-desc">한도 최대 300만원 · 금리 연 7.9%~</p>
+                  <button type="button" class="btn btn-ghost btn-sm">상세보기</button>
+                </div>
+                <div class="report-preview-product-card">
+                  <span class="report-preview-product-type">대출</span>
+                  <h4 class="report-preview-product-name">카카오뱅크 비상금대출</h4>
+                  <p class="report-preview-product-desc">한도 최대 300만원 · 금리 연 3.37%~</p>
+                  <button type="button" class="btn btn-ghost btn-sm">상세보기</button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- PDF preview (Figma: 유지민_pdf 미리보기) -->
+      <section id="view-pdf-preview" class="view hidden" aria-labelledby="pdf-preview-title">
+        <div class="pdf-preview-screen">
+          <header class="pdf-preview-header">
+            <button id="btn-pdf-preview-back" class="pdf-preview-back" type="button">← 이전으로</button>
+            <div class="pdf-preview-heading">
+              <h2 id="pdf-preview-title" class="pdf-preview-title">PDF 미리보기</h2>
+              <p class="pdf-preview-sub">아래에서 PDF를 미리 보고 필요하면 다운로드할 수 있어요.</p>
+            </div>
+          </header>
+          <div class="pdf-preview-body">
+            <div class="pdf-preview-file-card">
+              <span class="pdf-preview-file-icon" aria-hidden="true">📄</span>
+              <div class="pdf-preview-file-info">
+                <span class="pdf-preview-file-name">Paytrace_Report.pdf</span>
+                <span class="pdf-preview-file-meta">PDF • 미리보기</span>
+              </div>
+              <span class="pdf-preview-file-status">준비됨</span>
+            </div>
+            <div class="pdf-preview-scroll">
+              <section class="pdf-preview-section" aria-label="1. 리포트 요약">
+                <h3 class="pdf-preview-section-title">1. 리포트 요약</h3>
+                <p id="pdf-preview-tendency" class="pdf-preview-tendency">귀하는 24개월 이력을 보유하고 있습니다.</p>
+                <div class="pdf-preview-score-box">
+                  <div class="pdf-preview-score-row">
+                    <span id="pdf-preview-score-num" class="pdf-preview-score-num" aria-live="polite">78</span>
+                    <span class="pdf-preview-score-unit">/100점</span>
+                  </div>
+                  <span id="pdf-preview-badge" class="pdf-preview-badge" aria-live="polite">마스터 납부러</span>
+                  <p id="pdf-preview-credit-hint" class="pdf-preview-credit-hint">예상 상승 +30점 내외</p>
+                </div>
+                <div class="pdf-preview-disclaimer">
+                  <span class="pdf-preview-disclaimer-icon" aria-hidden="true">⚠</span>
+                  <p class="pdf-preview-disclaimer-text">본 레포트는 신용평가사(NICE신용평가, 코리아크레딧뷰로)가 산출하는 신용평가를 대체하거나 보강하는 자료가 아닙니다. 은행/기관 심사 시 참고 자료로만 활용 가능하며, 실제 심사 결과는 각 기관의 내부 기준에 따라 달라질 수 있습니다.</p>
+                </div>
+              </section>
+              <section class="pdf-preview-section" aria-label="2. 입력 정보 요약">
+                <h3 class="pdf-preview-section-title">2. 입력 정보 요약</h3>
+                <h4 class="pdf-preview-sub-title">2.1 임대차 계약정보</h4>
+                <div id="pdf-preview-contract-summary" class="pdf-preview-contract-summary"></div>
+              </section>
+            </div>
+            <div class="pdf-preview-browser-hint">
+              <span class="pdf-preview-hint-icon" aria-hidden="true">ℹ</span>
+              <p class="pdf-preview-hint-text">미리보기가 보이지 않으면 브라우저 PDF 뷰어 설정을 확인하거나 다운로드로 확인해 주세요.</p>
+            </div>
+            <button id="btn-pdf-download" class="btn btn-primary btn-full pdf-preview-download-btn" type="button">PDF 다운로드</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Contact modal (Figma: 김희선_이메일 입력) -->
+    <div id="modal-backdrop" class="backdrop hidden" aria-hidden="true"></div>
+    <section
+      id="modal-contact"
+      class="modal modal-contact hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="contact-title"
+    >
+      <header class="contact-modal-header">
+        <h2 id="contact-title" class="contact-modal-title">이메일 입력하고 리포트 받기</h2>
+        <p class="contact-modal-sub">입력하신 이메일로 분석 결과를 보내드립니다</p>
+        <button id="btn-close-contact" class="contact-modal-close" type="button" aria-label="닫기">×</button>
+      </header>
+      <div class="contact-modal-body">
+        <div class="field">
+          <label for="contactName" class="label">이름</label>
+          <input id="contactName" type="text" autocomplete="name" placeholder="이름을 입력하세요" />
+          <p id="err-contactName" class="error" role="alert" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="contactEmail" class="label">이메일</label>
+          <input id="contactEmail" type="email" autocomplete="email" placeholder="example@email.com" />
+          <p id="err-contactEmail" class="error" role="alert" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label class="check contact-consent">
+            <input id="consentRequired" type="checkbox" />
+            <span>
+              <button id="btn-open-terms" class="linklike" type="button">개인정보 수집 및 이용 동의 (필수) *</button>
+            </span>
+          </label>
+        </div>
+        <div class="field">
+          <label class="check contact-consent contact-consent-optional">
+            <input id="consentOptional" type="checkbox" />
+            <span>혜택 및 이벤트 알림 수신 동의 (선택)</span>
+          </label>
+        </div>
+
+        <div class="contact-modal-actions">
+          <button id="btn-contact-submit" class="btn btn-primary btn-full" type="button" disabled>제출하기</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terms modal (Figma: 김희선_개인정보이용동의) -->
+    <section
+      id="modal-terms"
+      class="modal modal-terms hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="terms-title"
+    >
+      <header class="terms-modal-header">
+        <h2 id="terms-title" class="terms-modal-title">개인정보 수집 및 이용 동의</h2>
+        <button id="btn-close-terms" class="terms-modal-close" type="button" aria-label="닫기">×</button>
+      </header>
+      <div class="terms-modal-body">
+        <section class="terms-section" aria-label="수집하는 개인정보 항목">
+          <h3 class="terms-section-title">1. 수집하는 개인정보 항목</h3>
+          <ul class="terms-list">
+            <li>필수항목: 이름, 이메일 주소</li>
+          </ul>
+        </section>
+        <section class="terms-section" aria-label="개인정보의 수집 및 이용 목적">
+          <h3 class="terms-section-title">2. 개인정보의 수집 및 이용 목적</h3>
+          <ul class="terms-list">
+            <li>신용 분석 리포트 제공</li>
+            <li>서비스 이용에 따른 본인 식별 및 고객 문의 응대</li>
+          </ul>
+        </section>
+        <section class="terms-section" aria-label="개인정보의 보유 및 이용 기간">
+          <h3 class="terms-section-title">3. 개인정보의 보유 및 이용 기간</h3>
+          <ul class="terms-list">
+            <li>회원 탈퇴 시까지 또는 법령에 따른 보관 기간</li>
+          </ul>
+        </section>
+        <section class="terms-section" aria-label="동의를 거부할 권리 및 동의 거부에 따른 불이익">
+          <h3 class="terms-section-title">4. 동의를 거부할 권리 및 동의 거부에 따른 불이익</h3>
+          <ul class="terms-list">
+            <li>귀하는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다.</li>
+            <li>다만, 필수 항목 동의를 거부하실 경우 서비스 이용이 제한될 수 있습니다.</li>
+          </ul>
+        </section>
+      </div>
+      <div class="terms-modal-footer">
+        <button id="btn-terms-ok" class="btn btn-primary btn-full" type="button">확인</button>
+      </div>
+    </section>
+
+    <!-- Criteria modal (Figma: 우정인_팝업 모달) -->
+    <section
+      id="modal-criteria"
+      class="modal modal-criteria hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="criteria-title"
+    >
+      <header class="criteria-header">
+        <h2 id="criteria-title" class="criteria-title">Payscore 산출 기준</h2>
+        <button id="btn-close-criteria" class="criteria-close" type="button" aria-label="닫기">×</button>
+      </header>
+      <div class="criteria-body" role="document">
+        <section class="criteria-group" aria-label="PayScore 계산 기준">
+          <h3 class="criteria-h">💡 PayScore는 이렇게 계산돼요</h3>
+          <p class="criteria-p">
+            PayScore는 총 100점 만점으로, 아래 3가지 항목을 기준으로 계산됩니다.
+          </p>
+          <ol class="criteria-ol">
+            <li>
+              기간 (50%)
+              <ul>
+                <li>몇 개월간 꾸준히 납부했는지</li>
+              </ul>
+            </li>
+            <li>
+              지출 규모 (30%)
+              <ul>
+                <li>월 평균 납부 금액이 얼마나 되는지</li>
+                <li>생활 지출 능력을 추정</li>
+              </ul>
+            </li>
+            <li>
+              항목 다양성 (20%)
+              <ul>
+                <li>얼마나 다양한 항목에서 지출하는지</li>
+                <li>납부 데이터가 많을수록 신뢰도 상승</li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <section class="criteria-group" aria-label="신용점수 반영 안내">
+          <h3 class="criteria-h">📊 신용점수는 어떻게 반영되나요?</h3>
+          <p class="criteria-p">PayScore가 높을수록 예상 신용점수도 올라갈 수 있어요.</p>
+          <p class="criteria-p">
+            새싹 납부러(0~40점) : +5점 내외<br />
+            성실 납부러(41~70점) : +15점 내외<br />
+            마스터 납부러(71~100점) : +30점 내외
+          </p>
+          <p class="criteria-p">
+            ※ 상승폭은 NICE/KCB 기준이며, 실제 반영 여부는 기관마다 상이할 수 있습니다.
+          </p>
+        </section>
+
+        <section class="criteria-group" aria-label="참고사항">
+          <h3 class="criteria-h">❗️ 참고사항</h3>
+          <ul class="criteria-ul">
+            <li>본 점수는 참고용 비금융 정보이며, 공식 신용점수나 금융 승인과 직접 연결되지 않습니다.</li>
+            <li>실제 신용점수 반영 여부는 카드사·금융사·평가기관의 정책에 따라 달라질 수 있습니다.</li>
+            <li>PayScore는 사용자 동의 기반으로만 계산되며, 언제든지 수정/삭제 가능합니다.</li>
+          </ul>
+        </section>
+      </div>
+      <div class="criteria-footer">
+        <button id="btn-criteria-ok" class="criteria-ok" type="button">확인</button>
+      </div>
+    </section>
+
+    <!-- Toast (Figma: 김민하_리포트생성중 toast용) -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite">
+      <div class="toast-bar" aria-hidden="true"></div>
+      <div class="toast-icon" aria-hidden="true">i</div>
+      <div class="toast-content">
+        <strong class="toast-title">상태 알림</strong>
+        <p id="toast-text" class="toast-message"></p>
+      </div>
+      <button id="btn-toast-close" class="toast-close" type="button" aria-label="닫기">×</button>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
