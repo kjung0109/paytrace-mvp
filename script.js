@@ -526,7 +526,33 @@ function bindReportPreview() {
     const back = $("btn-report-preview-back");
     if (back) back.addEventListener("click", () => setView("report-complete"));
     const share = $("btn-report-share");
-    if (share) share.addEventListener("click", () => { /* 프로토타입: 공유 미구현 */ });
+    if (share) {
+        share.addEventListener("click", async () => {
+            const score = state.score.result?.payscore || 0;
+            const text = `[Paytrace] 내 PayScore는 ${score}점입니다. 리포트를 확인해보세요!`;
+            const url = window.location.href;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: "PayScore 리포트",
+                        text: text,
+                        url: url,
+                    });
+                } catch (err) {
+                    // share cancel or fail
+                    console.log("Share skipped", err);
+                }
+            } else {
+                try {
+                    await navigator.clipboard.writeText(url);
+                    alert("링크가 복사되었습니다.");
+                } catch (e) {
+                    alert("브라우저가 공유 기능을 지원하지 않습니다.");
+                }
+            }
+        });
+    }
     const download = $("btn-report-download");
     if (download) download.addEventListener("click", () => {
         renderPdfPreview();
