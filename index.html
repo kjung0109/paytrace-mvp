@@ -862,7 +862,7 @@
                 <header class="report-preview-header">
                     <button id="btn-report-preview-back" class="report-preview-back" type="button">← 이전으로</button>
                     <div class="report-preview-heading">
-                        <h2 id="report-preview-title" class="report-preview-title">PayScore 리포트</h2>
+                        <h2 id="report-preview-title" class="report-preview-title">PayScore 리포트 요약</h2>
                         <p class="report-preview-sub">금융 기관 제출 가능한 리포트입니다</p>
                         <span class="report-preview-verified">검증 완료</span>
                     </div>
@@ -909,31 +909,8 @@
                     <section class="report-preview-section" aria-label="추천 금융 상품">
                         <h3 class="report-preview-section-title">추천 금융 상품</h3>
                         <p id="report-preview-product-basis" class="report-preview-product-basis">PayScore 85점 기준 추천</p>
-                        <div class="report-preview-products">
-                            <div class="report-preview-product-card">
-                                <span class="report-preview-product-type">카드</span>
-                                <h4 class="report-preview-product-name">KB국민 청춘대로 톡톡</h4>
-                                <p class="report-preview-product-desc">전월실적 30만원 · 연회비 국내전용 1만원</p>
-                                <button type="button" class="btn btn-ghost btn-sm">상세보기</button>
-                            </div>
-                            <div class="report-preview-product-card">
-                                <span class="report-preview-product-type">카드</span>
-                                <h4 class="report-preview-product-name">신한 Deep Dream</h4>
-                                <p class="report-preview-product-desc">전월실적 없음 · 연회비 국내전용 1.5만원</p>
-                                <button type="button" class="btn btn-ghost btn-sm">상세보기</button>
-                            </div>
-                            <div class="report-preview-product-card">
-                                <span class="report-preview-product-type">대출</span>
-                                <h4 class="report-preview-product-name">토스뱅크 마이너스통장</h4>
-                                <p class="report-preview-product-desc">한도 최대 300만원 · 금리 연 7.9%~</p>
-                                <button type="button" class="btn btn-ghost btn-sm">상세보기</button>
-                            </div>
-                            <div class="report-preview-product-card">
-                                <span class="report-preview-product-type">대출</span>
-                                <h4 class="report-preview-product-name">카카오뱅크 비상금대출</h4>
-                                <p class="report-preview-product-desc">한도 최대 300만원 · 금리 연 3.37%~</p>
-                                <button type="button" class="btn btn-ghost btn-sm">상세보기</button>
-                            </div>
+                        <div id="report-preview-products" class="report-preview-products">
+                            <!-- Dynamically populated from script.js -->
                         </div>
                     </section>
                 </div>
