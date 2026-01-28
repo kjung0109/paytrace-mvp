@@ -180,7 +180,6 @@ function bindLanding() {
     logEvent("landing_to_start_click", { session_id: state.sessionId, timestamp: new Date().toISOString() });
     setView("form");
     updateContractSubmitButton();
-    $("startDate").focus();
   });
 }
 
