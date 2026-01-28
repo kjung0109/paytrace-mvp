@@ -482,9 +482,10 @@ function bindModals() {
       return;
     }
 
-    // "저장"은 로컬 모사: reportId 생성, 이벤트 로깅(개인정보는 이벤트에 포함하지 않음)
+    // reportId 생성, 이메일·이름 저장(실제 전송 및 재시도 시 사용)
     state.report.reportId = cryptoRandomId("rpt");
     state.report.email = email;
+    state.report.contactName = name;
     closeAllModals();
 
     logEvent("contact_submit", {
@@ -508,6 +509,8 @@ function bindReportFail() {
 }
 
 function bindReportSendFail() {
+  const retry = $("btn-report-send-fail-retry");
+  if (retry) retry.addEventListener("click", () => openContactModalWithPrefill());
   const toStart = $("btn-report-send-fail-to-start");
   if (toStart) toStart.addEventListener("click", () => setView("landing"));
 }
@@ -628,6 +631,18 @@ function openContactModal() {
   $("contactName").focus();
 }
 
+/** 전송 실패 시 이메일 주소 확인 후 재시도: 연락처 모달을 기존 값으로 다시 열기 */
+function openContactModalWithPrefill() {
+  const name = (state.report && state.report.contactName) || "";
+  const email = (state.report && state.report.email) || "";
+  $("contactName").value = name;
+  $("contactEmail").value = email;
+  clearContactErrors();
+  validateContactForm();
+  showModal("modal-contact");
+  $("contactEmail").focus();
+}
+
 function openTermsModal() {
   showModal("modal-terms");
   $("btn-terms-ok").focus();
@@ -695,6 +710,8 @@ async function startReportProcessing() {
   }, 10_000);
 
   try {
+    // 실제 이메일 전송 (요구사항: 이메일 발송)
+    await sendReportEmailApi();
     await withTimeout(simulateReportGeneration(), 20_000);
     clearInterval(stepTimer);
     clearTimeout(toastTimer);
@@ -720,15 +737,22 @@ async function startReportProcessing() {
     clearTimeout(toastTimer);
     state.report.inProgress = false;
     state.report.completed = false;
-    setView("report-fail");
 
-    // 실패 이벤트(개인정보 제외)
+    if (err?.code === "EMAIL_SEND_FAILED") {
+      console.error("[PayScore] 이메일 발송 실패:", err.message, err.reason_code || "");
+      setView("report-send-fail");
+      const reasonEl = $("report-send-fail-reason-text");
+      if (reasonEl) reasonEl.textContent = err.message || "이메일 발송에 실패했습니다. 이메일 주소를 확인 후 다시 시도해 주세요.";
+    } else {
+      setView("report-fail");
+    }
+
     logEvent("report_fail", {
       session_id: state.sessionId,
       selection_id: state.selectionId,
       report_id: state.report.reportId,
       timestamp: new Date().toISOString(),
-      reason_code: err?.reason_code ?? null,
+      reason_code: err?.reason_code ?? err?.code ?? null,
     });
   }
 }
@@ -1357,8 +1381,51 @@ async function simulateScoreRangeApi(body) {
   };
 }
 
+/** 실제 이메일 전송 (요구사항: 이메일 발송). /api/send-report 호출, 실패 시 EMAIL_SEND_FAILED throw */
+async function sendReportEmailApi() {
+  const name = state.report.contactName ?? "";
+  const email = state.report.email ?? "";
+  const reportId = state.report.reportId ?? null;
+
+  if (!email) {
+    const e = new Error("이메일이 없습니다.");
+    e.code = "EMAIL_SEND_FAILED";
+    throw e;
+  }
+
+  let res;
+  try {
+    res = await fetch("/api/send-report", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, reportId }),
+    });
+  } catch (netErr) {
+    const e = new Error(
+      "이메일 발송 API에 연결할 수 없습니다. Vercel에 배포된 환경에서 접속했는지 확인해 주세요. (로컬 테스트는 vercel dev 실행 후 진행)"
+    );
+    e.code = "EMAIL_SEND_FAILED";
+    throw e;
+  }
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    const msg =
+      data.reason === "EMAIL_NOT_CONFIGURED"
+        ? "이메일 발송이 설정되지 않았습니다. Vercel 대시보드에서 RESEND_API_KEY 환경 변수를 추가한 뒤 재배포해 주세요."
+        : data.message || "이메일 발송에 실패했습니다. 이메일 주소를 확인 후 다시 시도해 주세요.";
+    const e = new Error(msg);
+    e.code = "EMAIL_SEND_FAILED";
+    e.reason_code = data.reason;
+    throw e;
+  }
+
+  return data;
+}
+
 async function simulateReportGeneration() {
-  // prototype: 기본은 성공 (실패 UI는 예외 처리로만 제공)
+  // 리포트 생성 진행 모사 (PDF 생성 등은 BE 담당, 프로토타입에서는 대기만)
   await sleep(3800);
   return { ok: true };
 }
