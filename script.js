@@ -99,7 +99,6 @@ function bindLanding() {
     logEvent("landing_to_start_click", { session_id: state.sessionId, timestamp: new Date().toISOString() });
     setView("form");
     updateContractSubmitButton();
-    $("startDate").focus();
   });
 }
 
@@ -243,19 +242,19 @@ function addFixedRow(type) {
   row.innerHTML = `
     <div class="input-suffix">
       <input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-fixed-type="${escapeHtml(
-        type,
-      )}" data-fixed-field="amount" />
+    type,
+  )}" data-fixed-field="amount" />
       <span class="suffix" aria-hidden="true">원</span>
     </div>
     <div class="input-suffix">
       <input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-fixed-type="${escapeHtml(
-        type,
-      )}" data-fixed-field="months" />
+    type,
+  )}" data-fixed-field="months" />
       <span class="suffix" aria-hidden="true">개월</span>
     </div>
     <button type="button" class="btn-del-row" data-action="del-row" data-fixed-type="${escapeHtml(
-      type,
-    )}" aria-label="행 삭제">×</button>
+    type,
+  )}" aria-label="행 삭제">×</button>
     <p class="row-error error" role="alert" aria-live="polite"></p>
   `;
   container.appendChild(row);
