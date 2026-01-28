@@ -418,11 +418,13 @@ input[type="email"] {
     background: #fff;
     color: var(--text);
     outline: none;
+    min-height: 48px;
+    /* 모든 기기에서 동일한 높이 보장 */
 }
 
 /* 달력(date) 입력 시 브라우저 기본 글꼴 대신 폼·본문과 동일한 글꼴 사용 */
 input[type="date"] {
-    font-family: "Noto Sans KR", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    font-family: inherit;
     font-size: 16px;
     line-height: 1.4;
 }
@@ -553,6 +555,15 @@ input[type="date"] {
     background-size: 16px;
     padding-right: 36px;
     min-width: 0;
+}
+
+/* iOS에서 date input의 내부 값 정렬 및 여백 수정 (갤럭시와 통일) */
+input[type="date"]::-webkit-date-and-time-value {
+    margin: 0;
+    line-height: inherit;
+    height: auto;
+    min-height: auto;
+    text-align: left;
 }
 
 /* iOS에서 date input의 기본 아이콘 숨기기 (커스텀 아이콘 사용을 위해) */
