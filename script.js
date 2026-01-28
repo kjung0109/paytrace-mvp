@@ -4,1383 +4,1564 @@
 */
 
 const RULES = {
-  rentWarningRange: { min: 50_000, max: 5_000_000 }, // FE 경고(제출 허용)
-  matchRuleRange: { min: 50_000, max: 5_000_000 }, // 서버 판정용(고정 룰셋)
-  ruleVersionMatch: "ref-rule-set-v1",
-  ruleVersionScore: "payscore-rule-v1",
+    rentWarningRange: { min: 50_000, max: 5_000_000 }, // FE 경고(제출 허용)
+    matchRuleRange: { min: 50_000, max: 5_000_000 }, // 서버 판정용(고정 룰셋)
+    ruleVersionMatch: "ref-rule-set-v1",
+    ruleVersionScore: "payscore-rule-v1",
 };
 
 const PRODUCT_DATA = {
-  SPROUT: [ // 새싹 납부러 (0~40점)
-    {
-      type: "카드",
-      name: "KB국민 체크-신용 하이브리드",
-      desc: "체크카드에 신용 기능을 더하다",
-      url: "https://m.kbcard.com/SVC/DVIEW/MSCMCXHIASVC0010"
-    },
-    {
-      type: "대출",
-      name: "서민금융진흥원 햇살론유스",
-      desc: "청년층의 자금애로 해소",
-      url: "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
-    },
-    {
-      type: "대출",
-      name: "우리은행 WON Easy 생활비 대출",
-      desc: "소액 생활자금 필요시 간편하게",
-      url: "https://spot.wooribank.com/pot/Dream?withyou=POLON0052&cc=c010528:c010531;c012425:c012399&PRD_CD=P020006604"
-    },
-    {
-      type: "카드",
-      name: "신한카드 처음(First)",
-      desc: "첫 출발을 위한 맞춤 혜택",
-      url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1227020_2207.html"
-    }
-  ],
-  SINCERE: [ // 성실 납부러 (41~70점)
-    {
-      type: "대출",
-      name: "카카오뱅크 비상금대출",
-      desc: "휴대폰 본인인증만으로 간편한 대출",
-      url: "https://www.kakaobank.com/products/emergencyLoan"
-    },
-    {
-      type: "카드",
-      name: "현대카드 ZERO Edition3 (할인형)",
-      desc: "조건 없는 무제한 할인 혜택",
-      url: "https://www.hyundaicard.com/cpc/cr/CPCCR0201_01.hc?cardWcd=ZROE3"
-    },
-    {
-      type: "카드",
-      name: "삼성카드 taptap O",
-      desc: "내 라이프스타일에 맞춘 맞춤형 카드",
-      url: "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001?code=AAP1483"
-    },
-    {
-      type: "카드",
-      name: "신한카드 Deep Dream",
-      desc: "전월 실적 조건 없는 기본 적립",
-      url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1188220_2207.html"
-    }
-  ],
-  MASTER: [ // 마스터 납부러 (71~100점)
-    {
-      type: "대출",
-      name: "햇살론뱅크",
-      desc: "성실 상환자를 위한 징검다리 대출",
-      url: "https://www.kinfa.or.kr/financialProduct/hessalLoanBank.do"
-    },
-    {
-      type: "카드",
-      name: "신한카드 Mr.Life",
-      desc: "공과금 및 생활비 밀착형 할인",
-      url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1187937_2207.html"
-    },
-    {
-      type: "카드",
-      name: "KB국민 청춘대로 톡톡",
-      desc: "온라인 쇼핑부터 음식점까지 할인",
-      url: "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?cooperationcode=09174&mainCC=a"
-    },
-    {
-      type: "대출",
-      name: "토스뱅크 마이너스통장",
-      desc: "필요할 때 쓰고 이자만 내세요",
-      url: "https://www.tossbank.com/product-service/loans/minus-account"
-    }
-  ]
+    SPROUT: [ // 새싹 납부러 (0~40점)
+        {
+            type: "카드",
+            name: "KB국민 체크-신용 하이브리드",
+            desc: "체크카드에 신용 기능을 더하다",
+            url: "https://m.kbcard.com/SVC/DVIEW/MSCMCXHIASVC0010"
+        },
+        {
+            type: "대출",
+            name: "서민금융진흥원 햇살론유스",
+            desc: "청년층의 자금애로 해소",
+            url: "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
+        },
+        {
+            type: "대출",
+            name: "우리은행 WON Easy 생활비 대출",
+            desc: "소액 생활자금 필요시 간편하게",
+            url: "https://spot.wooribank.com/pot/Dream?withyou=POLON0052&cc=c010528:c010531;c012425:c012399&PRD_CD=P020006604"
+        },
+        {
+            type: "카드",
+            name: "신한카드 처음(First)",
+            desc: "첫 출발을 위한 맞춤 혜택",
+            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1227020_2207.html"
+        }
+    ],
+    SINCERE: [ // 성실 납부러 (41~70점)
+        {
+            type: "대출",
+            name: "카카오뱅크 비상금대출",
+            desc: "휴대폰 본인인증만으로 간편한 대출",
+            url: "https://www.kakaobank.com/products/emergencyLoan"
+        },
+        {
+            type: "카드",
+            name: "현대카드 ZERO Edition3 (할인형)",
+            desc: "조건 없는 무제한 할인 혜택",
+            url: "https://www.hyundaicard.com/cpc/cr/CPCCR0201_01.hc?cardWcd=ZROE3"
+        },
+        {
+            type: "카드",
+            name: "삼성카드 taptap O",
+            desc: "내 라이프스타일에 맞춘 맞춤형 카드",
+            url: "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001?code=AAP1483"
+        },
+        {
+            type: "카드",
+            name: "신한카드 Deep Dream",
+            desc: "전월 실적 조건 없는 기본 적립",
+            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1188220_2207.html"
+        }
+    ],
+    MASTER: [ // 마스터 납부러 (71~100점)
+        {
+            type: "대출",
+            name: "햇살론뱅크",
+            desc: "성실 상환자를 위한 징검다리 대출",
+            url: "https://www.kinfa.or.kr/financialProduct/hessalLoanBank.do"
+        },
+        {
+            type: "카드",
+            name: "신한카드 Mr.Life",
+            desc: "공과금 및 생활비 밀착형 할인",
+            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1187937_2207.html"
+        },
+        {
+            type: "카드",
+            name: "KB국민 청춘대로 톡톡",
+            desc: "온라인 쇼핑부터 음식점까지 할인",
+            url: "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?cooperationcode=09174&mainCC=a"
+        },
+        {
+            type: "대출",
+            name: "토스뱅크 마이너스통장",
+            desc: "필요할 때 쓰고 이자만 내세요",
+            url: "https://www.tossbank.com/product-service/loans/minus-account"
+        }
+    ]
 };
 
 const REASON_TEXT = {
-  RENT_OUT_OF_RANGE: "월세 금액이 기준 범위를 벗어나 추가 확인이 필요합니다.",
-  MGMT_OUT_OF_RANGE: "관리비 금액이 기준 범위를 벗어나 추가 확인이 필요합니다.",
-  INSUFFICIENT_MONTHS: "납부 개월 수가 부족해 산출할 수 없습니다.",
-  NO_RENT_ITEM: "월세 항목이 없어 산출할 수 없습니다.",
-  INVALID_AMOUNT: "금액 정보가 유효하지 않아 산출할 수 없습니다.",
+    RENT_OUT_OF_RANGE: "월세 금액이 기준 범위를 벗어나 추가 확인이 필요합니다.",
+    MGMT_OUT_OF_RANGE: "관리비 금액이 기준 범위를 벗어나 추가 확인이 필요합니다.",
+    INSUFFICIENT_MONTHS: "납부 개월 수가 부족해 산출할 수 없습니다.",
+    NO_RENT_ITEM: "월세 항목이 없어 산출할 수 없습니다.",
+    INVALID_AMOUNT: "금액 정보가 유효하지 않아 산출할 수 없습니다.",
 };
 
 const FIXED_TYPES = [
-  { key: "OTT", label: "OTT" },
-  { key: "MUSIC", label: "음악 스트리밍" },
-  { key: "EBOOK", label: "전자책 구독" },
+    { key: "OTT", label: "OTT" },
+    { key: "MUSIC", label: "음악 스트리밍" },
+    { key: "EBOOK", label: "전자책 구독" },
 ];
 
 const state = {
-  sessionId: cryptoRandomId("sess"),
-  utm: parseUtmParams(),
-  lastContractPayload: null,
-  selectionId: null,
-  match: null,
-  selection: null,
-  score: { status: "IDLE", result: null, reason_code: null },
-  report: { inProgress: false, completed: false, reportId: null, email: null, loggedComplete: false },
-  ui: { lastScoreClickAt: 0 },
-  events: [],
+    sessionId: cryptoRandomId("sess"),
+    utm: parseUtmParams(),
+    lastContractPayload: null,
+    selectionId: null,
+    match: null,
+    selection: null,
+    score: { status: "IDLE", result: null, reason_code: null },
+    report: { inProgress: false, completed: false, reportId: null, email: null, loggedComplete: false },
+    ui: { lastScoreClickAt: 0 },
+    events: [],
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  bindLanding();
-  bindForm();
-  bindMatch();
-  bindErrorScreens();
-  bindScore();
-  bindReportFail();
-  bindReportSendFail();
-  bindReportComplete();
-  bindReportPreview();
-  bindPdfPreview();
-  bindModals();
-  bindToast();
+    bindLanding();
+    bindForm();
+    bindMatch();
+    bindErrorScreens();
+    bindScore();
+    bindReportFail();
+    bindReportSendFail();
+    bindReportComplete();
+    bindReportPreview();
+    bindPdfPreview();
+    bindModals();
+    bindToast();
 
-  setView("landing");
-  logEvent("landing_view", {
-    timestamp: new Date().toISOString(),
-    session_id: state.sessionId,
-    utm: state.utm,
-  });
+    setView("landing");
+    logEvent("landing_view", {
+        timestamp: new Date().toISOString(),
+        session_id: state.sessionId,
+        utm: state.utm,
+    });
 });
 
 function $(id) {
-  return document.getElementById(id);
+    return document.getElementById(id);
 }
 
 function setView(name) {
-  const views = [
-    "landing",
-    "form",
-    "match",
-    "error-server",
-    "error-timeout",
-    "score-loading",
-    "score",
-    "report-processing",
-    "report-fail",
-    "report-send-fail",
-    "report-complete",
-    "report-preview",
-    "pdf-preview",
-  ];
-  for (const v of views) {
-    const el = $(`view-${v}`);
-    if (!el) continue;
-    el.classList.toggle("hidden", v !== name);
-  }
-  window.scrollTo({ top: 0, behavior: "auto" });
+    const views = [
+        "landing",
+        "form",
+        "match",
+        "error-server",
+        "error-timeout",
+        "score-loading",
+        "score",
+        "report-processing",
+        "report-fail",
+        "report-send-fail",
+        "report-complete",
+        "report-preview",
+        "pdf-preview",
+    ];
+    for (const v of views) {
+        const el = $(`view-${v}`);
+        if (!el) continue;
+        el.classList.toggle("hidden", v !== name);
+    }
+    window.scrollTo({ top: 0, behavior: "auto" });
+
+    // Log view change as a generic event
+    logEvent("view_change", {
+        view_name: name,
+        session_id: state.sessionId,
+        timestamp: new Date().toISOString()
+    });
+
+    // Track standard GA4 view_item for major funnel steps
+    if (name === "score") {
+        logEvent("view_item", {
+            item_id: "report_summary",
+            item_name: "PayScore Summary",
+            item_category: "report"
+        });
+    } else if (name === "report-preview") {
+        logEvent("view_item", {
+            item_id: "report_full",
+            item_name: "PayScore Full Report",
+            item_category: "report"
+        });
+
+        // ✨ 금융상품 추천 페이지 진입 시에만 상품 목록 조회 이벤트 발생
+        const res = state.score.result;
+        if (res?.scorable) {
+            let category = "SPROUT";
+            if (res.payscore >= 71) category = "MASTER";
+            else if (res.payscore >= 41) category = "SINCERE";
+
+            const products = PRODUCT_DATA[category];
+            logEvent("view_item_list", {
+                item_list_id: "financial_recommendations",
+                item_list_name: `Recommendations for ${category}`,
+                items: products.map(p => ({
+                    item_name: p.name,
+                    item_category: p.type
+                }))
+            });
+        }
+    }
 }
 
 function logEvent(name, payload) {
-  const evt = { name, ...payload };
-  state.events.push(evt);
-  // prototype: 콘솔 로깅만 수행
-  console.log("[event]", evt);
+    const evt = { name, ...payload };
+    state.events.push(evt);
+
+    // Debug log
+    console.log("[event]", evt);
+
+    // Send to GA4
+    if (typeof gtag === 'function') {
+        // 1. Map to Standard Recommended Events where applicable
+        let gaName = name;
+        let gaPayload = { ...payload };
+
+        switch (name) {
+            case "contact_submit":
+                gaName = "generate_lead";
+                // lead name/email are excluded for privacy
+                break;
+
+            case "pdf_share_success":
+                gaName = "share";
+                gaPayload.method = payload.type || "unknown"; // "file" or "url"
+                gaPayload.content_type = "pdf_report";
+                gaPayload.item_id = state.report.reportId;
+                break;
+
+            case "pdf_download_click":
+                gaName = "file_download";
+                gaPayload.file_extension = "pdf";
+                gaPayload.file_name = "Paytrace_Report.pdf";
+                break;
+
+            case "recommendation_click":
+                gaName = "select_item";
+                gaPayload.item_list_id = "financial_recommendations";
+                gaPayload.items = [{
+                    item_name: payload.product_name,
+                    item_category: payload.product_type
+                }];
+                break;
+
+            case "landing_to_start_click":
+                gaName = "select_content";
+                gaPayload.content_type = "button";
+                gaPayload.content_id = "btn-start";
+                break;
+        }
+
+        // 2. Send the event (either original or mapped)
+        gtag('event', gaName, gaPayload);
+    }
 }
 
 function bindLanding() {
-  $("btn-start").addEventListener("click", () => {
-    logEvent("landing_to_start_click", { session_id: state.sessionId, timestamp: new Date().toISOString() });
-    setView("form");
-    updateContractSubmitButton();
-  });
+    $("btn-start").addEventListener("click", () => {
+        logEvent("landing_to_start_click", { session_id: state.sessionId, timestamp: new Date().toISOString() });
+        setView("form");
+        updateContractSubmitButton();
+    });
 }
 
 function bindForm() {
-  const form = $("contract-form");
+    const form = $("contract-form");
 
-  $("startDate").addEventListener("change", onContractDatesChanged);
-  $("endDate").addEventListener("change", onContractDatesChanged);
+    $("startDate").addEventListener("change", onContractDatesChanged);
+    $("endDate").addEventListener("change", onContractDatesChanged);
 
-  $("rentAmount").addEventListener("input", (e) => {
-    e.target.value = digitsOnly(e.target.value);
-    renderRentWarning();
-  });
-
-  for (const radio of document.querySelectorAll('input[name="mgmtIncluded"]')) {
-    radio.addEventListener("change", onMgmtIncludedChanged);
-  }
-
-  $("mgmtAmount").addEventListener("input", (e) => {
-    e.target.value = digitsOnly(e.target.value);
-  });
-
-  for (const cb of document.querySelectorAll('input[name="fixedType"]')) {
-    cb.addEventListener("change", () => {
-      const wrap = $(`fixed-${cb.value}`);
-      wrap.classList.toggle("hidden", !cb.checked);
-      const label = cb.closest("label");
-      if (label) label.classList.toggle("is-checked", cb.checked);
-      if (cb.checked) ensureFixedHasRow(cb.value);
-      // 선택 해제 시 입력값 유지(요구사항 없음) — 단, 재제출 시 미선택이면 서버에 포함되지 않음.
+    $("rentAmount").addEventListener("input", (e) => {
+        e.target.value = digitsOnly(e.target.value);
+        renderRentWarning();
     });
-  }
 
-  bindFixedRowsInteraction();
-
-  form.addEventListener("input", updateContractSubmitButton);
-  form.addEventListener("change", updateContractSubmitButton);
-  updateContractSubmitButton();
-
-  const formBack = $("btn-form-back");
-  if (formBack) formBack.addEventListener("click", () => setView("landing"));
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    clearAllFieldErrors();
-
-    const payload = buildContractPayload();
-    state.lastContractPayload = payload;
-
-    const { errors, firstErrorId, firstErrorEl } = validateContractPayload(payload);
-    if (Object.keys(errors).length > 0) {
-      showFieldErrors(errors);
-      if (firstErrorEl) {
-        scrollToFirstErrorEl(firstErrorEl);
-      } else {
-        scrollToFirstError(firstErrorId);
-      }
-      return;
-    }
-    if (firstErrorEl) {
-      // 고정비 행 에러 등(필드 맵 외)
-      scrollToFirstErrorEl(firstErrorEl);
-      return;
+    for (const radio of document.querySelectorAll('input[name="mgmtIncluded"]')) {
+        radio.addEventListener("change", onMgmtIncludedChanged);
     }
 
-    setSubmitLoading(true);
+    $("mgmtAmount").addEventListener("input", (e) => {
+        e.target.value = digitsOnly(e.target.value);
+    });
 
-    try {
-      const res = await withTimeout(simulateContractSubmit(payload), 6000);
-      state.match = { status: res.status, reasonCodes: res.reasonCodes, rule_version: res.rule_version };
-      state.selection = res.selection;
-      state.selectionId = res.selection_id;
-      renderMatchResult();
-      setView("match");
-    } catch (err) {
-      const now = new Date().toISOString();
-      if (err && err.code === "TIMEOUT") {
-        $("err-timeout-time").textContent = now;
-        setView("error-timeout");
-      } else {
-        $("err-server-time").textContent = now;
-        setView("error-server");
-      }
-    } finally {
-      setSubmitLoading(false);
+    for (const cb of document.querySelectorAll('input[name="fixedType"]')) {
+        cb.addEventListener("change", () => {
+            const wrap = $(`fixed-${cb.value}`);
+            wrap.classList.toggle("hidden", !cb.checked);
+            const label = cb.closest("label");
+            if (label) label.classList.toggle("is-checked", cb.checked);
+            if (cb.checked) ensureFixedHasRow(cb.value);
+            // 선택 해제 시 입력값 유지(요구사항 없음) — 단, 재제출 시 미선택이면 서버에 포함되지 않음.
+        });
     }
-  });
+
+    bindFixedRowsInteraction();
+
+    form.addEventListener("input", updateContractSubmitButton);
+    form.addEventListener("change", updateContractSubmitButton);
+    updateContractSubmitButton();
+
+    const formBack = $("btn-form-back");
+    if (formBack) formBack.addEventListener("click", () => setView("landing"));
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearAllFieldErrors();
+
+        const payload = buildContractPayload();
+        state.lastContractPayload = payload;
+
+        const { errors, firstErrorId, firstErrorEl } = validateContractPayload(payload);
+        if (Object.keys(errors).length > 0) {
+            showFieldErrors(errors);
+            if (firstErrorEl) {
+                scrollToFirstErrorEl(firstErrorEl);
+            } else {
+                scrollToFirstError(firstErrorId);
+            }
+            return;
+        }
+        if (firstErrorEl) {
+            // 고정비 행 에러 등(필드 맵 외)
+            scrollToFirstErrorEl(firstErrorEl);
+            return;
+        }
+
+        setSubmitLoading(true);
+
+        try {
+            const res = await withTimeout(simulateContractSubmit(payload), 6000);
+            state.match = { status: res.status, reasonCodes: res.reasonCodes, rule_version: res.rule_version };
+            state.selection = res.selection;
+            state.selectionId = res.selection_id;
+            renderMatchResult();
+            setView("match");
+        } catch (err) {
+            const now = new Date().toISOString();
+            if (err && err.code === "TIMEOUT") {
+                $("err-timeout-time").textContent = now;
+                setView("error-timeout");
+            } else {
+                $("err-server-time").textContent = now;
+                setView("error-server");
+            }
+        } finally {
+            setSubmitLoading(false);
+        }
+    });
 }
 
 function bindFixedRowsInteraction() {
-  const view = $("view-form");
-  if (!view) return;
+    const view = $("view-form");
+    if (!view) return;
 
-  // add/delete row
-  view.addEventListener("click", (e) => {
-    const btn = e.target.closest("button");
-    if (!btn) return;
-    const action = btn.dataset.action;
-    const type = btn.dataset.fixedType;
-    if (!action || !type) return;
-    if (action === "add-row") {
-      addFixedRow(type);
-    }
-    if (action === "del-row") {
-      const row = btn.closest(".fixed-row");
-      if (!row) return;
-      removeFixedRow(type, row);
-    }
-  });
+    // add/delete row
+    view.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const type = btn.dataset.fixedType;
+        if (!action || !type) return;
+        if (action === "add-row") {
+            addFixedRow(type);
+        }
+        if (action === "del-row") {
+            const row = btn.closest(".fixed-row");
+            if (!row) return;
+            removeFixedRow(type, row);
+        }
+    });
 
-  // digits-only for dynamic inputs
-  view.addEventListener("input", (e) => {
-    const input = e.target;
-    if (!(input instanceof HTMLInputElement)) return;
-    if (!input.matches('input[data-fixed-field="amount"], input[data-fixed-field="months"]')) return;
-    input.value = digitsOnly(input.value);
-  });
+    // digits-only for dynamic inputs
+    view.addEventListener("input", (e) => {
+        const input = e.target;
+        if (!(input instanceof HTMLInputElement)) return;
+        if (!input.matches('input[data-fixed-field="amount"], input[data-fixed-field="months"]')) return;
+        input.value = digitsOnly(input.value);
+    });
 }
 
 function getFixedRowsContainer(type) {
-  return document.querySelector(`.fixed-rows[data-fixed-type="${type}"]`);
+    return document.querySelector(`.fixed-rows[data-fixed-type="${type}"]`);
 }
 
 function ensureFixedHasRow(type) {
-  const container = getFixedRowsContainer(type);
-  if (!container) return;
-  if (container.querySelectorAll(".fixed-row").length === 0) {
-    addFixedRow(type);
-  } else {
-    updateFixedRowDeleteButtons(type);
-  }
+    const container = getFixedRowsContainer(type);
+    if (!container) return;
+    if (container.querySelectorAll(".fixed-row").length === 0) {
+        addFixedRow(type);
+    } else {
+        updateFixedRowDeleteButtons(type);
+    }
 }
 
 function addFixedRow(type) {
-  const container = getFixedRowsContainer(type);
-  if (!container) return;
+    const container = getFixedRowsContainer(type);
+    if (!container) return;
 
-  const row = document.createElement("div");
-  row.className = "fixed-row";
-  row.dataset.fixedType = type;
-  row.innerHTML = `
+    const row = document.createElement("div");
+    row.className = "fixed-row";
+    row.dataset.fixedType = type;
+    row.innerHTML = `
     <div class="input-suffix">
       <input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-fixed-type="${escapeHtml(
-    type,
-  )}" data-fixed-field="amount" />
+        type,
+    )}" data-fixed-field="amount" />
       <span class="suffix" aria-hidden="true">원</span>
     </div>
     <div class="input-suffix">
       <input type="text" inputmode="numeric" autocomplete="off" placeholder="0" data-fixed-type="${escapeHtml(
-    type,
-  )}" data-fixed-field="months" />
+        type,
+    )}" data-fixed-field="months" />
       <span class="suffix" aria-hidden="true">개월</span>
     </div>
     <button type="button" class="btn-del-row" data-action="del-row" data-fixed-type="${escapeHtml(
-    type,
-  )}" aria-label="행 삭제">×</button>
+        type,
+    )}" aria-label="행 삭제">×</button>
     <p class="row-error error" role="alert" aria-live="polite"></p>
   `;
-  container.appendChild(row);
-  updateFixedRowDeleteButtons(type);
+    container.appendChild(row);
+    updateFixedRowDeleteButtons(type);
 }
 
 function removeFixedRow(type, rowEl) {
-  const container = getFixedRowsContainer(type);
-  if (!container) return;
-  const rows = Array.from(container.querySelectorAll(".fixed-row"));
-  if (rows.length <= 1) return; // 최소 1행 유지(선택 상태에서 빈 값 방지)
-  rowEl.remove();
-  updateFixedRowDeleteButtons(type);
+    const container = getFixedRowsContainer(type);
+    if (!container) return;
+    const rows = Array.from(container.querySelectorAll(".fixed-row"));
+    if (rows.length <= 1) return; // 최소 1행 유지(선택 상태에서 빈 값 방지)
+    rowEl.remove();
+    updateFixedRowDeleteButtons(type);
 }
 
 function updateFixedRowDeleteButtons(type) {
-  const container = getFixedRowsContainer(type);
-  if (!container) return;
-  const rows = Array.from(container.querySelectorAll(".fixed-row"));
-  const disable = rows.length <= 1;
-  for (const row of rows) {
-    const btn = row.querySelector(".btn-del-row");
-    if (btn) btn.disabled = disable;
-  }
+    const container = getFixedRowsContainer(type);
+    if (!container) return;
+    const rows = Array.from(container.querySelectorAll(".fixed-row"));
+    const disable = rows.length <= 1;
+    for (const row of rows) {
+        const btn = row.querySelector(".btn-del-row");
+        if (btn) btn.disabled = disable;
+    }
 }
 
 function scrollToFirstErrorEl(el) {
-  if (!el) return;
-  const top = el.getBoundingClientRect().top + window.scrollY - 90;
-  window.scrollTo({ top, behavior: "smooth" });
-  try {
-    el.focus?.({ preventScroll: true });
-  } catch {
-    // ignore
-  }
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top, behavior: "smooth" });
+    try {
+        el.focus?.({ preventScroll: true });
+    } catch {
+        // ignore
+    }
 }
 
 function bindMatch() {
-  const matchBack = $("btn-match-back");
-  if (matchBack) matchBack.addEventListener("click", () => {
-    setView("form");
-    updateContractSubmitButton();
-  });
-
-  $("btn-to-score").addEventListener("click", () => {
-    renderSelectionTable();
-    renderScoreState("IDLE");
-    setReportButtonEnabled(false);
-    setView("score");
-  });
-
-  const editBtn = $("btn-edit-input");
-  if (editBtn) {
-    editBtn.addEventListener("click", () => {
-      setView("form");
-      updateContractSubmitButton();
-      // 기존 입력값은 DOM에 유지됨 (요구사항: 입력값 유지)
+    const matchBack = $("btn-match-back");
+    if (matchBack) matchBack.addEventListener("click", () => {
+        setView("form");
+        updateContractSubmitButton();
     });
-  }
+
+    $("btn-to-score").addEventListener("click", () => {
+        renderSelectionTable();
+        renderScoreState("IDLE");
+        setReportButtonEnabled(false);
+        setView("score");
+    });
+
+    const editBtn = $("btn-edit-input");
+    if (editBtn) {
+        editBtn.addEventListener("click", () => {
+            setView("form");
+            updateContractSubmitButton();
+            // 기존 입력값은 DOM에 유지됨 (요구사항: 입력값 유지)
+        });
+    }
 }
 
 function bindErrorScreens() {
-  $("btn-back-to-form-1").addEventListener("click", () => {
-    setView("form");
-    updateContractSubmitButton();
-  });
-  $("btn-back-to-form-2").addEventListener("click", () => {
-    setView("form");
-    updateContractSubmitButton();
-  });
+    $("btn-back-to-form-1").addEventListener("click", () => {
+        setView("form");
+        updateContractSubmitButton();
+    });
+    $("btn-back-to-form-2").addEventListener("click", () => {
+        setView("form");
+        updateContractSubmitButton();
+    });
 
-  $("btn-retry-server").addEventListener("click", async () => retryContractSubmit());
-  $("btn-retry-timeout").addEventListener("click", async () => retryContractSubmit());
+    $("btn-retry-server").addEventListener("click", async () => retryContractSubmit());
+    $("btn-retry-timeout").addEventListener("click", async () => retryContractSubmit());
 
-  const top1 = $("btn-error-topbar-1");
-  if (top1) top1.addEventListener("click", () => {
-    setView("form");
-    updateContractSubmitButton();
-  });
-  const top2 = $("btn-error-topbar-2");
-  if (top2) top2.addEventListener("click", () => {
-    setView("form");
-    updateContractSubmitButton();
-  });
+    const top1 = $("btn-error-topbar-1");
+    if (top1) top1.addEventListener("click", () => {
+        setView("form");
+        updateContractSubmitButton();
+    });
+    const top2 = $("btn-error-topbar-2");
+    if (top2) top2.addEventListener("click", () => {
+        setView("form");
+        updateContractSubmitButton();
+    });
 }
 
 async function retryContractSubmit() {
-  if (!state.lastContractPayload) {
-    setView("form");
-    updateContractSubmitButton();
-    return;
-  }
-
-  setSubmitLoading(true);
-  try {
-    const res = await withTimeout(simulateContractSubmit(state.lastContractPayload), 6000);
-    state.match = { status: res.status, reasonCodes: res.reasonCodes, rule_version: res.rule_version };
-    state.selection = res.selection;
-    state.selectionId = res.selection_id;
-    renderMatchResult();
-    setView("match");
-  } catch (err) {
-    const now = new Date().toISOString();
-    if (err && err.code === "TIMEOUT") {
-      $("err-timeout-time").textContent = now;
-      setView("error-timeout");
-    } else {
-      $("err-server-time").textContent = now;
-      setView("error-server");
+    if (!state.lastContractPayload) {
+        setView("form");
+        updateContractSubmitButton();
+        return;
     }
-  } finally {
-    setSubmitLoading(false);
-  }
+
+    setSubmitLoading(true);
+    try {
+        const res = await withTimeout(simulateContractSubmit(state.lastContractPayload), 6000);
+        state.match = { status: res.status, reasonCodes: res.reasonCodes, rule_version: res.rule_version };
+        state.selection = res.selection;
+        state.selectionId = res.selection_id;
+        renderMatchResult();
+        setView("match");
+    } catch (err) {
+        const now = new Date().toISOString();
+        if (err && err.code === "TIMEOUT") {
+            $("err-timeout-time").textContent = now;
+            setView("error-timeout");
+        } else {
+            $("err-server-time").textContent = now;
+            setView("error-server");
+        }
+    } finally {
+        setSubmitLoading(false);
+    }
 }
 
 function bindScore() {
-  $("btn-score").addEventListener("click", async () => {
-    const now = Date.now();
-    if (now - state.ui.lastScoreClickAt < 3000) {
-      // 3초 이내 연속 클릭 차단
-      return;
-    }
-    state.ui.lastScoreClickAt = now;
+    $("btn-score").addEventListener("click", async () => {
+        const now = Date.now();
+        if (now - state.ui.lastScoreClickAt < 3000) {
+            // 3초 이내 연속 클릭 차단
+            return;
+        }
+        state.ui.lastScoreClickAt = now;
 
-    $("btn-score").disabled = true;
-    // 로딩 화면으로 전환(우정인_PayScore 계산 중)
-    renderSelectionTable();
-    renderScoreState("LOADING");
-    setReportButtonEnabled(false);
-    setView("score-loading");
+        $("btn-score").disabled = true;
+        // 로딩 화면으로 전환(우정인_PayScore 계산 중)
+        renderSelectionTable();
+        renderScoreState("LOADING");
+        setReportButtonEnabled(false);
+        setView("score-loading");
 
-    logEvent("score_cta_click", {
-      session_id: state.sessionId,
-      selection_id: state.selectionId,
-      rule_version: RULES.ruleVersionScore,
-      timestamp: new Date().toISOString(),
+        logEvent("score_cta_click", {
+            session_id: state.sessionId,
+            selection_id: state.selectionId,
+            rule_version: RULES.ruleVersionScore,
+            timestamp: new Date().toISOString(),
+        });
+
+        try {
+            const res = await withTimeout(
+                simulateScoreRangeApi({ session_id: state.sessionId, selection_id: state.selectionId }),
+                7000,
+            );
+
+            // 리포트 ID 생성 (한 번만)
+            const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+            const reportDate = new Date().toLocaleDateString("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
+
+            state.score = {
+                status: "SUCCESS",
+                result: res,
+                reason_code: res.reason_code ?? null,
+                reportId: reportId,
+                reportDate: reportDate
+            };
+            setView("score");
+            renderScoreState("SUCCESS");
+            setReportButtonEnabled(res.scorable === true);
+
+            logEvent("score_result_success", {
+                session_id: state.sessionId,
+                selection_id: state.selectionId,
+                rule_version: res.rule_version,
+                timestamp: new Date().toISOString(),
+                reason_code: res.reason_code ?? null,
+            });
+        } catch (err) {
+            const reason = err?.reason_code ?? null;
+            state.score = { status: "FAIL", result: null, reason_code: reason };
+            setView("score");
+            renderScoreState("FAIL");
+            setReportButtonEnabled(false);
+
+            logEvent("score_result_fail", {
+                session_id: state.sessionId,
+                selection_id: state.selectionId,
+                rule_version: RULES.ruleVersionScore,
+                timestamp: new Date().toISOString(),
+                reason_code: reason,
+            });
+        } finally {
+            $("btn-score").disabled = false;
+        }
     });
 
-    try {
-      const res = await withTimeout(
-        simulateScoreRangeApi({ session_id: state.sessionId, selection_id: state.selectionId }),
-        7000,
-      );
+    $("btn-report").addEventListener("click", () => {
+        if (state.score.status !== "SUCCESS" || state.score.result?.scorable !== true) return;
+        if (state.report.inProgress || state.report.completed) return;
 
-      // 리포트 ID 생성 (한 번만)
-      const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
-      const reportDate = new Date().toLocaleDateString("ko-KR", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
+        logEvent("report_cta_click", {
+            session_id: state.sessionId,
+            selection_id: state.selectionId,
+            rule_version: state.score.result?.rule_version ?? RULES.ruleVersionScore,
+            timestamp: new Date().toISOString(),
+            reason_code: state.score.result?.reason_code ?? null,
+        });
 
-      state.score = {
-        status: "SUCCESS",
-        result: res,
-        reason_code: res.reason_code ?? null,
-        reportId: reportId,
-        reportDate: reportDate
-      };
-      setView("score");
-      renderScoreState("SUCCESS");
-      setReportButtonEnabled(res.scorable === true);
-
-      logEvent("score_result_success", {
-        session_id: state.sessionId,
-        selection_id: state.selectionId,
-        rule_version: res.rule_version,
-        timestamp: new Date().toISOString(),
-        reason_code: res.reason_code ?? null,
-      });
-    } catch (err) {
-      const reason = err?.reason_code ?? null;
-      state.score = { status: "FAIL", result: null, reason_code: reason };
-      setView("score");
-      renderScoreState("FAIL");
-      setReportButtonEnabled(false);
-
-      logEvent("score_result_fail", {
-        session_id: state.sessionId,
-        selection_id: state.selectionId,
-        rule_version: RULES.ruleVersionScore,
-        timestamp: new Date().toISOString(),
-        reason_code: reason,
-      });
-    } finally {
-      $("btn-score").disabled = false;
-    }
-  });
-
-  $("btn-report").addEventListener("click", () => {
-    if (state.score.status !== "SUCCESS" || state.score.result?.scorable !== true) return;
-    if (state.report.inProgress || state.report.completed) return;
-
-    logEvent("report_cta_click", {
-      session_id: state.sessionId,
-      selection_id: state.selectionId,
-      rule_version: state.score.result?.rule_version ?? RULES.ruleVersionScore,
-      timestamp: new Date().toISOString(),
-      reason_code: state.score.result?.reason_code ?? null,
+        openContactModal();
     });
 
-    openContactModal();
-  });
-
-  const scoreBack = $("btn-score-back");
-  if (scoreBack) scoreBack.addEventListener("click", () => setView("match"));
+    const scoreBack = $("btn-score-back");
+    if (scoreBack) scoreBack.addEventListener("click", () => setView("match"));
 }
 
 function bindModals() {
-  $("btn-close-contact").addEventListener("click", closeAllModals);
-  $("btn-open-terms").addEventListener("click", () => openTermsModal());
-  $("btn-close-terms").addEventListener("click", closeTermsAndReturnToContact);
-  $("btn-terms-ok").addEventListener("click", closeTermsAndReturnToContact);
-  $("btn-open-criteria").addEventListener("click", () => openCriteriaModal());
-  $("btn-close-criteria").addEventListener("click", closeAllModals);
-  $("btn-criteria-ok").addEventListener("click", closeAllModals);
+    $("btn-close-contact").addEventListener("click", closeAllModals);
+    $("btn-open-terms").addEventListener("click", () => openTermsModal());
+    $("btn-close-terms").addEventListener("click", closeTermsAndReturnToContact);
+    $("btn-terms-ok").addEventListener("click", closeTermsAndReturnToContact);
+    $("btn-open-criteria").addEventListener("click", () => openCriteriaModal());
+    $("btn-close-criteria").addEventListener("click", closeAllModals);
+    $("btn-criteria-ok").addEventListener("click", closeAllModals);
 
-  $("contactName").addEventListener("input", validateContactForm);
-  $("contactEmail").addEventListener("input", validateContactForm);
-  $("consentRequired").addEventListener("change", validateContactForm);
+    $("contactName").addEventListener("input", validateContactForm);
+    $("contactEmail").addEventListener("input", validateContactForm);
+    $("consentRequired").addEventListener("change", validateContactForm);
 
-  $("btn-contact-submit").addEventListener("click", async () => {
-    clearContactErrors();
+    $("btn-contact-submit").addEventListener("click", async () => {
+        clearContactErrors();
 
-    const name = $("contactName").value.trim();
-    const email = $("contactEmail").value.trim();
-    const consent = $("consentRequired").checked;
+        const name = $("contactName").value.trim();
+        const email = $("contactEmail").value.trim();
+        const consent = $("consentRequired").checked;
 
-    const errors = {};
-    if (!name) errors.contactName = "이름을 입력해 주세요";
-    if (!email || !isValidEmail(email)) errors.contactEmail = "이메일 형식을 확인해 주세요";
-    if (!consent) {
-      // 제출 버튼 자체가 비활성이라 일반적으로 도달하지 않음
-    }
+        const errors = {};
+        if (!name) errors.contactName = "이름을 입력해 주세요";
+        if (!email || !isValidEmail(email)) errors.contactEmail = "이메일 형식을 확인해 주세요";
+        if (!consent) {
+            // 제출 버튼 자체가 비활성이라 일반적으로 도달하지 않음
+        }
 
-    if (Object.keys(errors).length > 0) {
-      showContactErrors(errors);
-      return;
-    }
+        if (Object.keys(errors).length > 0) {
+            showContactErrors(errors);
+            return;
+        }
 
-    // "저장"은 로컬 모사: reportId 생성, 이벤트 로깅(개인정보는 이벤트에 포함하지 않음)
-    state.report.reportId = cryptoRandomId("rpt");
-    state.report.email = email;
-    closeAllModals();
+        // "저장"은 로컬 모사: reportId 생성, 이벤트 로깅(개인정보는 이벤트에 포함하지 않음)
+        state.report.reportId = cryptoRandomId("rpt");
+        state.report.email = email;
+        closeAllModals();
 
-    logEvent("contact_submit", {
-      session_id: state.sessionId,
-      selection_id: state.selectionId,
-      report_id: state.report.reportId,
-      timestamp: new Date().toISOString(),
+        logEvent("contact_submit", {
+            session_id: state.sessionId,
+            selection_id: state.selectionId,
+            report_id: state.report.reportId,
+            timestamp: new Date().toISOString(),
+        });
+
+        await startReportProcessing();
     });
-
-    await startReportProcessing();
-  });
 }
 
 function bindReportFail() {
-  const back = $("btn-report-fail-back");
-  if (back) back.addEventListener("click", () => setView("score"));
-  const retry = $("btn-report-retry");
-  if (retry) retry.addEventListener("click", () => startReportProcessing());
-  const cancel = $("btn-report-cancel");
-  if (cancel) cancel.addEventListener("click", () => setView("score"));
+    const back = $("btn-report-fail-back");
+    if (back) back.addEventListener("click", () => setView("score"));
+    const retry = $("btn-report-retry");
+    if (retry) retry.addEventListener("click", () => startReportProcessing());
+    const cancel = $("btn-report-cancel");
+    if (cancel) cancel.addEventListener("click", () => setView("score"));
 }
 
 function bindReportSendFail() {
-  const toStart = $("btn-report-send-fail-to-start");
-  if (toStart) toStart.addEventListener("click", () => setView("landing"));
+    const toStart = $("btn-report-send-fail-to-start");
+    if (toStart) toStart.addEventListener("click", () => setView("landing"));
 }
 
 function bindReportComplete() {
-  const guide = $("btn-report-guide");
-  if (guide) guide.addEventListener("click", () => {
-    renderReportPreview();
-    setView("report-preview");
-  });
-  const toStart = $("btn-report-to-start");
-  if (toStart) toStart.addEventListener("click", () => setView("landing"));
+    const guide = $("btn-report-guide");
+    if (guide) guide.addEventListener("click", () => {
+        renderReportPreview();
+        setView("report-preview");
+    });
+    const toStart = $("btn-report-to-start");
+    if (toStart) toStart.addEventListener("click", () => setView("landing"));
 }
 
 function bindReportPreview() {
-  const back = $("btn-report-preview-back");
-  if (back) back.addEventListener("click", () => setView("report-complete"));
-  const share = $("btn-report-share");
-  if (share) {
-    share.addEventListener("click", async () => {
-      const score = state.score.result?.payscore || 0;
-      const text = `[Paytrace] 내 PayScore는 ${score}점입니다. 리포트를 확인해보세요!`;
-      const url = window.location.href;
+    const back = $("btn-report-preview-back");
+    if (back) back.addEventListener("click", () => setView("report-complete"));
+    const share = $("btn-report-share");
+    if (share) {
+        share.addEventListener("click", async () => {
+            const score = state.score.result?.payscore || 0;
+            const text = `[Paytrace] 내 PayScore는 ${score}점입니다. 리포트를 확인해보세요!`;
+            const url = window.location.href;
 
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: "PayScore 리포트",
-            text: text,
-            url: url,
-          });
-        } catch (err) {
-          // share cancel or fail
-          console.log("Share skipped", err);
-        }
-      } else {
-        try {
-          await navigator.clipboard.writeText(url);
-          alert("링크가 복사되었습니다.");
-        } catch (e) {
-          alert("브라우저가 공유 기능을 지원하지 않습니다.");
-        }
-      }
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: "PayScore 리포트",
+                        text: text,
+                        url: url,
+                    });
+                } catch (err) {
+                    // share cancel or fail
+                    console.log("Share skipped", err);
+                }
+            } else {
+                try {
+                    await navigator.clipboard.writeText(url);
+                    alert("링크가 복사되었습니다.");
+                } catch (e) {
+                    alert("브라우저가 공유 기능을 지원하지 않습니다.");
+                }
+            }
+        });
+    }
+    const download = $("btn-report-download");
+    if (download) download.addEventListener("click", () => {
+        renderPdfPreview();
+        setView("pdf-preview");
     });
-  }
-  const download = $("btn-report-download");
-  if (download) download.addEventListener("click", () => {
-    renderPdfPreview();
-    setView("pdf-preview");
-  });
+}
+
+async function handlePdfShare() {
+    const payload = state.lastContractPayload;
+    const res = state.score?.result;
+
+    if (!payload || !res || !res.scorable) {
+        showToast("데이터가 부족하여 PDF를 공유할 수 없습니다.");
+        return;
+    }
+
+    const btn = $("btn-report-share");
+    if (btn) btn.disabled = true;
+    showToast("공유용 PDF를 생성하고 있습니다...");
+
+    logEvent("pdf_share_click", {
+        session_id: state.sessionId,
+        payscore: res.payscore,
+        timestamp: new Date().toISOString()
+    });
+
+    try {
+        const file = await createPdfFile();
+        if (!file) throw new Error("PDF 생성 실패");
+
+        const score = state.score.result?.payscore || 0;
+        const text = `[Paytrace] 내 PayScore는 ${score}점입니다. 리포트를 확인해보세요!`;
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                files: [file],
+                title: "PayScore 리포트",
+                text: text,
+            });
+            logEvent("pdf_share_success", { type: "file", session_id: state.sessionId });
+        } else {
+            await navigator.share({
+                title: "PayScore 리포트",
+                text: text,
+                url: window.location.href,
+            });
+            logEvent("pdf_share_success", { type: "url_fallback", session_id: state.sessionId });
+        }
+    } catch (err) {
+        if (err.name !== "AbortError") {
+            console.error("Share failed", err);
+            showToast("공유하기를 실행할 수 없습니다.");
+            logEvent("pdf_share_error", { error: err.message, session_id: state.sessionId });
+        } else {
+            logEvent("pdf_share_cancel", { session_id: state.sessionId });
+        }
+    } finally {
+        if (btn) btn.disabled = false;
+    }
+}
+
+async function createPdfFile() {
+    updatePdfPreviewIframe();
+    const iframe = $("pdf-preview-iframe");
+    if (!iframe) return null;
+
+    await new Promise((resolve) => {
+        if (iframe.contentDocument && iframe.contentDocument.readyState === "complete") {
+            resolve();
+        } else {
+            iframe.onload = () => resolve();
+        }
+    });
+
+    await sleep(1200);
+
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    const element = doc.querySelector(".doc");
+    if (!element) return null;
+
+    try {
+        const opt = {
+            margin: 0,
+            filename: "Paytrace_Report.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: "#ffffff",
+            },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        };
+        const blob = await html2pdf().set(opt).from(element).output("blob");
+        return new File([blob], "Paytrace_Report.pdf", { type: "application/pdf" });
+    } catch (e) {
+        console.error("PDF Blob generation failed", e);
+        return null;
+    }
 }
 
 function renderReportPreview() {
-  const res = state.score.result;
-  const badgeEl = $("report-preview-badge");
-  const scoreEl = $("report-preview-score");
-  const niceEl = $("report-preview-nice");
-  const kcbEl = $("report-preview-kcb");
-  const basisEl = $("report-preview-product-basis");
-  const productListEl = $("report-preview-products");
+    const res = state.score.result;
+    const badgeEl = $("report-preview-badge");
+    const scoreEl = $("report-preview-score");
+    const niceEl = $("report-preview-nice");
+    const kcbEl = $("report-preview-kcb");
+    const basisEl = $("report-preview-product-basis");
+    const productListEl = $("report-preview-products");
 
-  if (!res?.scorable) {
-    if (badgeEl) badgeEl.textContent = "-";
-    if (scoreEl) scoreEl.textContent = "-";
-    if (niceEl) niceEl.textContent = "-";
-    if (kcbEl) kcbEl.textContent = "-";
-    if (basisEl) basisEl.textContent = "PayScore -점 기준 추천";
-    if (productListEl) productListEl.innerHTML = "";
-    return;
-  }
-  const cr = res.credit_score_increase;
-  const niceText = cr && Number.isInteger(cr.min) && Number.isInteger(cr.max) ? `+${cr.min}~${cr.max}점` : "-";
-  if (badgeEl) badgeEl.textContent = getScoreBadgeLabel(res.payscore);
-  if (scoreEl) scoreEl.textContent = String(res.payscore);
-  if (niceEl) niceEl.textContent = niceText;
-  if (kcbEl) kcbEl.textContent = niceText;
-  if (basisEl) basisEl.textContent = `PayScore ${res.payscore}점 기준 추천`;
+    if (!res?.scorable) {
+        if (badgeEl) badgeEl.textContent = "-";
+        if (scoreEl) scoreEl.textContent = "-";
+        if (niceEl) niceEl.textContent = "-";
+        if (kcbEl) kcbEl.textContent = "-";
+        if (basisEl) basisEl.textContent = "PayScore -점 기준 추천";
+        if (productListEl) productListEl.innerHTML = "";
+        return;
+    }
+    const cr = res.credit_score_increase;
+    const niceText = cr && Number.isInteger(cr.min) && Number.isInteger(cr.max) ? `+${cr.min}~${cr.max}점` : "-";
+    if (badgeEl) badgeEl.textContent = getScoreBadgeLabel(res.payscore);
+    if (scoreEl) scoreEl.textContent = String(res.payscore);
+    if (niceEl) niceEl.textContent = niceText;
+    if (kcbEl) kcbEl.textContent = niceText;
+    if (basisEl) basisEl.textContent = `PayScore ${res.payscore}점 기준 추천`;
 
-  // 추천 상품 렌더링
-  if (productListEl) {
-    let category = "SPROUT";
-    if (res.payscore >= 71) category = "MASTER";
-    else if (res.payscore >= 41) category = "SINCERE";
+    // 추천 상품 렌더링
+    if (productListEl) {
+        let category = "SPROUT";
+        if (res.payscore >= 71) category = "MASTER";
+        else if (res.payscore >= 41) category = "SINCERE";
 
-    const products = PRODUCT_DATA[category];
-    productListEl.innerHTML = products.map(p => `
+        const products = PRODUCT_DATA[category];
+        productListEl.innerHTML = products.map(p => `
             <div class="report-preview-product-card">
                 <span class="report-preview-product-type">${escapeHtml(p.type)}</span>
                 <h4 class="report-preview-product-name">${escapeHtml(p.name)}</h4>
                 <p class="report-preview-product-desc">${escapeHtml(p.desc)}</p>
-                <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">상세보기</a>
+                <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm"
+                   onclick="logEvent('recommendation_click', { product_name: '${escapeHtml(p.name)}', product_type: '${escapeHtml(p.type)}' })">상세보기</a>
             </div>
         `).join("");
-  }
+    }
 }
 
 function bindPdfPreview() {
-  const back = $("btn-pdf-preview-back");
-  if (back) back.addEventListener("click", () => setView("report-preview"));
-  const download = $("btn-pdf-download");
-  if (download) {
-    download.addEventListener("click", handlePdfDownload);
-  }
+    const back = $("btn-pdf-preview-back");
+    if (back) back.addEventListener("click", () => setView("report-preview"));
+    const download = $("btn-pdf-download");
+    if (download) {
+        download.addEventListener("click", handlePdfDownload);
+    }
 }
 
 function renderPdfPreview() {
-  const payload = state.lastContractPayload;
-  const res = state.score?.result;
-  const tendencyEl = $("pdf-preview-tendency");
-  const scoreNumEl = $("pdf-preview-score-num");
-  const badgeEl = $("pdf-preview-badge");
-  const creditHintEl = $("pdf-preview-credit-hint");
-  const contractSummaryEl = $("pdf-preview-contract-summary");
+    const payload = state.lastContractPayload;
+    const res = state.score?.result;
+    const tendencyEl = $("pdf-preview-tendency");
+    const scoreNumEl = $("pdf-preview-score-num");
+    const badgeEl = $("pdf-preview-badge");
+    const creditHintEl = $("pdf-preview-credit-hint");
+    const contractSummaryEl = $("pdf-preview-contract-summary");
 
-  const months = payload ? calcContractMonths(payload.startDate, payload.endDate) : null;
-  const monthText = months != null ? `${months}개월` : "-";
-  if (tendencyEl) tendencyEl.textContent = `귀하는 ${monthText} 이력을 보유하고 있습니다.`;
+    const months = payload ? calcContractMonths(payload.startDate, payload.endDate) : null;
+    const monthText = months != null ? `${months}개월` : "-";
+    if (tendencyEl) tendencyEl.textContent = `귀하는 ${monthText} 이력을 보유하고 있습니다.`;
 
-  if (res?.scorable) {
-    if (scoreNumEl) scoreNumEl.textContent = String(res.payscore);
-    if (badgeEl) badgeEl.textContent = getScoreBadgeLabel(res.payscore);
-    const cr = res.credit_score_increase;
-    const hintText = cr && Number.isInteger(cr.min) && Number.isInteger(cr.max) ? `예상 상승 +${cr.min}~${cr.max}점 내외` : "예상 상승 -";
-    if (creditHintEl) creditHintEl.textContent = hintText;
-  } else {
-    if (scoreNumEl) scoreNumEl.textContent = "-";
-    if (badgeEl) badgeEl.textContent = "-";
-    if (creditHintEl) creditHintEl.textContent = "예상 상승 -";
-  }
+    if (res?.scorable) {
+        if (scoreNumEl) scoreNumEl.textContent = String(res.payscore);
+        if (badgeEl) badgeEl.textContent = getScoreBadgeLabel(res.payscore);
+        const cr = res.credit_score_increase;
+        const hintText = cr && Number.isInteger(cr.min) && Number.isInteger(cr.max) ? `예상 상승 +${cr.min}~${cr.max}점 내외` : "예상 상승 -";
+        if (creditHintEl) creditHintEl.textContent = hintText;
+    } else {
+        if (scoreNumEl) scoreNumEl.textContent = "-";
+        if (badgeEl) badgeEl.textContent = "-";
+        if (creditHintEl) creditHintEl.textContent = "예상 상승 -";
+    }
 
-  if (contractSummaryEl && payload) {
-    const periodStr =
-      payload.startDate && payload.endDate && months != null
-        ? `${payload.startDate} ~ ${payload.endDate} (${months}개월)`
-        : "-";
-    const rentStr = formatWon(payload.rentAmount);
-    const mgmtStr = payload.mgmtIncluded === true ? `포함 (${formatWon(payload.mgmtAmount)})` : "미포함";
-    contractSummaryEl.innerHTML = `
+    if (contractSummaryEl && payload) {
+        const periodStr =
+            payload.startDate && payload.endDate && months != null
+                ? `${payload.startDate} ~ ${payload.endDate} (${months}개월)`
+                : "-";
+        const rentStr = formatWon(payload.rentAmount);
+        const mgmtStr = payload.mgmtIncluded === true ? `포함 (${formatWon(payload.mgmtAmount)})` : "미포함";
+        contractSummaryEl.innerHTML = `
       <div class="pdf-preview-summary-row"><span class="k">계약 기간</span><span class="v">${escapeHtml(periodStr)}</span></div>
       <div class="pdf-preview-summary-row"><span class="k">월세 금액</span><span class="v">${escapeHtml(rentStr)}</span></div>
       <div class="pdf-preview-summary-row"><span class="k">관리비</span><span class="v">${escapeHtml(mgmtStr)}</span></div>
     `;
-  } else if (contractSummaryEl) {
-    contractSummaryEl.innerHTML = "";
-  }
+    } else if (contractSummaryEl) {
+        contractSummaryEl.innerHTML = "";
+    }
 
-  // ✨ PDF iframe 업데이트
-  updatePdfPreviewIframe();
+    // ✨ PDF iframe 업데이트
+    updatePdfPreviewIframe();
 }
 
 function bindToast() {
-  $("btn-toast-close").addEventListener("click", hideToast);
+    $("btn-toast-close").addEventListener("click", hideToast);
 }
 
 function openContactModal() {
-  $("contactName").value = "";
-  $("contactEmail").value = "";
-  $("consentRequired").checked = false;
-  const opt = $("consentOptional");
-  if (opt) opt.checked = false;
-  clearContactErrors();
-  validateContactForm();
-  showModal("modal-contact");
-  $("contactName").focus();
+    $("contactName").value = "";
+    $("contactEmail").value = "";
+    $("consentRequired").checked = false;
+    const opt = $("consentOptional");
+    if (opt) opt.checked = false;
+    clearContactErrors();
+    validateContactForm();
+    showModal("modal-contact");
+    $("contactName").focus();
 }
 
 function openTermsModal() {
-  showModal("modal-terms");
-  $("btn-terms-ok").focus();
+    showModal("modal-terms");
+    $("btn-terms-ok").focus();
 }
 
 function openCriteriaModal() {
-  showModal("modal-criteria");
-  $("btn-criteria-ok").focus();
+    showModal("modal-criteria");
+    $("btn-criteria-ok").focus();
 }
 
 function showModal(id) {
-  $("modal-backdrop").classList.remove("hidden");
-  $("modal-backdrop").setAttribute("aria-hidden", "false");
-  $(id).classList.remove("hidden");
+    $("modal-backdrop").classList.remove("hidden");
+    $("modal-backdrop").setAttribute("aria-hidden", "false");
+    $(id).classList.remove("hidden");
 }
 
 function closeAllModals() {
-  $("modal-backdrop").classList.add("hidden");
-  $("modal-backdrop").setAttribute("aria-hidden", "true");
-  $("modal-contact").classList.add("hidden");
-  $("modal-terms").classList.add("hidden");
-  $("modal-criteria").classList.add("hidden");
+    $("modal-backdrop").classList.add("hidden");
+    $("modal-backdrop").setAttribute("aria-hidden", "true");
+    $("modal-contact").classList.add("hidden");
+    $("modal-terms").classList.add("hidden");
+    $("modal-criteria").classList.add("hidden");
 }
 
 /** 개인정보 수집·이용 동의 모달에서 확인/닫기 시 이메일 입력 모달로 복귀 */
 function closeTermsAndReturnToContact() {
-  $("modal-terms").classList.add("hidden");
-  const contact = $("modal-contact");
-  if (contact && !contact.classList.contains("hidden")) {
-    const nameEl = $("contactName");
-    if (nameEl) nameEl.focus();
-  }
+    $("modal-terms").classList.add("hidden");
+    const contact = $("modal-contact");
+    if (contact && !contact.classList.contains("hidden")) {
+        const nameEl = $("contactName");
+        if (nameEl) nameEl.focus();
+    }
 }
 
 function validateContactForm() {
-  const nameOk = $("contactName").value.trim().length > 0;
-  const email = $("contactEmail").value.trim();
-  const emailOk = email.length > 0 && isValidEmail(email);
-  const consentOk = $("consentRequired").checked;
-  $("btn-contact-submit").disabled = !(nameOk && emailOk && consentOk);
+    const nameOk = $("contactName").value.trim().length > 0;
+    const email = $("contactEmail").value.trim();
+    const emailOk = email.length > 0 && isValidEmail(email);
+    const consentOk = $("consentRequired").checked;
+    $("btn-contact-submit").disabled = !(nameOk && emailOk && consentOk);
 }
 
 async function startReportProcessing() {
-  state.report.inProgress = true;
-  setView("report-processing");
-  hideToast();
+    state.report.inProgress = true;
+    setView("report-processing");
+    hideToast();
 
-  setProgressPct(0);
-  const steps = [0, 33, 66]; // 100%는 성공 응답 시점에만
-  let stepIdx = 0;
+    setProgressPct(0);
+    const steps = [0, 33, 66]; // 100%는 성공 응답 시점에만
+    let stepIdx = 0;
 
-  const stepTimer = setInterval(() => {
-    stepIdx += 1;
-    if (stepIdx >= steps.length) {
-      clearInterval(stepTimer);
-      return;
+    const stepTimer = setInterval(() => {
+        stepIdx += 1;
+        if (stepIdx >= steps.length) {
+            clearInterval(stepTimer);
+            return;
+        }
+        setProgressPct(steps[stepIdx]);
+    }, 900);
+
+    const toastTimer = setTimeout(() => {
+        if (!state.report.completed) {
+            showToast("현재 요청 처리가 지연되고 있습니다. 잠시만 기다려 주세요.");
+        }
+    }, 10_000);
+
+    try {
+        await withTimeout(simulateReportGeneration(), 20_000);
+        clearInterval(stepTimer);
+        clearTimeout(toastTimer);
+
+        state.report.inProgress = false;
+        state.report.completed = true;
+        setProgressPct(100);
+
+        renderReportComplete();
+        setView("report-complete");
+
+        if (!state.report.loggedComplete) {
+            state.report.loggedComplete = true;
+            logEvent("report_complete_view", {
+                session_id: state.sessionId,
+                selection_id: state.selectionId,
+                report_id: state.report.reportId,
+                timestamp: new Date().toISOString(),
+            });
+        }
+    } catch (err) {
+        clearInterval(stepTimer);
+        clearTimeout(toastTimer);
+        state.report.inProgress = false;
+        state.report.completed = false;
+        if (err.reason_code === "SMTP_ERROR") {
+            setView("report-send-fail");
+            const reasonText = document.getElementById("report-send-fail-reason-text");
+            if (reasonText) reasonText.textContent = err.message || "알 수 없는 오류가 발생했습니다.";
+        } else {
+            setView("report-fail");
+            const failReason = document.querySelector("#view-report-fail .report-fail-sub");
+            if (failReason && err.message) {
+                failReason.textContent = err.message;
+            }
+        }
+
+        // 실패 이벤트(개인정보 제외)
+        logEvent("report_fail", {
+            session_id: state.sessionId,
+            selection_id: state.selectionId,
+            report_id: state.report.reportId,
+            timestamp: new Date().toISOString(),
+            reason_code: err?.reason_code ?? null,
+        });
     }
-    setProgressPct(steps[stepIdx]);
-  }, 900);
-
-  const toastTimer = setTimeout(() => {
-    if (!state.report.completed) {
-      showToast("현재 요청 처리가 지연되고 있습니다. 잠시만 기다려 주세요.");
-    }
-  }, 10_000);
-
-  try {
-    await withTimeout(simulateReportGeneration(), 20_000);
-    clearInterval(stepTimer);
-    clearTimeout(toastTimer);
-
-    state.report.inProgress = false;
-    state.report.completed = true;
-    setProgressPct(100);
-
-    renderReportComplete();
-    setView("report-complete");
-
-    if (!state.report.loggedComplete) {
-      state.report.loggedComplete = true;
-      logEvent("report_complete_view", {
-        session_id: state.sessionId,
-        selection_id: state.selectionId,
-        report_id: state.report.reportId,
-        timestamp: new Date().toISOString(),
-      });
-    }
-  } catch (err) {
-    clearInterval(stepTimer);
-    clearTimeout(toastTimer);
-    state.report.inProgress = false;
-    state.report.completed = false;
-    if (err.reason_code === "SMTP_ERROR") {
-      setView("report-send-fail");
-      const reasonText = document.getElementById("report-send-fail-reason-text");
-      if (reasonText) reasonText.textContent = err.message || "알 수 없는 오류가 발생했습니다.";
-    } else {
-      setView("report-fail");
-      const failReason = document.querySelector("#view-report-fail .report-fail-sub");
-      if (failReason && err.message) {
-        failReason.textContent = err.message;
-      }
-    }
-
-    // 실패 이벤트(개인정보 제외)
-    logEvent("report_fail", {
-      session_id: state.sessionId,
-      selection_id: state.selectionId,
-      report_id: state.report.reportId,
-      timestamp: new Date().toISOString(),
-      reason_code: err?.reason_code ?? null,
-    });
-  }
 }
 
 function setProgressPct(pct) {
-  const safe = [0, 33, 66, 100].includes(pct) ? pct : 0;
-  const fillEl = $("progress-fill");
-  const pctEl = $("progress-pct");
-  if (fillEl) fillEl.style.width = `${safe}%`;
-  if (pctEl) pctEl.textContent = `${safe}%`;
+    const safe = [0, 33, 66, 100].includes(pct) ? pct : 0;
+    const fillEl = $("progress-fill");
+    const pctEl = $("progress-pct");
+    if (fillEl) fillEl.style.width = `${safe}%`;
+    if (pctEl) pctEl.textContent = `${safe}%`;
 
-  // 김민하_리포트생성중: 단계 카드 상태
-  const step1 = $("report-step-1");
-  const step2 = $("report-step-2");
-  const step3 = $("report-step-3");
-  if (step1) step1.classList.add("is-done");
-  if (step2) {
-    step2.classList.remove("is-done", "is-active", "is-pending");
-    const icon2 = step2.querySelector(".report-step-icon");
-    if (icon2) {
-      if (safe >= 66) {
-        step2.classList.add("is-done");
-        icon2.textContent = "✓";
-        icon2.classList.remove("report-step-icon-num");
-        icon2.classList.add("report-step-icon-done");
-      } else {
-        step2.classList.add("is-active");
-        icon2.textContent = "2";
-        icon2.classList.add("report-step-icon-num");
-        icon2.classList.remove("report-step-icon-done");
-      }
+    // 김민하_리포트생성중: 단계 카드 상태
+    const step1 = $("report-step-1");
+    const step2 = $("report-step-2");
+    const step3 = $("report-step-3");
+    if (step1) step1.classList.add("is-done");
+    if (step2) {
+        step2.classList.remove("is-done", "is-active", "is-pending");
+        const icon2 = step2.querySelector(".report-step-icon");
+        if (icon2) {
+            if (safe >= 66) {
+                step2.classList.add("is-done");
+                icon2.textContent = "✓";
+                icon2.classList.remove("report-step-icon-num");
+                icon2.classList.add("report-step-icon-done");
+            } else {
+                step2.classList.add("is-active");
+                icon2.textContent = "2";
+                icon2.classList.add("report-step-icon-num");
+                icon2.classList.remove("report-step-icon-done");
+            }
+        }
     }
-  }
-  if (step3) {
-    step3.classList.remove("is-done", "is-active", "is-pending");
-    const icon3 = step3.querySelector(".report-step-icon");
-    if (icon3) {
-      if (safe >= 100) {
-        step3.classList.add("is-done");
-        icon3.textContent = "✓";
-        icon3.classList.remove("report-step-icon-num");
-        icon3.classList.add("report-step-icon-done");
-      } else if (safe >= 66) {
-        step3.classList.add("is-active");
-        icon3.textContent = "3";
-        icon3.classList.add("report-step-icon-num");
-        icon3.classList.remove("report-step-icon-done");
-      } else {
-        step3.classList.add("is-pending");
-        icon3.textContent = "3";
-        icon3.classList.add("report-step-icon-num");
-        icon3.classList.remove("report-step-icon-done");
-      }
+    if (step3) {
+        step3.classList.remove("is-done", "is-active", "is-pending");
+        const icon3 = step3.querySelector(".report-step-icon");
+        if (icon3) {
+            if (safe >= 100) {
+                step3.classList.add("is-done");
+                icon3.textContent = "✓";
+                icon3.classList.remove("report-step-icon-num");
+                icon3.classList.add("report-step-icon-done");
+            } else if (safe >= 66) {
+                step3.classList.add("is-active");
+                icon3.textContent = "3";
+                icon3.classList.add("report-step-icon-num");
+                icon3.classList.remove("report-step-icon-done");
+            } else {
+                step3.classList.add("is-pending");
+                icon3.textContent = "3";
+                icon3.classList.add("report-step-icon-num");
+                icon3.classList.remove("report-step-icon-done");
+            }
+        }
     }
-  }
 }
 
 function renderReportComplete() {
-  $("masked-email").textContent = maskEmail(state.report.email || "");
+    $("masked-email").textContent = maskEmail(state.report.email || "");
 }
 
 function showToast(msg) {
-  $("toast-text").textContent = msg;
-  $("toast").classList.remove("hidden");
+    $("toast-text").textContent = msg;
+    $("toast").classList.remove("hidden");
 }
 
 function hideToast() {
-  $("toast").classList.add("hidden");
+    $("toast").classList.add("hidden");
 }
 
 function renderRentWarning() {
-  const val = parseIntSafe($("rentAmount").value);
-  const warnEl = $("warn-rentAmount");
-  if (!val) {
-    warnEl.textContent = "";
-    return;
-  }
-  const { min, max } = RULES.rentWarningRange;
-  if (val < min || val > max) {
-    warnEl.textContent = "입력값이 테스트데이터 기준 범위를 벗어났어요. 제출은 가능해요.";
-  } else {
-    warnEl.textContent = "";
-  }
+    const val = parseIntSafe($("rentAmount").value);
+    const warnEl = $("warn-rentAmount");
+    if (!val) {
+        warnEl.textContent = "";
+        return;
+    }
+    const { min, max } = RULES.rentWarningRange;
+    if (val < min || val > max) {
+        warnEl.textContent = "입력값이 테스트데이터 기준 범위를 벗어났어요. 제출은 가능해요.";
+    } else {
+        warnEl.textContent = "";
+    }
 }
 
 function onMgmtIncludedChanged() {
-  const included = getMgmtIncluded();
-  const wrap = $("mgmtAmountWrap");
-  wrap.classList.toggle("hidden", included !== true);
-  if (included !== true) {
-    $("mgmtAmount").value = "";
-  }
+    const included = getMgmtIncluded();
+    const wrap = $("mgmtAmountWrap");
+    wrap.classList.toggle("hidden", included !== true);
+    if (included !== true) {
+        $("mgmtAmount").value = "";
+    }
 }
 
 function onContractDatesChanged() {
-  const start = $("startDate").value;
-  const end = $("endDate").value;
-  const hint = $("hint-contractMonths");
-  if (!start || !end) {
-    hint.textContent = "";
-    return;
-  }
-  const months = calcContractMonths(start, end);
-  if (months != null) {
-    hint.textContent = `계약 기간: ${months}개월`;
-  } else {
-    hint.textContent = "";
-  }
+    const start = $("startDate").value;
+    const end = $("endDate").value;
+    const hint = $("hint-contractMonths");
+    if (!start || !end) {
+        hint.textContent = "";
+        return;
+    }
+    const months = calcContractMonths(start, end);
+    if (months != null) {
+        hint.textContent = `계약 기간: ${months}개월`;
+    } else {
+        hint.textContent = "";
+    }
 }
 
 function buildContractPayload() {
-  const mgmtIncluded = getMgmtIncluded();
-  const fixed = readFixedInputs();
-  return {
-    startDate: $("startDate").value,
-    endDate: $("endDate").value,
-    rentAmount: parseIntSafe($("rentAmount").value),
-    mgmtIncluded,
-    mgmtAmount: mgmtIncluded === true ? parseIntSafe($("mgmtAmount").value) : null,
-    fixed,
-  };
+    const mgmtIncluded = getMgmtIncluded();
+    const fixed = readFixedInputs();
+    return {
+        startDate: $("startDate").value,
+        endDate: $("endDate").value,
+        rentAmount: parseIntSafe($("rentAmount").value),
+        mgmtIncluded,
+        mgmtAmount: mgmtIncluded === true ? parseIntSafe($("mgmtAmount").value) : null,
+        fixed,
+    };
 }
 
 function readFixedInputs() {
-  const selected = new Set(
-    Array.from(document.querySelectorAll('input[name="fixedType"]'))
-      .filter((x) => x.checked)
-      .map((x) => x.value),
-  );
+    const selected = new Set(
+        Array.from(document.querySelectorAll('input[name="fixedType"]'))
+            .filter((x) => x.checked)
+            .map((x) => x.value),
+    );
 
-  const out = {};
-  for (const t of FIXED_TYPES) {
-    out[t.key] = { selected: selected.has(t.key), rows: [] };
-  }
+    const out = {};
+    for (const t of FIXED_TYPES) {
+        out[t.key] = { selected: selected.has(t.key), rows: [] };
+    }
 
-  for (const t of FIXED_TYPES) {
-    if (!out[t.key].selected) continue;
-    const container = getFixedRowsContainer(t.key);
-    const rows = container ? Array.from(container.querySelectorAll(".fixed-row")) : [];
-    out[t.key].rows = rows.map((row) => {
-      const amountInput = row.querySelector('input[data-fixed-field="amount"]');
-      const monthsInput = row.querySelector('input[data-fixed-field="months"]');
-      return {
-        amount: parseIntSafe(amountInput?.value),
-        months: parseIntSafe(monthsInput?.value),
-      };
-    });
-  }
+    for (const t of FIXED_TYPES) {
+        if (!out[t.key].selected) continue;
+        const container = getFixedRowsContainer(t.key);
+        const rows = container ? Array.from(container.querySelectorAll(".fixed-row")) : [];
+        out[t.key].rows = rows.map((row) => {
+            const amountInput = row.querySelector('input[data-fixed-field="amount"]');
+            const monthsInput = row.querySelector('input[data-fixed-field="months"]');
+            return {
+                amount: parseIntSafe(amountInput?.value),
+                months: parseIntSafe(monthsInput?.value),
+            };
+        });
+    }
 
-  return out;
+    return out;
 }
 
 function validateContractPayload(payload) {
-  const errors = {};
-  let firstErrorId = null;
-  let firstErrorEl = null;
+    const errors = {};
+    let firstErrorId = null;
+    let firstErrorEl = null;
 
-  const setErr = (fieldId, msg) => {
-    errors[fieldId] = msg;
-    if (!firstErrorId) firstErrorId = fieldId;
-  };
+    const setErr = (fieldId, msg) => {
+        errors[fieldId] = msg;
+        if (!firstErrorId) firstErrorId = fieldId;
+    };
 
-  // required: start/end/rent/mgmtIncluded
-  if (!payload.startDate) setErr("startDate", "계약 시작일을 입력해 주세요");
-  if (!payload.endDate) setErr("endDate", "만료일을 입력해 주세요");
+    // required: start/end/rent/mgmtIncluded
+    if (!payload.startDate) setErr("startDate", "계약 시작일을 입력해 주세요");
+    if (!payload.endDate) setErr("endDate", "만료일을 입력해 주세요");
 
-  if (payload.startDate && payload.endDate) {
-    if (payload.startDate >= payload.endDate) {
-      setErr("endDate", "만료일은 시작일 이후여야 합니다");
-    } else {
-      const months = calcContractMonths(payload.startDate, payload.endDate);
-      if (months == null || months < 1 || months > 36) {
-        setErr("endDate", "계약 기간은 최소 1개월 이상 최대 36개월 이하만 유효합니다");
-      }
+    if (payload.startDate && payload.endDate) {
+        if (payload.startDate >= payload.endDate) {
+            setErr("endDate", "만료일은 시작일 이후여야 합니다");
+        } else {
+            const months = calcContractMonths(payload.startDate, payload.endDate);
+            if (months == null || months < 1 || months > 36) {
+                setErr("endDate", "계약 기간은 최소 1개월 이상 최대 36개월 이하만 유효합니다");
+            }
+        }
     }
-  }
 
-  if (!Number.isInteger(payload.rentAmount) || payload.rentAmount < 1) {
-    setErr("rentAmount", "월세 금액을 입력해 주세요");
-  }
-
-  if (payload.mgmtIncluded !== true && payload.mgmtIncluded !== false) {
-    setErr("mgmtIncluded", "관리비 포함 여부를 선택해 주세요");
-  }
-
-  // conditional required: mgmtAmount
-  if (payload.mgmtIncluded === true) {
-    if (!Number.isInteger(payload.mgmtAmount) || payload.mgmtAmount < 1) {
-      setErr("mgmtAmount", "관리비 금액을 입력해 주세요");
+    if (!Number.isInteger(payload.rentAmount) || payload.rentAmount < 1) {
+        setErr("rentAmount", "월세 금액을 입력해 주세요");
     }
-  }
 
-  // fixed (P0): 선택된 고정비는 각 행의 월 구독료/구독 개월 수가 필수
-  for (const t of FIXED_TYPES) {
-    const item = payload.fixed[t.key];
-    if (!item?.selected) continue;
-
-    const container = getFixedRowsContainer(t.key);
-    const rows = container ? Array.from(container.querySelectorAll(".fixed-row")) : [];
-    for (const rowEl of rows) {
-      const errEl = rowEl.querySelector(".row-error");
-      if (errEl) errEl.textContent = "";
-
-      const amountInput = rowEl.querySelector('input[data-fixed-field="amount"]');
-      const monthsInput = rowEl.querySelector('input[data-fixed-field="months"]');
-      const amount = parseIntSafe(amountInput?.value);
-      const months = parseIntSafe(monthsInput?.value);
-
-      if (!Number.isInteger(amount) || amount < 1) {
-        if (errEl) errEl.textContent = "월 구독료를 입력해 주세요";
-        if (!firstErrorEl) firstErrorEl = amountInput || rowEl;
-        break;
-      }
-      if (!Number.isInteger(months) || months < 1) {
-        if (errEl) errEl.textContent = "구독 개월 수를 입력해 주세요";
-        if (!firstErrorEl) firstErrorEl = monthsInput || rowEl;
-        break;
-      }
+    if (payload.mgmtIncluded !== true && payload.mgmtIncluded !== false) {
+        setErr("mgmtIncluded", "관리비 포함 여부를 선택해 주세요");
     }
-    if (firstErrorEl) break;
-  }
 
-  return { errors, firstErrorId, firstErrorEl };
+    // conditional required: mgmtAmount
+    if (payload.mgmtIncluded === true) {
+        if (!Number.isInteger(payload.mgmtAmount) || payload.mgmtAmount < 1) {
+            setErr("mgmtAmount", "관리비 금액을 입력해 주세요");
+        }
+    }
+
+    // fixed (P0): 선택된 고정비는 각 행의 월 구독료/구독 개월 수가 필수
+    for (const t of FIXED_TYPES) {
+        const item = payload.fixed[t.key];
+        if (!item?.selected) continue;
+
+        const container = getFixedRowsContainer(t.key);
+        const rows = container ? Array.from(container.querySelectorAll(".fixed-row")) : [];
+        for (const rowEl of rows) {
+            const errEl = rowEl.querySelector(".row-error");
+            if (errEl) errEl.textContent = "";
+
+            const amountInput = rowEl.querySelector('input[data-fixed-field="amount"]');
+            const monthsInput = rowEl.querySelector('input[data-fixed-field="months"]');
+            const amount = parseIntSafe(amountInput?.value);
+            const months = parseIntSafe(monthsInput?.value);
+
+            if (!Number.isInteger(amount) || amount < 1) {
+                if (errEl) errEl.textContent = "월 구독료를 입력해 주세요";
+                if (!firstErrorEl) firstErrorEl = amountInput || rowEl;
+                break;
+            }
+            if (!Number.isInteger(months) || months < 1) {
+                if (errEl) errEl.textContent = "구독 개월 수를 입력해 주세요";
+                if (!firstErrorEl) firstErrorEl = monthsInput || rowEl;
+                break;
+            }
+        }
+        if (firstErrorEl) break;
+    }
+
+    return { errors, firstErrorId, firstErrorEl };
 }
 
 /** 권정_정보입력_2·요구사항: 필수값 미충족 시 입력 완료 버튼 비활성화 */
 function updateContractSubmitButton() {
-  const btn = $("btn-submit");
-  if (!btn) return;
-  const spinner = btn.querySelector(".spinner");
-  if (spinner && !spinner.classList.contains("hidden")) return;
-  const payload = buildContractPayload();
-  const { errors, firstErrorEl } = validateContractPayload(payload);
-  btn.disabled = Object.keys(errors).length > 0 || !!firstErrorEl;
+    const btn = $("btn-submit");
+    if (!btn) return;
+    const spinner = btn.querySelector(".spinner");
+    if (spinner && !spinner.classList.contains("hidden")) return;
+    const payload = buildContractPayload();
+    const { errors, firstErrorEl } = validateContractPayload(payload);
+    btn.disabled = Object.keys(errors).length > 0 || !!firstErrorEl;
 }
 
 function clearAllFieldErrors() {
-  const ids = [
-    "startDate",
-    "endDate",
-    "rentAmount",
-    "mgmtIncluded",
-    "mgmtAmount",
-  ];
-  for (const id of ids) {
-    const err = $(`err-${id}`);
-    if (err) err.textContent = "";
-  }
-  for (const el of document.querySelectorAll(".row-error")) {
-    el.textContent = "";
-  }
+    const ids = [
+        "startDate",
+        "endDate",
+        "rentAmount",
+        "mgmtIncluded",
+        "mgmtAmount",
+    ];
+    for (const id of ids) {
+        const err = $(`err-${id}`);
+        if (err) err.textContent = "";
+    }
+    for (const el of document.querySelectorAll(".row-error")) {
+        el.textContent = "";
+    }
 }
 
 function showFieldErrors(errors) {
-  for (const [fieldId, msg] of Object.entries(errors)) {
-    const err = $(`err-${fieldId}`);
-    if (err) err.textContent = msg;
-  }
+    for (const [fieldId, msg] of Object.entries(errors)) {
+        const err = $(`err-${fieldId}`);
+        if (err) err.textContent = msg;
+    }
 }
 
 function scrollToFirstError(fieldId) {
-  if (!fieldId) return;
-  const input = $(fieldId) || document.querySelector(`[name="${fieldId}"]`);
-  if (!input) return;
-  const top = input.getBoundingClientRect().top + window.scrollY - 90;
-  window.scrollTo({ top, behavior: "smooth" });
-  try {
-    input.focus({ preventScroll: true });
-  } catch {
-    // ignore
-  }
+    if (!fieldId) return;
+    const input = $(fieldId) || document.querySelector(`[name="${fieldId}"]`);
+    if (!input) return;
+    const top = input.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top, behavior: "smooth" });
+    try {
+        input.focus({ preventScroll: true });
+    } catch {
+        // ignore
+    }
 }
 
 function setSubmitLoading(isLoading) {
-  const btn = $("btn-submit");
-  btn.disabled = isLoading;
-  btn.querySelector(".spinner").classList.toggle("hidden", !isLoading);
+    const btn = $("btn-submit");
+    btn.disabled = isLoading;
+    btn.querySelector(".spinner").classList.toggle("hidden", !isLoading);
 }
 
 function renderMatchResult() {
-  const badge = $("match-badge");
-  const reasons = $("match-reasons");
-  const sum = $("match-summary");
-  const fixedCountEl = $("match-fixed-count");
-  const fixedListEl = $("match-fixed-list");
+    const badge = $("match-badge");
+    const reasons = $("match-reasons");
+    const sum = $("match-summary");
+    const fixedCountEl = $("match-fixed-count");
+    const fixedListEl = $("match-fixed-list");
 
-  if (!state.match) return;
+    if (!state.match) return;
 
-  reasons.innerHTML = "";
-  sum.innerHTML = "";
-  if (fixedListEl) fixedListEl.innerHTML = "";
+    reasons.innerHTML = "";
+    sum.innerHTML = "";
+    if (fixedListEl) fixedListEl.innerHTML = "";
 
-  if (state.match.status === "MATCHED") {
-    badge.textContent = "입력 기준 충족";
-    badge.className = "result-pill";
-    reasons.classList.add("hidden");
-  } else {
-    badge.textContent = "추가 확인 필요";
-    badge.className = "result-pill warn";
-    reasons.classList.remove("hidden");
-    for (const code of state.match.reasonCodes) {
-      const li = document.createElement("li");
-      li.textContent = REASON_TEXT[code] ?? `추가 확인이 필요합니다 (${code})`;
-      reasons.appendChild(li);
+    if (state.match.status === "MATCHED") {
+        badge.textContent = "입력 기준 충족";
+        badge.className = "result-pill";
+        reasons.classList.add("hidden");
+    } else {
+        badge.textContent = "추가 확인 필요";
+        badge.className = "result-pill warn";
+        reasons.classList.remove("hidden");
+        for (const code of state.match.reasonCodes) {
+            const li = document.createElement("li");
+            li.textContent = REASON_TEXT[code] ?? `추가 확인이 필요합니다 (${code})`;
+            reasons.appendChild(li);
+        }
     }
-  }
 
-  const payload = state.lastContractPayload;
-  const months = calcContractMonths(payload.startDate, payload.endDate);
-  const periodText =
-    payload.startDate && payload.endDate && months != null
-      ? `${payload.startDate} ~ ${payload.endDate} (${months}개월)`
-      : "-";
+    const payload = state.lastContractPayload;
+    const months = calcContractMonths(payload.startDate, payload.endDate);
+    const periodText =
+        payload.startDate && payload.endDate && months != null
+            ? `${payload.startDate} ~ ${payload.endDate} (${months}개월)`
+            : "-";
 
-  sum.appendChild(summaryRow("계약 기간", periodText));
-  sum.appendChild(summaryRow("월세 금액", formatWon(payload.rentAmount)));
-  sum.appendChild(
-    summaryRow(
-      "관리비",
-      payload.mgmtIncluded === true ? `포함 (${formatWon(payload.mgmtAmount)})` : "미포함",
-    ),
-  );
+    sum.appendChild(summaryRow("계약 기간", periodText));
+    sum.appendChild(summaryRow("월세 금액", formatWon(payload.rentAmount)));
+    sum.appendChild(
+        summaryRow(
+            "관리비",
+            payload.mgmtIncluded === true ? `포함 (${formatWon(payload.mgmtAmount)})` : "미포함",
+        ),
+    );
 
-  // fixed items (rows)
-  const allFixedRows = [];
-  for (const t of FIXED_TYPES) {
-    const it = payload.fixed?.[t.key];
-    if (!it?.selected) continue;
-    const rows = Array.isArray(it.rows) ? it.rows : [];
-    rows.forEach((r) => allFixedRows.push({ type: t, row: r }));
-  }
+    // fixed items (rows)
+    const allFixedRows = [];
+    for (const t of FIXED_TYPES) {
+        const it = payload.fixed?.[t.key];
+        if (!it?.selected) continue;
+        const rows = Array.isArray(it.rows) ? it.rows : [];
+        rows.forEach((r) => allFixedRows.push({ type: t, row: r }));
+    }
 
-  if (fixedCountEl) fixedCountEl.textContent = `${allFixedRows.length}개 항목`;
+    if (fixedCountEl) fixedCountEl.textContent = `${allFixedRows.length}개 항목`;
 
-  if (fixedListEl && allFixedRows.length) {
-    allFixedRows.forEach((x) => {
-      const item = document.createElement("div");
-      item.className = "fixed-item";
-      item.innerHTML = `
+    if (fixedListEl && allFixedRows.length) {
+        allFixedRows.forEach((x) => {
+            const item = document.createElement("div");
+            item.className = "fixed-item";
+            item.innerHTML = `
         <div class="left">• ${escapeHtml(x.type.label)} 구독료: 월 ${escapeHtml(formatWon(x.row.amount))}</div>
         <div class="right">${escapeHtml(String(x.row.months ?? "-"))}개월</div>
       `;
-      fixedListEl.appendChild(item);
-    });
-  }
+            fixedListEl.appendChild(item);
+        });
+    }
 }
 
 function summaryRow(k, v) {
-  const row = document.createElement("div");
-  row.className = "row";
-  const kk = document.createElement("div");
-  kk.className = "k";
-  kk.textContent = k;
-  const vv = document.createElement("div");
-  vv.className = "v";
-  vv.textContent = v;
-  row.appendChild(kk);
-  row.appendChild(vv);
-  return row;
+    const row = document.createElement("div");
+    row.className = "row";
+    const kk = document.createElement("div");
+    kk.className = "k";
+    kk.textContent = k;
+    const vv = document.createElement("div");
+    vv.className = "v";
+    vv.textContent = v;
+    row.appendChild(kk);
+    row.appendChild(vv);
+    return row;
 }
 
 function renderSelectionTable() {
-  const tbody = $("selection-rows");
-  tbody.innerHTML = "";
-  if (!state.selection) return;
+    const tbody = $("selection-rows");
+    tbody.innerHTML = "";
+    if (!state.selection) return;
 
-  for (const it of state.selection.items) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
+    for (const it of state.selection.items) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
       <td>${escapeHtml(it.label)}</td>
       <td>${it.monthly_amount != null ? formatWon(it.monthly_amount) : "-"}</td>
       <td>${it.months != null ? `${it.months}개월` : "-"}</td>
       <td>${it.selected ? "선택" : "미선택"}</td>
     `;
-    tbody.appendChild(tr);
-  }
+        tbody.appendChild(tr);
+    }
 }
 
 function getScoreBadgeLabel(payscore) {
-  if (payscore <= 40) return "새싹 납부러";
-  if (payscore <= 70) return "성실 납부러";
-  return "마스터 납부러★";
+    if (payscore <= 40) return "새싹 납부러";
+    if (payscore <= 70) return "성실 납부러";
+    return "마스터 납부러★";
 }
 
 /** Figma 우정인_PayScore 결과 Frame2: 산출 근거 키-값 행 + 고정비 상세 들여쓰기 */
 function buildScoreBasisListHtml() {
-  const payload = state.lastContractPayload;
-  if (!payload) return "";
-  const months = calcContractMonths(payload.startDate, payload.endDate);
-  const periodStr =
-    payload.startDate && payload.endDate && months != null
-      ? `${payload.startDate} ~ ${payload.endDate} (${months}개월)`
-      : "-";
-  const rentStr = formatWon(payload.rentAmount);
-  const mgmtStr =
-    payload.mgmtIncluded === true ? `포함 (${formatWon(payload.mgmtAmount)})` : "미포함";
+    const payload = state.lastContractPayload;
+    if (!payload) return "";
+    const months = calcContractMonths(payload.startDate, payload.endDate);
+    const periodStr =
+        payload.startDate && payload.endDate && months != null
+            ? `${payload.startDate} ~ ${payload.endDate} (${months}개월)`
+            : "-";
+    const rentStr = formatWon(payload.rentAmount);
+    const mgmtStr =
+        payload.mgmtIncluded === true ? `포함 (${formatWon(payload.mgmtAmount)})` : "미포함";
 
-  const parts = [
-    `<div class="score-basis-row"><span class="k">계약 기간</span><span class="v">${escapeHtml(periodStr)}</span></div>`,
-    `<div class="score-basis-row"><span class="k">월세 금액</span><span class="v">${escapeHtml(rentStr)}</span></div>`,
-    `<div class="score-basis-row"><span class="k">관리비</span><span class="v">${escapeHtml(mgmtStr)}</span></div>`,
-  ];
+    const parts = [
+        `<div class="score-basis-row"><span class="k">계약 기간</span><span class="v">${escapeHtml(periodStr)}</span></div>`,
+        `<div class="score-basis-row"><span class="k">월세 금액</span><span class="v">${escapeHtml(rentStr)}</span></div>`,
+        `<div class="score-basis-row"><span class="k">관리비</span><span class="v">${escapeHtml(mgmtStr)}</span></div>`,
+    ];
 
-  const fixedRows = [];
-  for (const t of FIXED_TYPES) {
-    const it = payload.fixed?.[t.key];
-    if (!it?.selected) continue;
-    const rows = Array.isArray(it.rows) ? it.rows : [];
-    rows.forEach((r) => {
-      fixedRows.push({
-        label: t.label,
-        amount: r.amount,
-        months: r.months,
-      });
-    });
-  }
-  if (fixedRows.length) {
-    parts.push(`<div class="score-basis-row"><span class="k">선택한 고정비</span><span class="v">${fixedRows.length}개 항목</span></div>`);
-    fixedRows.forEach((x) => {
-      const amt = Number.isInteger(x.amount) ? formatWon(x.amount) : "-";
-      const mon = x.months != null ? `${x.months}개월` : "-";
-      parts.push(`<div class="score-basis-row score-basis-sub"><span class="label">${escapeHtml(x.label)} 구독료: 월 ${escapeHtml(amt)}</span><span class="v">${escapeHtml(mon)}</span></div>`);
-    });
-  }
+    const fixedRows = [];
+    for (const t of FIXED_TYPES) {
+        const it = payload.fixed?.[t.key];
+        if (!it?.selected) continue;
+        const rows = Array.isArray(it.rows) ? it.rows : [];
+        rows.forEach((r) => {
+            fixedRows.push({
+                label: t.label,
+                amount: r.amount,
+                months: r.months,
+            });
+        });
+    }
+    if (fixedRows.length) {
+        parts.push(`<div class="score-basis-row"><span class="k">선택한 고정비</span><span class="v">${fixedRows.length}개 항목</span></div>`);
+        fixedRows.forEach((x) => {
+            const amt = Number.isInteger(x.amount) ? formatWon(x.amount) : "-";
+            const mon = x.months != null ? `${x.months}개월` : "-";
+            parts.push(`<div class="score-basis-row score-basis-sub"><span class="label">${escapeHtml(x.label)} 구독료: 월 ${escapeHtml(amt)}</span><span class="v">${escapeHtml(mon)}</span></div>`);
+        });
+    }
 
-  return parts.join("");
+    return parts.join("");
 }
 
 function renderScoreState(status) {
-  state.score.status = status;
-  const entryBlock = $("score-entry-block");
-  const resultBlock = $("score-result-block");
-  const successContent = $("score-success-content");
-  const failContent = $("score-fail-content");
-  const actionsEl = $("score-actions");
+    state.score.status = status;
+    const entryBlock = $("score-entry-block");
+    const resultBlock = $("score-result-block");
+    const successContent = $("score-success-content");
+    const failContent = $("score-fail-content");
+    const actionsEl = $("score-actions");
 
-  if (actionsEl) actionsEl.innerHTML = "";
+    if (actionsEl) actionsEl.innerHTML = "";
 
-  if (status === "IDLE" || status === "LOADING") {
-    if (entryBlock) entryBlock.classList.remove("hidden");
-    if (resultBlock) resultBlock.classList.add("hidden");
-    return;
-  }
-
-  if (entryBlock) entryBlock.classList.add("hidden");
-  if (resultBlock) resultBlock.classList.remove("hidden");
-
-  if (status === "SUCCESS") {
-    if (failContent) failContent.classList.add("hidden");
-    if (successContent) successContent.classList.remove("hidden");
-    const res = state.score.result;
-    const badgeEl = $("score-badge");
-    const numberEl = $("score-number");
-    const niceEl = $("score-credit-nice");
-    const kcbEl = $("score-credit-kcb");
-    const basisEl = $("score-basis-list");
-
-    if (res.scorable !== true) {
-      if (badgeEl) badgeEl.textContent = "산출 불가";
-      if (numberEl) numberEl.textContent = "-";
-      if (niceEl) niceEl.textContent = "-";
-      if (kcbEl) kcbEl.textContent = "-";
-      if (basisEl) basisEl.innerHTML = "";
-      return;
+    if (status === "IDLE" || status === "LOADING") {
+        if (entryBlock) entryBlock.classList.remove("hidden");
+        if (resultBlock) resultBlock.classList.add("hidden");
+        return;
     }
 
-    const cr = res.credit_score_increase;
-    const niceText = cr && Number.isInteger(cr.min) && Number.isInteger(cr.max) ? `+${cr.min}~${cr.max}점 예상` : "-";
-    const kcbText = niceText;
+    if (entryBlock) entryBlock.classList.add("hidden");
+    if (resultBlock) resultBlock.classList.remove("hidden");
 
-    if (badgeEl) badgeEl.textContent = getScoreBadgeLabel(res.payscore);
-    if (numberEl) numberEl.textContent = String(res.payscore);
-    if (niceEl) niceEl.textContent = niceText;
-    if (kcbEl) kcbEl.textContent = kcbText;
+    if (status === "SUCCESS") {
+        if (failContent) failContent.classList.add("hidden");
+        if (successContent) successContent.classList.remove("hidden");
+        const res = state.score.result;
+        const badgeEl = $("score-badge");
+        const numberEl = $("score-number");
+        const niceEl = $("score-credit-nice");
+        const kcbEl = $("score-credit-kcb");
+        const basisEl = $("score-basis-list");
 
-    if (basisEl) basisEl.innerHTML = buildScoreBasisListHtml();
-    return;
-  }
+        if (res.scorable !== true) {
+            if (badgeEl) badgeEl.textContent = "산출 불가";
+            if (numberEl) numberEl.textContent = "-";
+            if (niceEl) niceEl.textContent = "-";
+            if (kcbEl) kcbEl.textContent = "-";
+            if (basisEl) basisEl.innerHTML = "";
+            return;
+        }
 
-  // FAIL
-  if (successContent) successContent.classList.add("hidden");
-  if (failContent) failContent.classList.remove("hidden");
-  const retryBtn = document.createElement("button");
-  retryBtn.type = "button";
-  retryBtn.className = "btn btn-primary";
-  retryBtn.textContent = "재시도";
-  retryBtn.addEventListener("click", () => $("btn-score").click());
-  if (actionsEl) actionsEl.appendChild(retryBtn);
+        const cr = res.credit_score_increase;
+        const niceText = cr && Number.isInteger(cr.min) && Number.isInteger(cr.max) ? `+${cr.min}~${cr.max}점 예상` : "-";
+        const kcbText = niceText;
+
+        if (badgeEl) badgeEl.textContent = getScoreBadgeLabel(res.payscore);
+        if (numberEl) numberEl.textContent = String(res.payscore);
+        if (niceEl) niceEl.textContent = niceText;
+        if (kcbEl) kcbEl.textContent = kcbText;
+
+        if (basisEl) basisEl.innerHTML = buildScoreBasisListHtml();
+        return;
+    }
+
+    // FAIL
+    if (successContent) successContent.classList.add("hidden");
+    if (failContent) failContent.classList.remove("hidden");
+    const retryBtn = document.createElement("button");
+    retryBtn.type = "button";
+    retryBtn.className = "btn btn-primary";
+    retryBtn.textContent = "재시도";
+    retryBtn.addEventListener("click", () => $("btn-score").click());
+    if (actionsEl) actionsEl.appendChild(retryBtn);
 }
 
 function setReportButtonEnabled(enabled) {
-  $("btn-report").disabled = !enabled;
+    $("btn-report").disabled = !enabled;
 }
 
 function clearContactErrors() {
-  $("err-contactName").textContent = "";
-  $("err-contactEmail").textContent = "";
+    $("err-contactName").textContent = "";
+    $("err-contactEmail").textContent = "";
 }
 
 function showContactErrors(errors) {
-  if (errors.contactName) $("err-contactName").textContent = errors.contactName;
-  if (errors.contactEmail) $("err-contactEmail").textContent = errors.contactEmail;
+    if (errors.contactName) $("err-contactName").textContent = errors.contactName;
+    if (errors.contactEmail) $("err-contactEmail").textContent = errors.contactEmail;
 }
 
 // -----------------------
@@ -1388,197 +1569,197 @@ function showContactErrors(errors) {
 // -----------------------
 
 async function simulateContractSubmit(payload) {
-  // 최소 전송: 사용자 입력값만 사용(원문 금융 데이터 없음)
-  await sleep(650);
+    // 최소 전송: 사용자 입력값만 사용(원문 금융 데이터 없음)
+    await sleep(650);
 
-  const months = calcContractMonths(payload.startDate, payload.endDate);
+    const months = calcContractMonths(payload.startDate, payload.endDate);
 
-  const reasonCodes = [];
-  const { min, max } = RULES.matchRuleRange;
-  if (Number.isInteger(payload.rentAmount) && (payload.rentAmount < min || payload.rentAmount > max)) {
-    reasonCodes.push("RENT_OUT_OF_RANGE");
-  }
-  if (payload.mgmtIncluded === true && Number.isInteger(payload.mgmtAmount) && payload.mgmtAmount > 2_000_000) {
-    reasonCodes.push("MGMT_OUT_OF_RANGE");
-  }
-  // 판정 원칙: 필수 조건 하나라도 미충족 => NEEDS_REVIEW
-  const status = reasonCodes.length ? "NEEDS_REVIEW" : "MATCHED";
+    const reasonCodes = [];
+    const { min, max } = RULES.matchRuleRange;
+    if (Number.isInteger(payload.rentAmount) && (payload.rentAmount < min || payload.rentAmount > max)) {
+        reasonCodes.push("RENT_OUT_OF_RANGE");
+    }
+    if (payload.mgmtIncluded === true && Number.isInteger(payload.mgmtAmount) && payload.mgmtAmount > 2_000_000) {
+        reasonCodes.push("MGMT_OUT_OF_RANGE");
+    }
+    // 판정 원칙: 필수 조건 하나라도 미충족 => NEEDS_REVIEW
+    const status = reasonCodes.length ? "NEEDS_REVIEW" : "MATCHED";
 
-  // server selection object (렌더 기준)
-  const selection = buildServerSelection(payload, months);
-  const selectionId = cryptoRandomId("sel");
+    // server selection object (렌더 기준)
+    const selection = buildServerSelection(payload, months);
+    const selectionId = cryptoRandomId("sel");
 
-  return {
-    status,
-    reasonCodes,
-    rule_version: RULES.ruleVersionMatch,
-    selection,
-    selection_id: selectionId,
-  };
+    return {
+        status,
+        reasonCodes,
+        rule_version: RULES.ruleVersionMatch,
+        selection,
+        selection_id: selectionId,
+    };
 }
 
 function buildServerSelection(payload, contractMonths) {
-  const items = [];
-  items.push({
-    key: "RENT",
-    label: "월세",
-    monthly_amount: payload.rentAmount ?? null,
-    months: contractMonths ?? null,
-    selected: true,
-  });
+    const items = [];
+    items.push({
+        key: "RENT",
+        label: "월세",
+        monthly_amount: payload.rentAmount ?? null,
+        months: contractMonths ?? null,
+        selected: true,
+    });
 
-  for (const t of FIXED_TYPES) {
-    const it = payload.fixed[t.key];
-    if (it?.selected === true) {
-      const rows = Array.isArray(it.rows) ? it.rows : [];
-      rows.forEach((r, idx) => {
-        items.push({
-          key: `${t.key}:${idx + 1}`,
-          label: `${t.label} ${idx + 1}`,
-          monthly_amount: r.amount ?? null,
-          months: r.months ?? null,
-          selected: true,
-        });
-      });
-    } else {
-      items.push({
-        key: t.key,
-        label: t.label,
-        monthly_amount: null,
-        months: null,
-        selected: false,
-      });
+    for (const t of FIXED_TYPES) {
+        const it = payload.fixed[t.key];
+        if (it?.selected === true) {
+            const rows = Array.isArray(it.rows) ? it.rows : [];
+            rows.forEach((r, idx) => {
+                items.push({
+                    key: `${t.key}:${idx + 1}`,
+                    label: `${t.label} ${idx + 1}`,
+                    monthly_amount: r.amount ?? null,
+                    months: r.months ?? null,
+                    selected: true,
+                });
+            });
+        } else {
+            items.push({
+                key: t.key,
+                label: t.label,
+                monthly_amount: null,
+                months: null,
+                selected: false,
+            });
+        }
     }
-  }
 
-  return { items };
+    return { items };
 }
 
 async function simulateScoreRangeApi(body) {
-  // 요청 바디 스키마 누락 시 400 (로컬 모사)
-  if (!body || !body.selection_id || !body.session_id) {
-    const err = new Error("Bad Request");
-    err.status = 400;
-    throw err;
-  }
+    // 요청 바디 스키마 누락 시 400 (로컬 모사)
+    if (!body || !body.selection_id || !body.session_id) {
+        const err = new Error("Bad Request");
+        err.status = 400;
+        throw err;
+    }
 
-  await sleep(800);
+    await sleep(800);
 
-  // 산출 불가 조건 판정
-  const sel = state.selection;
-  if (!sel || !Array.isArray(sel.items)) {
+    // 산출 불가 조건 판정
+    const sel = state.selection;
+    if (!sel || !Array.isArray(sel.items)) {
+        return {
+            scorable: false,
+            reason_code: "INVALID_AMOUNT",
+            rule_version: RULES.ruleVersionScore,
+        };
+    }
+
+    const rent = sel.items.find((x) => x.key === "RENT");
+    if (!rent?.monthly_amount || rent.monthly_amount < 1) {
+        return {
+            scorable: false,
+            reason_code: "NO_RENT_ITEM",
+            rule_version: RULES.ruleVersionScore,
+        };
+    }
+    if (!rent.months || rent.months < 1) {
+        return {
+            scorable: false,
+            reason_code: "INSUFFICIENT_MONTHS",
+            rule_version: RULES.ruleVersionScore,
+        };
+    }
+
+    const computed = computePayScore(sel.items);
+    if (!computed) {
+        return {
+            scorable: false,
+            reason_code: "INVALID_AMOUNT",
+            rule_version: RULES.ruleVersionScore,
+        };
+    }
+
     return {
-      scorable: false,
-      reason_code: "INVALID_AMOUNT",
-      rule_version: RULES.ruleVersionScore,
+        scorable: true,
+        payscore: computed.payscore,
+        credit_score_increase: computed.credit_score_increase,
+        rule_version: RULES.ruleVersionScore,
     };
-  }
-
-  const rent = sel.items.find((x) => x.key === "RENT");
-  if (!rent?.monthly_amount || rent.monthly_amount < 1) {
-    return {
-      scorable: false,
-      reason_code: "NO_RENT_ITEM",
-      rule_version: RULES.ruleVersionScore,
-    };
-  }
-  if (!rent.months || rent.months < 1) {
-    return {
-      scorable: false,
-      reason_code: "INSUFFICIENT_MONTHS",
-      rule_version: RULES.ruleVersionScore,
-    };
-  }
-
-  const computed = computePayScore(sel.items);
-  if (!computed) {
-    return {
-      scorable: false,
-      reason_code: "INVALID_AMOUNT",
-      rule_version: RULES.ruleVersionScore,
-    };
-  }
-
-  return {
-    scorable: true,
-    payscore: computed.payscore,
-    credit_score_increase: computed.credit_score_increase,
-    rule_version: RULES.ruleVersionScore,
-  };
 }
 
 async function simulateReportGeneration() {
-  // 실제 서버 API 호출
-  const scoreRes = state.score.result;
-  const credit = scoreRes?.credit_score_increase || { min: 0, max: 0 };
+    // 실제 서버 API 호출
+    const scoreRes = state.score.result;
+    const credit = scoreRes?.credit_score_increase || { min: 0, max: 0 };
 
-  // UI 진행률 바 효과를 위해 최소 2초 정도는 기다렸다가 요청
-  await sleep(2000);
+    // UI 진행률 바 효과를 위해 최소 2초 정도는 기다렸다가 요청
+    await sleep(2000);
 
-  // 개인정보 + 점수 정보 전송
-  const payload = {
-    email: state.report.email,
-    name: $("contactName").value,
-    payscore: scoreRes?.payscore || 0,
-    credit_min: credit.min,
-    credit_max: credit.max
-  };
+    // 개인정보 + 점수 정보 전송
+    const payload = {
+        email: state.report.email,
+        name: $("contactName").value,
+        payscore: scoreRes?.payscore || 0,
+        credit_min: credit.min,
+        credit_max: credit.max
+    };
 
-  try {
-    const response = await fetch('/api/report', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
+    try {
+        const response = await fetch('/api/report', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
 
-    if (!response.ok) {
-      const errBody = await response.json();
-      const error = new Error(errBody.error || "Server Error");
-      error.reason_code = errBody.reason_code || "SERVER_FAIL";
-      throw error;
+        if (!response.ok) {
+            const errBody = await response.json();
+            const error = new Error(errBody.error || "Server Error");
+            error.reason_code = errBody.reason_code || "SERVER_FAIL";
+            throw error;
+        }
+
+        return await response.json();
+    } catch (e) {
+        console.error("Report generation failed:", e);
+        throw e;
     }
-
-    return await response.json();
-  } catch (e) {
-    console.error("Report generation failed:", e);
-    throw e;
-  }
 }
 
 function computePayScore(items) {
-  // 기간(50%), 규모(30%), 항목 다양성(20%)
-  const selected = items.filter((x) => x.selected === true);
-  if (!selected.length) return null;
+    // 기간(50%), 규모(30%), 항목 다양성(20%)
+    const selected = items.filter((x) => x.selected === true);
+    if (!selected.length) return null;
 
-  let maxMonths = 0;
-  let totalMonthly = 0;
-  const categories = new Set();
+    let maxMonths = 0;
+    let totalMonthly = 0;
+    const categories = new Set();
 
-  for (const it of selected) {
-    if (!Number.isInteger(it.monthly_amount) || it.monthly_amount < 1) return null;
-    if (!Number.isInteger(it.months) || it.months < 1) return null;
-    totalMonthly += it.monthly_amount;
-    maxMonths = Math.max(maxMonths, it.months);
-    const baseKey = String(it.key).split(":")[0];
-    categories.add(baseKey);
-  }
+    for (const it of selected) {
+        if (!Number.isInteger(it.monthly_amount) || it.monthly_amount < 1) return null;
+        if (!Number.isInteger(it.months) || it.months < 1) return null;
+        totalMonthly += it.monthly_amount;
+        maxMonths = Math.max(maxMonths, it.months);
+        const baseKey = String(it.key).split(":")[0];
+        categories.add(baseKey);
+    }
 
-  const durationPart = Math.round(clamp(maxMonths / 36, 0, 1) * 50);
-  const scalePart = Math.round(clamp(totalMonthly / 5_000_000, 0, 1) * 30);
-  const diversityPart = Math.round(clamp(categories.size / 4, 0, 1) * 20); // RENT + 3 고정비 기준
+    const durationPart = Math.round(clamp(maxMonths / 36, 0, 1) * 50);
+    const scalePart = Math.round(clamp(totalMonthly / 5_000_000, 0, 1) * 30);
+    const diversityPart = Math.round(clamp(categories.size / 4, 0, 1) * 20); // RENT + 3 고정비 기준
 
-  const payscore = clampInt(durationPart + scalePart + diversityPart, 0, 100);
-  const credit = mapCreditIncrease(payscore);
+    const payscore = clampInt(durationPart + scalePart + diversityPart, 0, 100);
+    const credit = mapCreditIncrease(payscore);
 
-  return { payscore, credit_score_increase: credit };
+    return { payscore, credit_score_increase: credit };
 }
 
 function mapCreditIncrease(payscore) {
-  if (payscore <= 40) return { min: 3, max: 7 };
-  if (payscore <= 70) return { min: 10, max: 20 };
-  return { min: 25, max: 35 };
+    if (payscore <= 40) return { min: 3, max: 7 };
+    if (payscore <= 70) return { min: 10, max: 20 };
+    return { min: 25, max: 35 };
 }
 
 // -----------------------
@@ -1586,255 +1767,255 @@ function mapCreditIncrease(payscore) {
 // -----------------------
 
 function parseUtmParams() {
-  const p = new URLSearchParams(location.search);
-  const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
-  const out = {};
-  for (const k of keys) {
-    const v = p.get(k);
-    if (v) out[k] = v;
-  }
-  return out;
+    const p = new URLSearchParams(location.search);
+    const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+    const out = {};
+    for (const k of keys) {
+        const v = p.get(k);
+        if (v) out[k] = v;
+    }
+    return out;
 }
 
 function cryptoRandomId(prefix) {
-  const rand = Math.random().toString(16).slice(2, 10);
-  const t = Date.now().toString(16).slice(-6);
-  return `${prefix}_${t}_${rand}`;
+    const rand = Math.random().toString(16).slice(2, 10);
+    const t = Date.now().toString(16).slice(-6);
+    return `${prefix}_${t}_${rand}`;
 }
 
 function digitsOnly(s) {
-  return (s || "").replace(/[^\d]/g, "");
+    return (s || "").replace(/[^\d]/g, "");
 }
 
 function parseIntSafe(s) {
-  const v = digitsOnly(String(s ?? ""));
-  if (!v) return null;
-  const n = Number.parseInt(v, 10);
-  return Number.isFinite(n) ? n : null;
+    const v = digitsOnly(String(s ?? ""));
+    if (!v) return null;
+    const n = Number.parseInt(v, 10);
+    return Number.isFinite(n) ? n : null;
 }
 
 function getMgmtIncluded() {
-  const el = document.querySelector('input[name="mgmtIncluded"]:checked');
-  if (!el) return null;
-  return el.value === "true";
+    const el = document.querySelector('input[name="mgmtIncluded"]:checked');
+    if (!el) return null;
+    return el.value === "true";
 }
 
 function calcContractMonths(startStr, endStr) {
-  // YYYY-MM-DD 기준. end > start는 validator에서 강제.
-  // 가장 단순한 월수 산정: 월 차이 + (일 차이가 남으면 1개월 올림)
-  const s = parseDate(startStr);
-  const e = parseDate(endStr);
-  if (!s || !e) return null;
-  if (e.getTime() <= s.getTime()) return null;
+    // YYYY-MM-DD 기준. end > start는 validator에서 강제.
+    // 가장 단순한 월수 산정: 월 차이 + (일 차이가 남으면 1개월 올림)
+    const s = parseDate(startStr);
+    const e = parseDate(endStr);
+    if (!s || !e) return null;
+    if (e.getTime() <= s.getTime()) return null;
 
-  const monthDiff = (e.getFullYear() - s.getFullYear()) * 12 + (e.getMonth() - s.getMonth());
-  const needsCeil = e.getDate() > s.getDate();
-  const months = monthDiff + (needsCeil ? 1 : 0);
-  return Math.max(1, months);
+    const monthDiff = (e.getFullYear() - s.getFullYear()) * 12 + (e.getMonth() - s.getMonth());
+    const needsCeil = e.getDate() > s.getDate();
+    const months = monthDiff + (needsCeil ? 1 : 0);
+    return Math.max(1, months);
 }
 
 function parseDate(yyyyMMdd) {
-  if (!yyyyMMdd) return null;
-  const [y, m, d] = yyyyMMdd.split("-").map((x) => Number.parseInt(x, 10));
-  if (!y || !m || !d) return null;
-  const dt = new Date(Date.UTC(y, m - 1, d));
-  if (Number.isNaN(dt.getTime())) return null;
-  return dt;
+    if (!yyyyMMdd) return null;
+    const [y, m, d] = yyyyMMdd.split("-").map((x) => Number.parseInt(x, 10));
+    if (!y || !m || !d) return null;
+    const dt = new Date(Date.UTC(y, m - 1, d));
+    if (Number.isNaN(dt.getTime())) return null;
+    return dt;
 }
 
 function formatWon(n) {
-  if (!Number.isInteger(n)) return "-";
-  return `${n.toLocaleString("ko-KR")}원`;
+    if (!Number.isInteger(n)) return "-";
+    return `${n.toLocaleString("ko-KR")}원`;
 }
 
 function formatRangeText(range) {
-  if (!range) return "산출 불가";
-  const { min, max } = range;
-  if (!Number.isInteger(min) || !Number.isInteger(max)) return "산출 불가";
-  return `NICE +${min}~${max}점 예상 / KCB +${min}~${max}점 예상`;
+    if (!range) return "산출 불가";
+    const { min, max } = range;
+    if (!Number.isInteger(min) || !Number.isInteger(max)) return "산출 불가";
+    return `NICE +${min}~${max}점 예상 / KCB +${min}~${max}점 예상`;
 }
 
 function maskEmail(email) {
-  const at = email.indexOf("@");
-  if (at <= 0) return email;
-  const local = email.slice(0, at);
-  const domain = email.slice(at + 1);
-  const head = local.slice(0, Math.min(2, local.length));
-  return `${head}${"*".repeat(Math.max(1, local.length - head.length))}@${domain}`;
+    const at = email.indexOf("@");
+    if (at <= 0) return email;
+    const local = email.slice(0, at);
+    const domain = email.slice(at + 1);
+    const head = local.slice(0, Math.min(2, local.length));
+    return `${head}${"*".repeat(Math.max(1, local.length - head.length))}@${domain}`;
 }
 
 function isValidEmail(email) {
-  // 단순 형식 검증 (P0)
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // 단순 형식 검증 (P0)
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function clamp(x, a, b) {
-  return Math.max(a, Math.min(b, x));
+    return Math.max(a, Math.min(b, x));
 }
 
 function clampInt(x, a, b) {
-  return Math.max(a, Math.min(b, Math.round(x)));
+    return Math.max(a, Math.min(b, Math.round(x)));
 }
 
 function sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
+    return new Promise((r) => setTimeout(r, ms));
 }
 
 function withTimeout(promise, ms) {
-  let t = null;
-  const timeout = new Promise((_, rej) => {
-    t = setTimeout(() => {
-      const err = new Error("Timeout");
-      err.code = "TIMEOUT";
-      rej(err);
-    }, ms);
-  });
-  return Promise.race([promise.finally(() => clearTimeout(t)), timeout]);
+    let t = null;
+    const timeout = new Promise((_, rej) => {
+        t = setTimeout(() => {
+            const err = new Error("Timeout");
+            err.code = "TIMEOUT";
+            rej(err);
+        }, ms);
+    });
+    return Promise.race([promise.finally(() => clearTimeout(t)), timeout]);
 }
 
 function escapeHtml(s) {
-  return String(s)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 /* ----------------------------------------------------------------
    PDF 생성 로직
    ---------------------------------------------------------------- */
 
 const SCORE_RANK_COMMENTS = {
-  master: {
-    duration: "장기적인 납부 이력이 귀하의 성실함을 증명합니다.",
-    amount: "규모 있는 지출 관리가 매우 안정적입니다.",
-    diversity: "다양한 고정비 항목이 체계적으로 관리되고 있습니다.",
-    summaryDesc: "귀하는 완벽한 납부 습관을 가진 '마스터 납부러'입니다.",
-  },
-  sincere: {
-    duration: "꾸준한 납부 이력이 신용에 긍정적인 영향을 미칩니다.",
-    amount: "적정 수준의 지출을 잘 관리하고 계십니다.",
-    diversity: "항목별 관리가 원활하게 이루어지고 있습니다.",
-    summaryDesc: "성실하게 미래를 준비하는 '성실 납부러'입니다.",
-  },
-  sprout: {
-    duration: "이제 막 납부 이력을 쌓기 시작한 단계입니다.",
-    amount: "작은 실천부터 시작하여 점진적으로 확대 중입니다.",
-    diversity: "관리가 필요한 항목들을 하나씩 늘려가고 있습니다.",
-    summaryDesc: "성실한 금융 생활을 시작하는 '새싹 납부러'입니다.",
-  },
+    master: {
+        duration: "장기적인 납부 이력이 귀하의 성실함을 증명합니다.",
+        amount: "규모 있는 지출 관리가 매우 안정적입니다.",
+        diversity: "다양한 고정비 항목이 체계적으로 관리되고 있습니다.",
+        summaryDesc: "귀하는 완벽한 납부 습관을 가진 '마스터 납부러'입니다.",
+    },
+    sincere: {
+        duration: "꾸준한 납부 이력이 신용에 긍정적인 영향을 미칩니다.",
+        amount: "적정 수준의 지출을 잘 관리하고 계십니다.",
+        diversity: "항목별 관리가 원활하게 이루어지고 있습니다.",
+        summaryDesc: "성실하게 미래를 준비하는 '성실 납부러'입니다.",
+    },
+    sprout: {
+        duration: "이제 막 납부 이력을 쌓기 시작한 단계입니다.",
+        amount: "작은 실천부터 시작하여 점진적으로 확대 중입니다.",
+        diversity: "관리가 필요한 항목들을 하나씩 늘려가고 있습니다.",
+        summaryDesc: "성실한 금융 생활을 시작하는 '새싹 납부러'입니다.",
+    },
 };
 
 // PDF 미리보기 iframe 업데이트 함수
 function updatePdfPreviewIframe() {
-  const iframe = $('pdf-preview-iframe');
-  if (!iframe) return;
+    const iframe = $('pdf-preview-iframe');
+    if (!iframe) return;
 
-  const payload = state.lastContractPayload;
-  const res = state.score?.result;
-  if (!payload || !res || !res.scorable) return;
+    const payload = state.lastContractPayload;
+    const res = state.score?.result;
+    if (!payload || !res || !res.scorable) return;
 
-  // handlePdfDownload와 동일한 데이터 구조로 저장
-  const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
-  const rankLabel = getScoreBadgeLabel(res.payscore);
-  const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
-
-  // state에 저장된 리포트 ID와 날짜 사용 (없으면 새로 생성 - fallback)
-  const reportId = state.score.reportId || cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
-  const today = state.score.reportDate || new Date().toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-  const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
-  const creditImpact = res.credit_score_increase ? `+${res.credit_score_increase.max}점 (참고치)` : "+0점 (참고치)";
-
-  const pdfData = {
-    payscore: res.payscore,
-    badge: rankLabel,
-    rankKey: rankKey,
-    reportId: reportId,
-    today: today,
-    summary: { months: months, fixedCount: fixedCount },
-    creditImpact: creditImpact,
-    payload: payload,
-    result: res
-  };
-
-  localStorage.setItem('paytracePdfData', JSON.stringify(pdfData));
-
-  // iframe reload to trigger data update
-  iframe.src = iframe.src;
-
-  console.log('✅ PDF iframe 데이터 업데이트 완료');
-}
-
-async function handlePdfDownload() {
-  const payload = state.lastContractPayload;
-  const res = state.score?.result;
-
-  if (!payload || !res || !res.scorable) {
-    showToast("데이터가 부족하거나 산출이 불가능하여 PDF를 생성할 수 없습니다.");
-    return;
-  }
-
-  logEvent("pdf_download_click", {
-    session_id: state.sessionId,
-    timestamp: new Date().toISOString()
-  });
-
-  try {
+    // handlePdfDownload와 동일한 데이터 구조로 저장
     const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
     const rankLabel = getScoreBadgeLabel(res.payscore);
     const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
 
-    // state에 저장된 리포트 ID와 날짜 사용
+    // state에 저장된 리포트 ID와 날짜 사용 (없으면 새로 생성 - fallback)
     const reportId = state.score.reportId || cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
     const today = state.score.reportDate || new Date().toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
+        year: "numeric",
+        month: "long",
+        day: "numeric"
     });
     const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
     const creditImpact = res.credit_score_increase ? `+${res.credit_score_increase.max}점 (참고치)` : "+0점 (참고치)";
 
-    // PDF 데이터를 localStorage에 저장
     const pdfData = {
-      payscore: res.payscore,
-      badge: rankLabel,
-      rankKey: rankKey,
-      reportId: reportId,
-      today: today,
-      summary: {
-        months: months,
-        fixedCount: fixedCount
-      },
-      creditImpact: creditImpact,
-      payload: payload,
-      result: res
+        payscore: res.payscore,
+        badge: rankLabel,
+        rankKey: rankKey,
+        reportId: reportId,
+        today: today,
+        summary: { months: months, fixedCount: fixedCount },
+        creditImpact: creditImpact,
+        payload: payload,
+        result: res
     };
 
     localStorage.setItem('paytracePdfData', JSON.stringify(pdfData));
-    console.log('PDF data saved to localStorage');
 
-    // PDF html 새 창에서 열기
-    const printWin = window.open("./pdf.html", "_blank");
-    if (!printWin) {
-      showToast("팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.");
-      localStorage.removeItem('paytracePdfData');
-      return;
+    // iframe reload to trigger data update
+    iframe.src = iframe.src;
+
+    console.log('✅ PDF iframe 데이터 업데이트 완료');
+}
+
+async function handlePdfDownload() {
+    const payload = state.lastContractPayload;
+    const res = state.score?.result;
+
+    if (!payload || !res || !res.scorable) {
+        showToast("데이터가 부족하거나 산출이 불가능하여 PDF를 생성할 수 없습니다.");
+        return;
     }
 
-    // 윈도우가 로드되면 print 다이얼로그 표시
-    printWin.onload = function () {
-      setTimeout(() => {
-        printWin.print();
-      }, 1000);
-    };
+    logEvent("pdf_download_click", {
+        session_id: state.sessionId,
+        timestamp: new Date().toISOString()
+    });
 
-  } catch (err) {
-    console.error("PDF 생성 오류:", err);
-    showToast("PDF 생성 중 오류가 발생했습니다.");
-    localStorage.removeItem('paytracePdfData');
-  }
+    try {
+        const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
+        const rankLabel = getScoreBadgeLabel(res.payscore);
+        const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
+
+        // state에 저장된 리포트 ID와 날짜 사용
+        const reportId = state.score.reportId || cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+        const today = state.score.reportDate || new Date().toLocaleDateString("ko-KR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+        const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
+        const creditImpact = res.credit_score_increase ? `+${res.credit_score_increase.max}점 (참고치)` : "+0점 (참고치)";
+
+        // PDF 데이터를 localStorage에 저장
+        const pdfData = {
+            payscore: res.payscore,
+            badge: rankLabel,
+            rankKey: rankKey,
+            reportId: reportId,
+            today: today,
+            summary: {
+                months: months,
+                fixedCount: fixedCount
+            },
+            creditImpact: creditImpact,
+            payload: payload,
+            result: res
+        };
+
+        localStorage.setItem('paytracePdfData', JSON.stringify(pdfData));
+        console.log('PDF data saved to localStorage');
+
+        // PDF html 새 창에서 열기
+        const printWin = window.open("./pdf.html", "_blank");
+        if (!printWin) {
+            showToast("팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.");
+            localStorage.removeItem('paytracePdfData');
+            return;
+        }
+
+        // 윈도우가 로드되면 print 다이얼로그 표시
+        printWin.onload = function () {
+            setTimeout(() => {
+                printWin.print();
+            }, 1000);
+        };
+
+    } catch (err) {
+        console.error("PDF 생성 오류:", err);
+        showToast("PDF 생성 중 오류가 발생했습니다.");
+        localStorage.removeItem('paytracePdfData');
+    }
 }
