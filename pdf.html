@@ -914,73 +914,7 @@
     </div>
   </main>
 
-  <script>
-    // localStorage에서 PDF 데이터 로드
-    (function () {
-      try {
-        const pdfDataStr = localStorage.getItem('paytracePdfData');
-        if (!pdfDataStr) {
-          console.log('No PDF data found in localStorage');
-          return;
-        }
-
-        const data = JSON.parse(pdfDataStr);
-        console.log('PDF data loaded:', data);
-
-        // Helper function
-        function updateText(selector, value) {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach(el => el.textContent = value);
-        }
-
-        function formatWon(num) {
-          return new Intl.NumberFormat('ko-KR').format(num) + '원';
-        }
-
-        // Update all PayScore values
-        updateText('.score-big', data.payscore);
-
-        // Update all badges
-        updateText('.badge-rank', data.badge);
-
-        // Cover page meta
-        const metaDiv = document.querySelector('.cover .meta');
-        if (metaDiv) {
-          metaDiv.innerHTML = `
-            <div>생성일: ${data.today}</div>
-            <div>리포트 ID: ${data.reportId}</div>
-          `;
-        }
-
-        // Page 1: Summary description
-        const summaryP = document.querySelector('.page:nth-child(2) .p');
-        if (summaryP && data.summary) {
-          summaryP.innerHTML = `
-            귀하는 <span class="strong">${data.summary.months}개월간 월세 및 ${data.summary.fixedCount}개 고정비 항목</span>을 성실하게 납부한 이력을 보유하고 있습니다.
-            장기간에 걸친 일정한 지출 패턴은 재무 관리 능력의 긍정적 신호로 평가됩니다.
-          `;
-        }
-
-        // Page 1: Credit impact
-        const creditNote = document.querySelector('.center-note .plus');
-        if (creditNote && data.creditImpact) {
-          creditNote.textContent = data.creditImpact;
-        }
-
-        // Page 2: Contract table (keeping tbody approach for flexibility)
-        // We'll update this from handlePdfDownload with more detailed approach
-
-        // Page 5-6: Products - we'll inject from PRODUCT_DATA
-
-        console.log('✅ PDF data updated successfully');
-
-        //localStorage.removeItem('paytracePdfData'); // Clean up after load
-
-      } catch (err) {
-        console.error('Error loading PDF data:', err);
-      }
-    })();
-  </script>
+  <script src="./pdf_update.js"></script>
 </body>
 
 </html>

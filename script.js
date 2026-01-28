@@ -1717,43 +1717,41 @@ function updatePdfPreviewIframe() {
   const iframe = $('pdf-preview-iframe');
   if (!iframe) return;
 
-  // iframe이 로드된 후 데이터 주입
-  iframe.onload = function () {
-    try {
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-      const payload = state.lastContractPayload;
-      const res = state.score?.result;
+  const payload = state.lastContractPayload;
+  const res = state.score?.result;
+  if (!payload || !res || !res.scorable) return;
 
-      if (!payload || !res || !res.scorable) return;
+  // handlePdfDownload와 동일한 데이터 구조로 저장
+  const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
+  const rankLabel = getScoreBadgeLabel(res.payscore);
+  const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
+  const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+  const today = new Date().toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+  const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
+  const creditImpact = res.credit_score_increase ? `+${res.credit_score_increase.max}점 (참고치)` : "+0점 (참고치)";
 
-      const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
-      const rankLabel = getScoreBadgeLabel(res.payscore);
-      const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
-      const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
-      const today = new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
-
-      // 모든 PayScore 표시
-      const scoreElements = iframeDoc.querySelectorAll('.score-big');
-      scoreElements.forEach(el => el.textContent = res.payscore);
-
-      // 모든 배지
-      const badgeElements = iframeDoc.querySelectorAll('.badge-rank');
-      badgeElements.forEach(el => el.textContent = rankLabel);
-
-      // Cover 페이지 메타 정보
-      const metaDiv = iframeDoc.querySelector('.cover .meta');
-      if (metaDiv) {
-        metaDiv.innerHTML = `
-                    <div>생성일: ${today}</div>
-                    <div>리포트 ID: ${reportId}</div>
-                `;
-      }
-
-      console.log('✅ PDF iframe 데이터 업데이트 완료');
-    } catch (err) {
-      console.error('PDF iframe 업데이트 실패:', err);
-    }
+  const pdfData = {
+    payscore: res.payscore,
+    badge: rankLabel,
+    rankKey: rankKey,
+    reportId: reportId,
+    today: today,
+    summary: { months: months, fixedCount: fixedCount },
+    creditImpact: creditImpact,
+    payload: payload,
+    result: res
   };
+
+  localStorage.setItem('paytracePdfData', JSON.stringify(pdfData));
+
+  // iframe reload to trigger data update
+  iframe.src = iframe.src;
+
+  console.log('✅ PDF iframe 데이터 업데이트 완료');
 }
 
 async function handlePdfDownload() {
