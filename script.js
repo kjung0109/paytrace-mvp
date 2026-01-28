@@ -300,12 +300,15 @@ function bindMatch() {
     updateContractSubmitButton();
   });
 
-  $("btn-to-score").addEventListener("click", () => {
-    renderSelectionTable();
-    renderScoreState("IDLE");
-    setReportButtonEnabled(false);
-    setView("score");
-  });
+  const btnToScore = $("btn-to-score");
+  if (btnToScore) {
+    btnToScore.addEventListener("click", () => {
+      renderSelectionTable();
+      renderScoreState("IDLE");
+      setReportButtonEnabled(false);
+      setView("score");
+    });
+  }
 
   const editBtn = $("btn-edit-input");
   if (editBtn) {
