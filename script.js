@@ -1770,143 +1770,56 @@ async function handlePdfDownload() {
     timestamp: new Date().toISOString()
   });
 
-  const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
-  const rankLabel = getScoreBadgeLabel(res.payscore);
-  const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
-  const comments = SCORE_RANK_COMMENTS[rankKey];
-  const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
-  const today = new Date().toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-
   try {
-    const resp = await fetch("./pdf.html");
-    if (!resp.ok) throw new Error("PDF 템플릿 로드 실패");
-    let html = await resp.text();
+    const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
+    const rankLabel = getScoreBadgeLabel(res.payscore);
+    const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
+    const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+    const today = new Date().toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+    const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
+    const creditImpact = res.credit_score_increase ? `+${res.credit_score_increase.max}점 (참고치)` : "+0점 (참고치)";
 
-    const printWin = window.open("", "_blank");
+    // PDF 데이터를 localStorage에 저장
+    const pdfData = {
+      payscore: res.payscore,
+      badge: rankLabel,
+      rankKey: rankKey,
+      reportId: reportId,
+      today: today,
+      summary: {
+        months: months,
+        fixedCount: fixedCount
+      },
+      creditImpact: creditImpact,
+      payload: payload,
+      result: res
+    };
+
+    localStorage.setItem('paytracePdfData', JSON.stringify(pdfData));
+    console.log('PDF data saved to localStorage');
+
+    // PDF html 새 창에서 열기
+    const printWin = window.open("./pdf.html", "_blank");
     if (!printWin) {
       showToast("팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.");
+      localStorage.removeItem('paytracePdfData');
       return;
     }
 
-    printWin.document.write(html);
-    printWin.document.close();
-
-    const d = printWin.document;
-
-    const updateEl = (id, val) => {
-      const el = d.getElementById(id);
-      if (el) el.textContent = val;
+    // 윈도우가 로드되면 print 다이얼로그 표시
+    printWin.onload = function () {
+      setTimeout(() => {
+        printWin.print();
+      }, 1000);
     };
-
-    updateEl("pdf-report-id", reportId);
-    updateEl("pdf-report-date", today);
-
-    const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
-    updateEl("pdf-summary-desc", `${months}개월간 월세 및 ${fixedCount}개 고정비 항목`);
-    updateEl("pdf-score-big", res.payscore);
-    updateEl("pdf-score-badge", rankLabel);
-
-    const gain = res.credit_score_increase ? `+${res.credit_score_increase.max}점` : "+0점";
-    updateEl("pdf-score-increase", `${gain} (참고치)`);
-
-    updateEl("pdf-contract-period", `${payload.startDate} ~ ${payload.endDate} (${months}개월)`);
-    updateEl("pdf-rent-amount", formatWon(payload.rentAmount));
-    updateEl("pdf-mgmt-included", payload.mgmtIncluded ? "포함" : "미포함");
-    updateEl("pdf-mgmt-amount", payload.mgmtIncluded ? formatWon(payload.mgmtAmount) : "-");
-
-    const totalHousing = (payload.rentAmount || 0) + (payload.mgmtIncluded ? (payload.mgmtAmount || 0) : 0);
-    updateEl("pdf-total-housing-cost", formatWon(totalHousing));
-
-    const tbody = d.getElementById("pdf-fixed-table-body");
-    if (tbody) {
-      tbody.innerHTML = "";
-      let totalFixed = 0;
-      const rows = [{ label: "월세", amount: payload.rentAmount, months: months }];
-      if (payload.mgmtIncluded) {
-        rows.push({ label: "관리비", amount: payload.mgmtAmount, months: months });
-      }
-
-      FIXED_TYPES.forEach(t => {
-        const it = payload.fixed[t.key];
-        if (it?.selected) {
-          it.rows.forEach((r, idx) => {
-            const label = it.rows.length > 1 ? `${t.label} ${idx + 1}` : t.label;
-            rows.push({ label, amount: r.amount, months: r.months });
-          });
-        }
-      });
-
-      rows.forEach(r => {
-        const tr = d.createElement("tr");
-        const amt = r.amount || 0;
-        totalFixed += amt;
-        tr.innerHTML = `
-                    <td class="strong">${escapeHtml(r.label)}</td>
-                    <td class="num strong">${formatWon(amt)}</td>
-                    <td class="center strong">${r.months}개월</td>
-                `;
-        tbody.appendChild(tr);
-      });
-
-      updateEl("pdf-total-fixed-cost", formatWon(totalFixed));
-      updateEl("pdf-total-analysis-period", `${formatWon(totalFixed * months)} (분석 전 기간 합계)`);
-    }
-
-    updateEl("pdf-score-big-2", res.payscore);
-    updateEl("pdf-score-badge-2", rankLabel);
-
-    const itms = state.selection.items.filter(x => x.selected);
-    const cats = new Set(itms.map(x => String(x.key).split(":")[0]));
-    const maxMonths = Math.max(...itms.map(x => x.months || 0));
-    const totalMonthly = itms.reduce((acc, x) => acc + (x.monthly_amount || 0), 0);
-
-    const durP = Math.round(clamp(maxMonths / 36, 0, 1) * 50);
-    const scaP = Math.round(clamp(totalMonthly / 5_000_000, 0, 1) * 30);
-    const divP = Math.round(clamp(cats.size / 4, 0, 1) * 20);
-
-    updateEl("pdf-score-duration", durP);
-    updateEl("pdf-score-amount", scaP);
-    updateEl("pdf-score-diversity", divP);
-    updateEl("pdf-score-duration-label", `${maxMonths}개월간 지속적인 납부 이력`);
-    updateEl("pdf-score-amount-label", `월 평균 ${formatWon(totalMonthly)} 관리`);
-    updateEl("pdf-score-diversity-label", `${cats.size}개 고정비 항목 관리`);
-
-    updateEl("pdf-analysis-duration-desc", comments.duration);
-    updateEl("pdf-analysis-amount-desc", comments.amount);
-    updateEl("pdf-analysis-diversity-desc", comments.diversity);
-    updateEl("pdf-score-summary-val", res.payscore);
-    updateEl("pdf-score-summary-desc", comments.summaryDesc);
-
-    const plusVal = res.credit_score_increase ? res.credit_score_increase.max : 0;
-    for (let i = 1; i <= 3; i++) {
-      updateEl(`pdf-plus-val-${i}`, `+${plusVal}점`);
-      const base = (i === 1 ? 680 : (i === 2 ? 705 : 730));
-      updateEl(`pdf-final-val-${i}`, (base + plusVal) + "점");
-    }
-
-    updateEl("pdf-user-rank-name", rankLabel);
-    updateEl("pdf-user-rank-desc", months >= 24 ? "24개월 이상" : (months >= 12 ? "12개월 이상" : "신규"));
-    updateEl("pdf-recommend-user-rank", `🟢 PayScore ${res.payscore}점 · ${rankLabel}`);
-
-    const rankIdx = res.payscore >= 71 ? 3 : (res.payscore >= 41 ? 2 : 1);
-    for (let i = 1; i <= 3; i++) {
-      const row = d.getElementById(`pdf-rank-row-${i}`);
-      if (row && i === rankIdx) {
-        row.style.backgroundColor = "#e7f5ff";
-        row.style.fontWeight = "700";
-      }
-    }
-
-    setTimeout(() => {
-      printWin.print();
-    }, 500);
 
   } catch (err) {
     console.error("PDF 생성 오류:", err);
     showToast("PDF 생성 중 오류가 발생했습니다.");
+    localStorage.removeItem('paytracePdfData');
   }
 }

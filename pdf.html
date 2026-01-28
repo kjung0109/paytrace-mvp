@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ko-KR">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,10 +9,11 @@
   <!-- Noto Sans KR -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
 
   <style>
-    :root{
+    :root {
       /* A4 (96dpi 근사) */
       --page-w: 794px;
       --page-h: 1123px;
@@ -23,7 +25,7 @@
       --radius: 18px;
 
       /* Typography */
-      --font: "Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo","Malgun Gothic",Arial,sans-serif;
+      --font: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
 
       /* Colors */
       --bg: #ffffff;
@@ -47,28 +49,36 @@
       --success-bg: #2f9e44;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
       font-family: var(--font);
-      background:#f3f0ea;
+      background: #f3f0ea;
       color: var(--ink);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     /* Viewer */
-    .viewer{
-      min-height:100%;
+    .viewer {
+      min-height: 100%;
       padding: 26px 18px 50px;
-      display:flex;
-      justify-content:center;
+      display: flex;
+      justify-content: center;
     }
-    .doc{
+
+    .doc {
       width: min(var(--page-w), 100%);
-      display:flex;
-      flex-direction:column;
+      display: flex;
+      flex-direction: column;
       gap: 18px;
     }
 
@@ -76,105 +86,124 @@
        ✅ 화면에서도 A4 px 높이 고정 (aspect-ratio 제거)
        ✅ overflow는 기본 visible (잘림 방지)
     */
-    .page{
+    .page {
       width: 100%;
       height: var(--page-h);
       background: var(--bg);
-      border: 1px solid rgba(0,0,0,0.08);
+      border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: var(--radius);
-      overflow: visible; /* 핵심: 화면에서 숨김 금지 */
+      overflow: visible;
+      /* 핵심: 화면에서 숨김 금지 */
       position: relative;
     }
-    .page-inner{
-      height:100%;
+
+    .page-inner {
+      height: 100%;
       padding: var(--pad-y) var(--pad-x);
     }
 
     /* Headings (전체적으로 축소) */
-    .h1{
+    .h1 {
       font-size: 30px;
-      letter-spacing:-0.03em;
-      margin:0 0 12px;
+      letter-spacing: -0.03em;
+      margin: 0 0 12px;
       font-weight: 900;
     }
-    .h2{
+
+    .h2 {
       font-size: 18px;
       margin: 24px 0 10px;
       font-weight: 900;
-      letter-spacing:-0.02em;
+      letter-spacing: -0.02em;
     }
-    .h3{
+
+    .h3 {
       font-size: 15px;
       margin: 16px 0 8px;
       font-weight: 900;
-      letter-spacing:-0.02em;
-      color:#374151;
-    }
-    .hr-brand{
-      height:2px;
-      background: var(--brand-line);
-      border:0;
-      margin: 0 0 22px;
-      opacity:0.9;
+      letter-spacing: -0.02em;
+      color: #374151;
     }
 
-    .p{
-      margin:0;
-      line-height:1.7;
+    .hr-brand {
+      height: 2px;
+      background: var(--brand-line);
+      border: 0;
+      margin: 0 0 22px;
+      opacity: 0.9;
+    }
+
+    .p {
+      margin: 0;
+      line-height: 1.7;
       font-size: 13.5px;
-      color:#374151;
+      color: #374151;
       font-weight: 600;
     }
-    .muted{ color: var(--muted); font-weight:600; }
-    .strong{ font-weight: 900; color:#111; }
+
+    .muted {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .strong {
+      font-weight: 900;
+      color: #111;
+    }
 
     /* Cover */
-    .cover{
+    .cover {
       background: linear-gradient(180deg, var(--brand), var(--brand-2));
-      color:#fff;
-      border:none;
+      color: #fff;
+      border: none;
     }
-    .cover .page-inner{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
+
+    .cover .page-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       gap: 14px;
     }
-    .cover .brand{
+
+    .cover .brand {
       font-size: 44px;
       font-weight: 900;
-      letter-spacing:-0.03em;
-      margin:0;
+      letter-spacing: -0.03em;
+      margin: 0;
     }
-    .cover .title{
+
+    .cover .title {
       font-size: 26px;
       font-weight: 900;
-      letter-spacing:-0.03em;
-      margin:0;
+      letter-spacing: -0.03em;
+      margin: 0;
     }
-    .cover .subtitle{
+
+    .cover .subtitle {
       font-size: 16px;
       font-weight: 800;
-      color: rgba(255,255,255,0.9);
-      margin:0;
-      line-height:1.6;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      line-height: 1.6;
     }
-    .cover .meta{
+
+    .cover .meta {
       margin-top: 28px;
-      display:flex;
-      flex-direction:column;
+      display: flex;
+      flex-direction: column;
       gap: 8px;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255, 255, 255, 0.85);
       font-weight: 800;
       font-size: 13px;
     }
-    .pill-note{
+
+    .pill-note {
       margin-top: 22px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
-      color: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 255, 255, 0.92);
       padding: 12px 16px;
       border-radius: 10px;
       font-weight: 800;
@@ -184,262 +213,330 @@
     }
 
     /* PayScore panel */
-    .score-panel{
+    .score-panel {
       background: #4f6ef2;
       border-radius: 14px;
       padding: 30px 30px;
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       min-height: 230px;
     }
-    .score-big{
+
+    .score-big {
       font-size: 76px;
       font-weight: 900;
-      margin:0;
-      letter-spacing:-0.03em;
+      margin: 0;
+      letter-spacing: -0.03em;
     }
-    .score-den{
+
+    .score-den {
       margin: 6px 0 14px;
       font-size: 18px;
       font-weight: 900;
-      color: rgba(255,255,255,0.9);
+      color: rgba(255, 255, 255, 0.9);
     }
-    .badge-rank{
-      display:inline-block;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.18);
+
+    .badge-rank {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       padding: 10px 14px;
       border-radius: 10px;
       font-weight: 900;
       font-size: 15px;
-      color:#fff;
+      color: #fff;
     }
-    .center-note{
-      text-align:center;
+
+    .center-note {
+      text-align: center;
       margin-top: 12px;
       font-weight: 900;
-      color:#374151;
+      color: #374151;
       font-size: 13.5px;
     }
-    .center-note .plus{
+
+    .center-note .plus {
       color: var(--brand-line);
       font-weight: 900;
     }
 
     /* Callouts */
-    .callout{
+    .callout {
       border-radius: 10px;
       padding: 14px 16px;
       border-left: 5px solid var(--info-border);
       background: var(--info-bg);
-      color:#374151;
+      color: #374151;
       font-size: 13px;
-      line-height:1.6;
+      line-height: 1.6;
       font-weight: 600;
     }
-    .callout .title{
+
+    .callout .title {
       font-weight: 900;
       margin-bottom: 6px;
-      display:flex;
+      display: flex;
       gap: 8px;
-      align-items:center;
+      align-items: center;
     }
-    .callout.warn{
+
+    .callout.warn {
       background: var(--warn-bg);
       border-left-color: var(--warn-border);
     }
-    .callout.danger{
+
+    .callout.danger {
       background: var(--danger-bg);
       border-left-color: var(--danger-border);
     }
 
     /* Tables */
-    table{
-      width:100%;
+    table {
+      width: 100%;
       border-collapse: collapse;
       font-size: 13px;
-      color:#111827;
+      color: #111827;
       margin-top: 10px;
       border-radius: 10px;
-      overflow:hidden;
+      overflow: hidden;
     }
-    thead th{
-      text-align:left;
+
+    thead th {
+      text-align: left;
       background: #f3f4f6;
-      color:#374151;
+      color: #374151;
       font-weight: 900;
       padding: 12px 14px;
       border-bottom: 1px solid var(--line);
     }
-    tbody td{
+
+    tbody td {
       padding: 13px 14px;
       border-bottom: 1px solid var(--line);
-      vertical-align:middle;
+      vertical-align: middle;
       font-weight: 600;
-      color:#111827;
+      color: #111827;
     }
-    tbody tr:last-child td{ border-bottom:none; }
-    .row-strong td{
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .row-strong td {
       background: #f3f4f6;
       font-weight: 900;
     }
-    .num{ text-align:right; font-variant-numeric: tabular-nums; }
-    .center{ text-align:center; }
+
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .center {
+      text-align: center;
+    }
 
     /* Metric cards */
-    .grid-3{
-      display:grid;
+    .grid-3 {
+      display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
       margin-top: 14px;
     }
-    .mcard{
+
+    .mcard {
       background: #f3f4f6;
       border-radius: 12px;
       padding: 16px 16px;
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
-    .mcard .k{
+
+    .mcard .k {
       font-weight: 900;
-      color:#6b7280;
-      margin:0 0 8px;
+      color: #6b7280;
+      margin: 0 0 8px;
       font-size: 12.5px;
     }
-    .mcard .v{
-      margin:0 0 8px;
+
+    .mcard .v {
+      margin: 0 0 8px;
       font-size: 38px;
       font-weight: 900;
       color: var(--brand-line);
-      letter-spacing:-0.03em;
+      letter-spacing: -0.03em;
     }
-    .mcard .v small{
+
+    .mcard .v small {
       font-size: 18px;
       font-weight: 900;
-      color:#111827;
+      color: #111827;
     }
-    .mcard .d{
-      margin:0;
-      color:#374151;
-      line-height:1.55;
+
+    .mcard .d {
+      margin: 0;
+      color: #374151;
+      line-height: 1.55;
       font-size: 12.8px;
       font-weight: 700;
     }
 
-    .block{
+    .block {
       margin-top: 14px;
-      color:#374151;
-      line-height:1.7;
+      color: #374151;
+      line-height: 1.7;
       font-size: 13px;
       font-weight: 600;
     }
-    .block b{ font-weight: 900; }
+
+    .block b {
+      font-weight: 900;
+    }
 
     /* ✅ 추천상품 레이아웃이 화면에서 "잘리는" 주 원인:
        페이지 하단에 내용이 남았는데 다음 페이지가 없어서.
        해결: 5.1/5.2를 페이지로 분리 + 카드 높이/간격 컴팩트화
     */
-    .success-banner{
+    .success-banner {
       background: var(--success-bg);
       border-radius: 12px;
       padding: 18px 18px;
-      color:#fff;
-      text-align:center;
+      color: #fff;
+      text-align: center;
       margin: 16px 0 10px;
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
-    .success-banner .t1{
-      margin:0 0 6px;
+
+    .success-banner .t1 {
+      margin: 0 0 6px;
       font-weight: 900;
-      opacity:0.92;
+      opacity: 0.92;
       font-size: 13px;
     }
-    .success-banner .t2{
-      margin:0;
+
+    .success-banner .t2 {
+      margin: 0;
       font-weight: 900;
       font-size: 22px;
-      letter-spacing:-0.02em;
+      letter-spacing: -0.02em;
     }
-    .success-banner .t3{
+
+    .success-banner .t3 {
       margin: 8px 0 0;
       font-weight: 800;
-      opacity:0.92;
+      opacity: 0.92;
       font-size: 12.5px;
     }
 
-    .plist{
-      display:flex;
-      flex-direction:column;
+    .plist {
+      display: flex;
+      flex-direction: column;
       gap: 12px;
       margin-top: 10px;
     }
-    .pcard{
+
+    .pcard {
       background: #fff;
       border-radius: 12px;
       border: 1px solid var(--line);
       padding: 16px 16px;
-      position:relative;
+      position: relative;
     }
-    .pcard:before{
-      content:"";
-      position:absolute;
-      left:0; top:0; bottom:0;
-      width:4px;
+
+    .pcard:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
       background: var(--brand-line);
       border-top-left-radius: 12px;
       border-bottom-left-radius: 12px;
     }
-    .pcard .head{
-      display:flex;
-      justify-content:space-between;
+
+    .pcard .head {
+      display: flex;
+      justify-content: space-between;
       gap: 12px;
-      align-items:flex-start;
+      align-items: flex-start;
     }
-    .pcard .name{
-      margin:0;
+
+    .pcard .name {
+      margin: 0;
       font-weight: 900;
       font-size: 16px;
-      letter-spacing:-0.02em;
-      color:#111827;
+      letter-spacing: -0.02em;
+      color: #111827;
     }
-    .pcard .org{
+
+    .pcard .org {
       margin: 2px 0 0;
-      color:#6b7280;
+      color: #6b7280;
       font-weight: 900;
       font-size: 12.5px;
-      white-space:nowrap;
+      white-space: nowrap;
     }
-    .pcard .desc{
+
+    .pcard .desc {
       margin: 8px 0 0;
-      color:#374151;
+      color: #374151;
       font-size: 13px;
-      line-height:1.6;
+      line-height: 1.6;
       font-weight: 600;
     }
 
-    .mt-10{ margin-top:10px; }
-    .mt-14{ margin-top:14px; }
-    .mt-18{ margin-top:18px; }
-    .mt-22{ margin-top:22px; }
+    .mt-10 {
+      margin-top: 10px;
+    }
+
+    .mt-14 {
+      margin-top: 14px;
+    }
+
+    .mt-18 {
+      margin-top: 18px;
+    }
+
+    .mt-22 {
+      margin-top: 22px;
+    }
 
     /* Print/PDF: ✅ 여기서만 overflow hidden + page-break 확실히 */
-    @media print{
-      body{ background:#fff; }
-      .viewer{ padding:0; }
-      .doc{ gap:0; }
-      .page{
-        border:none;
-        border-radius:0;
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .viewer {
+        padding: 0;
+      }
+
+      .doc {
+        gap: 0;
+      }
+
+      .page {
+        border: none;
+        border-radius: 0;
         width: var(--page-w);
         height: var(--page-h);
-        overflow: hidden;      /* 인쇄 시에는 페이지 밖 렌더 금지 */
+        overflow: hidden;
+        /* 인쇄 시에는 페이지 밖 렌더 금지 */
         page-break-after: always;
         break-after: page;
       }
-      .page-inner{ height:100%; }
-      *{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+      .page-inner {
+        height: 100%;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
     }
   </style>
 </head>
@@ -461,7 +558,7 @@
           </div>
 
           <div class="pill-note">
-            본 문서는 신용평가 대체 자료가 아닌<br/>
+            본 문서는 신용평가 대체 자료가 아닌<br />
             참고용 보조 지표입니다
           </div>
         </div>
@@ -471,7 +568,7 @@
       <section class="page">
         <div class="page-inner">
           <h1 class="h1">1. 리포트 요약</h1>
-          <hr class="hr-brand"/>
+          <hr class="hr-brand" />
 
           <div class="h3">납부 성향 요약</div>
           <p class="p">
@@ -505,7 +602,7 @@
       <section class="page">
         <div class="page-inner">
           <h1 class="h1">2. 입력 정보 요약</h1>
-          <hr class="hr-brand"/>
+          <hr class="hr-brand" />
 
           <div class="h2">2.1 임대차 계약 정보</div>
 
@@ -594,7 +691,7 @@
       <section class="page">
         <div class="page-inner">
           <h1 class="h1">3. PayScore 산출 결과</h1>
-          <hr class="hr-brand"/>
+          <hr class="hr-brand" />
 
           <div class="h2">3.1 종합 점수</div>
 
@@ -628,8 +725,10 @@
 
           <div class="block">
             <p><b>기간 점수 분석:</b> 24개월간 지속적인 납부 이력은 장기 신뢰성을 나타냅니다. 임대차 계약 만료일까지 중단 없이 납부한 기록은 높은 평가를 받습니다.</p>
-            <p class="mt-10"><b>금액 점수 분석:</b> 월 평균 813,800원의 고정 지출을 관리한 이력은 일정 수준 이상의 소득 안정성을 시사합니다. 금액 규모가 클수록 책임감 있는 재무 관리 능력을 보여줍니다.</p>
-            <p class="mt-10"><b>항목 다양성 분석:</b> 주거비(월세, 관리비) 외 3개 구독 서비스를 포함하여 총 5개 항목을 관리했습니다. 다양한 고정비 항목의 성실 납부는 폭넓은 재무 관리 습관을 반영합니다.</p>
+            <p class="mt-10"><b>금액 점수 분석:</b> 월 평균 813,800원의 고정 지출을 관리한 이력은 일정 수준 이상의 소득 안정성을 시사합니다. 금액 규모가 클수록 책임감 있는
+              재무 관리 능력을 보여줍니다.</p>
+            <p class="mt-10"><b>항목 다양성 분석:</b> 주거비(월세, 관리비) 외 3개 구독 서비스를 포함하여 총 5개 항목을 관리했습니다. 다양한 고정비 항목의 성실 납부는 폭넓은 재무
+              관리 습관을 반영합니다.</p>
           </div>
 
           <p class="p mt-14">
@@ -642,7 +741,7 @@
       <section class="page">
         <div class="page-inner">
           <h1 class="h1">4. 예상 신용점수 영향 분석</h1>
-          <hr class="hr-brand"/>
+          <hr class="hr-brand" />
 
           <div class="h2">4.1 Thin-file 고객 기준 예상 신용점수 범위</div>
 
@@ -734,7 +833,7 @@
       <section class="page">
         <div class="page-inner">
           <h1 class="h1">5. PayScore 기반 금융 추천상품</h1>
-          <hr class="hr-brand"/>
+          <hr class="hr-brand" />
 
           <div class="callout" style="margin-top:10px;">
             <div class="title">💡 추천상품 안내</div>
@@ -788,7 +887,7 @@
       <section class="page">
         <div class="page-inner">
           <h1 class="h1">5. PayScore 기반 금융 추천상품</h1>
-          <hr class="hr-brand"/>
+          <hr class="hr-brand" />
 
           <div class="h2">5.2 추천 소액 대출</div>
 
@@ -814,5 +913,74 @@
 
     </div>
   </main>
+
+  <script>
+    // localStorage에서 PDF 데이터 로드
+    (function () {
+      try {
+        const pdfDataStr = localStorage.getItem('paytracePdfData');
+        if (!pdfDataStr) {
+          console.log('No PDF data found in localStorage');
+          return;
+        }
+
+        const data = JSON.parse(pdfDataStr);
+        console.log('PDF data loaded:', data);
+
+        // Helper function
+        function updateText(selector, value) {
+          const elements = document.querySelectorAll(selector);
+          elements.forEach(el => el.textContent = value);
+        }
+
+        function formatWon(num) {
+          return new Intl.NumberFormat('ko-KR').format(num) + '원';
+        }
+
+        // Update all PayScore values
+        updateText('.score-big', data.payscore);
+
+        // Update all badges
+        updateText('.badge-rank', data.badge);
+
+        // Cover page meta
+        const metaDiv = document.querySelector('.cover .meta');
+        if (metaDiv) {
+          metaDiv.innerHTML = `
+            <div>생성일: ${data.today}</div>
+            <div>리포트 ID: ${data.reportId}</div>
+          `;
+        }
+
+        // Page 1: Summary description
+        const summaryP = document.querySelector('.page:nth-child(2) .p');
+        if (summaryP && data.summary) {
+          summaryP.innerHTML = `
+            귀하는 <span class="strong">${data.summary.months}개월간 월세 및 ${data.summary.fixedCount}개 고정비 항목</span>을 성실하게 납부한 이력을 보유하고 있습니다.
+            장기간에 걸친 일정한 지출 패턴은 재무 관리 능력의 긍정적 신호로 평가됩니다.
+          `;
+        }
+
+        // Page 1: Credit impact
+        const creditNote = document.querySelector('.center-note .plus');
+        if (creditNote && data.creditImpact) {
+          creditNote.textContent = data.creditImpact;
+        }
+
+        // Page 2: Contract table (keeping tbody approach for flexibility)
+        // We'll update this from handlePdfDownload with more detailed approach
+
+        // Page 5-6: Products - we'll inject from PRODUCT_DATA
+
+        console.log('✅ PDF data updated successfully');
+
+        //localStorage.removeItem('paytracePdfData'); // Clean up after load
+
+      } catch (err) {
+        console.error('Error loading PDF data:', err);
+      }
+    })();
+  </script>
 </body>
+
 </html>
