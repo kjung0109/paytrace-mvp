@@ -11,84 +11,84 @@ const RULES = {
 };
 
 const PRODUCT_DATA = {
-    SPROUT: [ // 새싹 납부러 (0~40점)
-        {
-            type: "카드",
-            name: "KB국민 체크-신용 하이브리드",
-            desc: "체크카드에 신용 기능을 더하다",
-            url: "https://m.kbcard.com/SVC/DVIEW/MSCMCXHIASVC0010"
-        },
-        {
-            type: "대출",
-            name: "서민금융진흥원 햇살론유스",
-            desc: "청년층의 자금애로 해소",
-            url: "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
-        },
-        {
-            type: "대출",
-            name: "우리은행 WON Easy 생활비 대출",
-            desc: "소액 생활자금 필요시 간편하게",
-            url: "https://spot.wooribank.com/pot/Dream?withyou=POLON0052&cc=c010528:c010531;c012425:c012399&PRD_CD=P020006604"
-        },
-        {
-            type: "카드",
-            name: "신한카드 처음(First)",
-            desc: "첫 출발을 위한 맞춤 혜택",
-            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1227020_2207.html"
-        }
-    ],
-    SINCERE: [ // 성실 납부러 (41~70점)
-        {
-            type: "대출",
-            name: "카카오뱅크 비상금대출",
-            desc: "휴대폰 본인인증만으로 간편한 대출",
-            url: "https://www.kakaobank.com/products/emergencyLoan"
-        },
-        {
-            type: "카드",
-            name: "현대카드 ZERO Edition3 (할인형)",
-            desc: "조건 없는 무제한 할인 혜택",
-            url: "https://www.hyundaicard.com/cpc/cr/CPCCR0201_01.hc?cardWcd=ZROE3"
-        },
-        {
-            type: "카드",
-            name: "삼성카드 taptap O",
-            desc: "내 라이프스타일에 맞춘 맞춤형 카드",
-            url: "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001?code=AAP1483"
-        },
-        {
-            type: "카드",
-            name: "신한카드 Deep Dream",
-            desc: "전월 실적 조건 없는 기본 적립",
-            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1188220_2207.html"
-        }
-    ],
-    MASTER: [ // 마스터 납부러 (71~100점)
-        {
-            type: "대출",
-            name: "햇살론뱅크",
-            desc: "성실 상환자를 위한 징검다리 대출",
-            url: "https://www.kinfa.or.kr/financialProduct/hessalLoanBank.do"
-        },
-        {
-            type: "카드",
-            name: "신한카드 Mr.Life",
-            desc: "공과금 및 생활비 밀착형 할인",
-            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1187937_2207.html"
-        },
-        {
-            type: "카드",
-            name: "KB국민 청춘대로 톡톡",
-            desc: "온라인 쇼핑부터 음식점까지 할인",
-            url: "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?cooperationcode=09174&mainCC=a"
-        },
-        {
-            type: "대출",
-            name: "토스뱅크 마이너스통장",
-            desc: "필요할 때 쓰고 이자만 내세요",
-            url: "https://www.tossbank.com/product-service/loans/minus-account"
-        }
-    ]
+  SPROUT: [ // 새싹 납부러 (0~40점)
+    {
+      type: "카드",
+      name: "KB국민 체크-신용 하이브리드",
+      desc: "체크카드에 신용 기능을 더하다",
+      url: "https://m.kbcard.com/SVC/DVIEW/MSCMCXHIASVC0010"
+    },
+    {
+      type: "대출",
+      name: "서민금융진흥원 햇살론유스",
+      desc: "청년층의 자금애로 해소",
+      url: "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
+    },
+    {
+      type: "대출",
+      name: "우리은행 WON Easy 생활비 대출",
+      desc: "소액 생활자금 필요시 간편하게",
+      url: "https://spot.wooribank.com/pot/Dream?withyou=POLON0052&cc=c010528:c010531;c012425:c012399&PRD_CD=P020006604"
+    },
+    {
+      type: "카드",
+      name: "신한카드 처음(First)",
+      desc: "첫 출발을 위한 맞춤 혜택",
+      url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1227020_2207.html"
+    }
+  ],
+  SINCERE: [ // 성실 납부러 (41~70점)
+    {
+      type: "대출",
+      name: "카카오뱅크 비상금대출",
+      desc: "휴대폰 본인인증만으로 간편한 대출",
+      url: "https://www.kakaobank.com/products/emergencyLoan"
+    },
+    {
+      type: "카드",
+      name: "현대카드 ZERO Edition3 (할인형)",
+      desc: "조건 없는 무제한 할인 혜택",
+      url: "https://www.hyundaicard.com/cpc/cr/CPCCR0201_01.hc?cardWcd=ZROE3"
+    },
+    {
+      type: "카드",
+      name: "삼성카드 taptap O",
+      desc: "내 라이프스타일에 맞춘 맞춤형 카드",
+      url: "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001?code=AAP1483"
+    },
+    {
+      type: "카드",
+      name: "신한카드 Deep Dream",
+      desc: "전월 실적 조건 없는 기본 적립",
+      url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1188220_2207.html"
+    }
+  ],
+  MASTER: [ // 마스터 납부러 (71~100점)
+    {
+      type: "대출",
+      name: "햇살론뱅크",
+      desc: "성실 상환자를 위한 징검다리 대출",
+      url: "https://www.kinfa.or.kr/financialProduct/hessalLoanBank.do"
+    },
+    {
+      type: "카드",
+      name: "신한카드 Mr.Life",
+      desc: "공과금 및 생활비 밀착형 할인",
+      url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1187937_2207.html"
+    },
+    {
+      type: "카드",
+      name: "KB국민 청춘대로 톡톡",
+      desc: "온라인 쇼핑부터 음식점까지 할인",
+      url: "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?cooperationcode=09174&mainCC=a"
+    },
+    {
+      type: "대출",
+      name: "토스뱅크 마이너스통장",
+      desc: "필요할 때 쓰고 이자만 내세요",
+      url: "https://www.tossbank.com/product-service/loans/minus-account"
+    }
+  ]
 };
 
 const REASON_TEXT = {
@@ -642,39 +642,39 @@ function bindReportPreview() {
 }
 
 function renderReportPreview() {
-    const res = state.score.result;
-    const badgeEl = $("report-preview-badge");
-    const scoreEl = $("report-preview-score");
-    const niceEl = $("report-preview-nice");
-    const kcbEl = $("report-preview-kcb");
-    const basisEl = $("report-preview-product-basis");
-    const productListEl = $("report-preview-products");
+  const res = state.score.result;
+  const badgeEl = $("report-preview-badge");
+  const scoreEl = $("report-preview-score");
+  const niceEl = $("report-preview-nice");
+  const kcbEl = $("report-preview-kcb");
+  const basisEl = $("report-preview-product-basis");
+  const productListEl = $("report-preview-products");
 
-    if (!res?.scorable) {
-        if (badgeEl) badgeEl.textContent = "-";
-        if (scoreEl) scoreEl.textContent = "-";
-        if (niceEl) niceEl.textContent = "-";
-        if (kcbEl) kcbEl.textContent = "-";
-        if (basisEl) basisEl.textContent = "PayScore -점 기준 추천";
-        if (productListEl) productListEl.innerHTML = "";
-        return;
-    }
-    const cr = res.credit_score_increase;
-    const niceText = cr && Number.isInteger(cr.min) && Number.isInteger(cr.max) ? `+${cr.min}~${cr.max}점` : "-";
-    if (badgeEl) badgeEl.textContent = getScoreBadgeLabel(res.payscore);
-    if (scoreEl) scoreEl.textContent = String(res.payscore);
-    if (niceEl) niceEl.textContent = niceText;
-    if (kcbEl) kcbEl.textContent = niceText;
-    if (basisEl) basisEl.textContent = `PayScore ${res.payscore}점 기준 추천`;
+  if (!res?.scorable) {
+    if (badgeEl) badgeEl.textContent = "-";
+    if (scoreEl) scoreEl.textContent = "-";
+    if (niceEl) niceEl.textContent = "-";
+    if (kcbEl) kcbEl.textContent = "-";
+    if (basisEl) basisEl.textContent = "PayScore -점 기준 추천";
+    if (productListEl) productListEl.innerHTML = "";
+    return;
+  }
+  const cr = res.credit_score_increase;
+  const niceText = cr && Number.isInteger(cr.min) && Number.isInteger(cr.max) ? `+${cr.min}~${cr.max}점` : "-";
+  if (badgeEl) badgeEl.textContent = getScoreBadgeLabel(res.payscore);
+  if (scoreEl) scoreEl.textContent = String(res.payscore);
+  if (niceEl) niceEl.textContent = niceText;
+  if (kcbEl) kcbEl.textContent = niceText;
+  if (basisEl) basisEl.textContent = `PayScore ${res.payscore}점 기준 추천`;
 
-    // 추천 상품 렌더링
-    if (productListEl) {
-        let category = "SPROUT";
-        if (res.payscore >= 71) category = "MASTER";
-        else if (res.payscore >= 41) category = "SINCERE";
+  // 추천 상품 렌더링
+  if (productListEl) {
+    let category = "SPROUT";
+    if (res.payscore >= 71) category = "MASTER";
+    else if (res.payscore >= 41) category = "SINCERE";
 
-        const products = PRODUCT_DATA[category];
-        productListEl.innerHTML = products.map(p => `
+    const products = PRODUCT_DATA[category];
+    productListEl.innerHTML = products.map(p => `
             <div class="report-preview-product-card">
                 <span class="report-preview-product-type">${escapeHtml(p.type)}</span>
                 <h4 class="report-preview-product-name">${escapeHtml(p.name)}</h4>
@@ -682,7 +682,7 @@ function renderReportPreview() {
                 <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">상세보기</a>
             </div>
         `).join("");
-    }
+  }
 }
 
 function bindPdfPreview() {
@@ -734,6 +734,9 @@ function renderPdfPreview() {
   } else if (contractSummaryEl) {
     contractSummaryEl.innerHTML = "";
   }
+
+  // ✨ PDF iframe 업데이트
+  updatePdfPreviewIframe();
 }
 
 function bindToast() {
@@ -1689,177 +1692,221 @@ function escapeHtml(s) {
    ---------------------------------------------------------------- */
 
 const SCORE_RANK_COMMENTS = {
-    master: {
-        duration: "장기적인 납부 이력이 귀하의 성실함을 증명합니다.",
-        amount: "규모 있는 지출 관리가 매우 안정적입니다.",
-        diversity: "다양한 고정비 항목이 체계적으로 관리되고 있습니다.",
-        summaryDesc: "귀하는 완벽한 납부 습관을 가진 '마스터 납부러'입니다.",
-    },
-    sincere: {
-        duration: "꾸준한 납부 이력이 신용에 긍정적인 영향을 미칩니다.",
-        amount: "적정 수준의 지출을 잘 관리하고 계십니다.",
-        diversity: "항목별 관리가 원활하게 이루어지고 있습니다.",
-        summaryDesc: "성실하게 미래를 준비하는 '성실 납부러'입니다.",
-    },
-    sprout: {
-        duration: "이제 막 납부 이력을 쌓기 시작한 단계입니다.",
-        amount: "작은 실천부터 시작하여 점진적으로 확대 중입니다.",
-        diversity: "관리가 필요한 항목들을 하나씩 늘려가고 있습니다.",
-        summaryDesc: "성실한 금융 생활을 시작하는 '새싹 납부러'입니다.",
-    },
+  master: {
+    duration: "장기적인 납부 이력이 귀하의 성실함을 증명합니다.",
+    amount: "규모 있는 지출 관리가 매우 안정적입니다.",
+    diversity: "다양한 고정비 항목이 체계적으로 관리되고 있습니다.",
+    summaryDesc: "귀하는 완벽한 납부 습관을 가진 '마스터 납부러'입니다.",
+  },
+  sincere: {
+    duration: "꾸준한 납부 이력이 신용에 긍정적인 영향을 미칩니다.",
+    amount: "적정 수준의 지출을 잘 관리하고 계십니다.",
+    diversity: "항목별 관리가 원활하게 이루어지고 있습니다.",
+    summaryDesc: "성실하게 미래를 준비하는 '성실 납부러'입니다.",
+  },
+  sprout: {
+    duration: "이제 막 납부 이력을 쌓기 시작한 단계입니다.",
+    amount: "작은 실천부터 시작하여 점진적으로 확대 중입니다.",
+    diversity: "관리가 필요한 항목들을 하나씩 늘려가고 있습니다.",
+    summaryDesc: "성실한 금융 생활을 시작하는 '새싹 납부러'입니다.",
+  },
 };
 
-async function handlePdfDownload() {
-    const payload = state.lastContractPayload;
-    const res = state.score?.result;
+// PDF 미리보기 iframe 업데이트 함수
+function updatePdfPreviewIframe() {
+  const iframe = $('pdf-preview-iframe');
+  if (!iframe) return;
 
-    if (!payload || !res || !res.scorable) {
-        showToast("데이터가 부족하거나 산출이 불가능하여 PDF를 생성할 수 없습니다.");
-        return;
+  // iframe이 로드된 후 데이터 주입
+  iframe.onload = function () {
+    try {
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      const payload = state.lastContractPayload;
+      const res = state.score?.result;
+
+      if (!payload || !res || !res.scorable) return;
+
+      const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
+      const rankLabel = getScoreBadgeLabel(res.payscore);
+      const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
+      const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+      const today = new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
+
+      // 모든 PayScore 표시
+      const scoreElements = iframeDoc.querySelectorAll('.score-big');
+      scoreElements.forEach(el => el.textContent = res.payscore);
+
+      // 모든 배지
+      const badgeElements = iframeDoc.querySelectorAll('.badge-rank');
+      badgeElements.forEach(el => el.textContent = rankLabel);
+
+      // Cover 페이지 메타 정보
+      const metaDiv = iframeDoc.querySelector('.cover .meta');
+      if (metaDiv) {
+        metaDiv.innerHTML = `
+                    <div>생성일: ${today}</div>
+                    <div>리포트 ID: ${reportId}</div>
+                `;
+      }
+
+      console.log('✅ PDF iframe 데이터 업데이트 완료');
+    } catch (err) {
+      console.error('PDF iframe 업데이트 실패:', err);
+    }
+  };
+}
+
+async function handlePdfDownload() {
+  const payload = state.lastContractPayload;
+  const res = state.score?.result;
+
+  if (!payload || !res || !res.scorable) {
+    showToast("데이터가 부족하거나 산출이 불가능하여 PDF를 생성할 수 없습니다.");
+    return;
+  }
+
+  logEvent("pdf_download_click", {
+    session_id: state.sessionId,
+    timestamp: new Date().toISOString()
+  });
+
+  const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
+  const rankLabel = getScoreBadgeLabel(res.payscore);
+  const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
+  const comments = SCORE_RANK_COMMENTS[rankKey];
+  const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+  const today = new Date().toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+
+  try {
+    const resp = await fetch("./pdf.html");
+    if (!resp.ok) throw new Error("PDF 템플릿 로드 실패");
+    let html = await resp.text();
+
+    const printWin = window.open("", "_blank");
+    if (!printWin) {
+      showToast("팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.");
+      return;
     }
 
-    logEvent("pdf_download_click", {
-        session_id: state.sessionId,
-        timestamp: new Date().toISOString()
-    });
+    printWin.document.write(html);
+    printWin.document.close();
 
-    const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
-    const rankLabel = getScoreBadgeLabel(res.payscore);
-    const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
-    const comments = SCORE_RANK_COMMENTS[rankKey];
-    const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
-    const today = new Date().toLocaleDateString("ko-KR", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-    });
+    const d = printWin.document;
 
-    try {
-        const resp = await fetch("./pdf.html");
-        if (!resp.ok) throw new Error("PDF 템플릿 로드 실패");
-        let html = await resp.text();
+    const updateEl = (id, val) => {
+      const el = d.getElementById(id);
+      if (el) el.textContent = val;
+    };
 
-        const printWin = window.open("", "_blank");
-        if (!printWin) {
-            showToast("팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.");
-            return;
+    updateEl("pdf-report-id", reportId);
+    updateEl("pdf-report-date", today);
+
+    const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
+    updateEl("pdf-summary-desc", `${months}개월간 월세 및 ${fixedCount}개 고정비 항목`);
+    updateEl("pdf-score-big", res.payscore);
+    updateEl("pdf-score-badge", rankLabel);
+
+    const gain = res.credit_score_increase ? `+${res.credit_score_increase.max}점` : "+0점";
+    updateEl("pdf-score-increase", `${gain} (참고치)`);
+
+    updateEl("pdf-contract-period", `${payload.startDate} ~ ${payload.endDate} (${months}개월)`);
+    updateEl("pdf-rent-amount", formatWon(payload.rentAmount));
+    updateEl("pdf-mgmt-included", payload.mgmtIncluded ? "포함" : "미포함");
+    updateEl("pdf-mgmt-amount", payload.mgmtIncluded ? formatWon(payload.mgmtAmount) : "-");
+
+    const totalHousing = (payload.rentAmount || 0) + (payload.mgmtIncluded ? (payload.mgmtAmount || 0) : 0);
+    updateEl("pdf-total-housing-cost", formatWon(totalHousing));
+
+    const tbody = d.getElementById("pdf-fixed-table-body");
+    if (tbody) {
+      tbody.innerHTML = "";
+      let totalFixed = 0;
+      const rows = [{ label: "월세", amount: payload.rentAmount, months: months }];
+      if (payload.mgmtIncluded) {
+        rows.push({ label: "관리비", amount: payload.mgmtAmount, months: months });
+      }
+
+      FIXED_TYPES.forEach(t => {
+        const it = payload.fixed[t.key];
+        if (it?.selected) {
+          it.rows.forEach((r, idx) => {
+            const label = it.rows.length > 1 ? `${t.label} ${idx + 1}` : t.label;
+            rows.push({ label, amount: r.amount, months: r.months });
+          });
         }
+      });
 
-        printWin.document.write(html);
-        printWin.document.close();
-
-        const d = printWin.document;
-
-        const updateEl = (id, val) => {
-            const el = d.getElementById(id);
-            if (el) el.textContent = val;
-        };
-
-        updateEl("pdf-report-id", reportId);
-        updateEl("pdf-report-date", today);
-
-        const fixedCount = Object.values(payload.fixed).filter(f => f.selected).length;
-        updateEl("pdf-summary-desc", `${months}개월간 월세 및 ${fixedCount}개 고정비 항목`);
-        updateEl("pdf-score-big", res.payscore);
-        updateEl("pdf-score-badge", rankLabel);
-
-        const gain = res.credit_score_increase ? `+${res.credit_score_increase.max}점` : "+0점";
-        updateEl("pdf-score-increase", `${gain} (참고치)`);
-
-        updateEl("pdf-contract-period", `${payload.startDate} ~ ${payload.endDate} (${months}개월)`);
-        updateEl("pdf-rent-amount", formatWon(payload.rentAmount));
-        updateEl("pdf-mgmt-included", payload.mgmtIncluded ? "포함" : "미포함");
-        updateEl("pdf-mgmt-amount", payload.mgmtIncluded ? formatWon(payload.mgmtAmount) : "-");
-
-        const totalHousing = (payload.rentAmount || 0) + (payload.mgmtIncluded ? (payload.mgmtAmount || 0) : 0);
-        updateEl("pdf-total-housing-cost", formatWon(totalHousing));
-
-        const tbody = d.getElementById("pdf-fixed-table-body");
-        if (tbody) {
-            tbody.innerHTML = "";
-            let totalFixed = 0;
-            const rows = [{ label: "월세", amount: payload.rentAmount, months: months }];
-            if (payload.mgmtIncluded) {
-                rows.push({ label: "관리비", amount: payload.mgmtAmount, months: months });
-            }
-
-            FIXED_TYPES.forEach(t => {
-                const it = payload.fixed[t.key];
-                if (it?.selected) {
-                    it.rows.forEach((r, idx) => {
-                        const label = it.rows.length > 1 ? `${t.label} ${idx + 1}` : t.label;
-                        rows.push({ label, amount: r.amount, months: r.months });
-                    });
-                }
-            });
-
-            rows.forEach(r => {
-                const tr = d.createElement("tr");
-                const amt = r.amount || 0;
-                totalFixed += amt;
-                tr.innerHTML = `
+      rows.forEach(r => {
+        const tr = d.createElement("tr");
+        const amt = r.amount || 0;
+        totalFixed += amt;
+        tr.innerHTML = `
                     <td class="strong">${escapeHtml(r.label)}</td>
                     <td class="num strong">${formatWon(amt)}</td>
                     <td class="center strong">${r.months}개월</td>
                 `;
-                tbody.appendChild(tr);
-            });
+        tbody.appendChild(tr);
+      });
 
-            updateEl("pdf-total-fixed-cost", formatWon(totalFixed));
-            updateEl("pdf-total-analysis-period", `${formatWon(totalFixed * months)} (분석 전 기간 합계)`);
-        }
-
-        updateEl("pdf-score-big-2", res.payscore);
-        updateEl("pdf-score-badge-2", rankLabel);
-
-        const itms = state.selection.items.filter(x => x.selected);
-        const cats = new Set(itms.map(x => String(x.key).split(":")[0]));
-        const maxMonths = Math.max(...itms.map(x => x.months || 0));
-        const totalMonthly = itms.reduce((acc, x) => acc + (x.monthly_amount || 0), 0);
-
-        const durP = Math.round(clamp(maxMonths / 36, 0, 1) * 50);
-        const scaP = Math.round(clamp(totalMonthly / 5_000_000, 0, 1) * 30);
-        const divP = Math.round(clamp(cats.size / 4, 0, 1) * 20);
-
-        updateEl("pdf-score-duration", durP);
-        updateEl("pdf-score-amount", scaP);
-        updateEl("pdf-score-diversity", divP);
-        updateEl("pdf-score-duration-label", `${maxMonths}개월간 지속적인 납부 이력`);
-        updateEl("pdf-score-amount-label", `월 평균 ${formatWon(totalMonthly)} 관리`);
-        updateEl("pdf-score-diversity-label", `${cats.size}개 고정비 항목 관리`);
-
-        updateEl("pdf-analysis-duration-desc", comments.duration);
-        updateEl("pdf-analysis-amount-desc", comments.amount);
-        updateEl("pdf-analysis-diversity-desc", comments.diversity);
-        updateEl("pdf-score-summary-val", res.payscore);
-        updateEl("pdf-score-summary-desc", comments.summaryDesc);
-
-        const plusVal = res.credit_score_increase ? res.credit_score_increase.max : 0;
-        for (let i = 1; i <= 3; i++) {
-            updateEl(`pdf-plus-val-${i}`, `+${plusVal}점`);
-            const base = (i === 1 ? 680 : (i === 2 ? 705 : 730));
-            updateEl(`pdf-final-val-${i}`, (base + plusVal) + "점");
-        }
-
-        updateEl("pdf-user-rank-name", rankLabel);
-        updateEl("pdf-user-rank-desc", months >= 24 ? "24개월 이상" : (months >= 12 ? "12개월 이상" : "신규"));
-        updateEl("pdf-recommend-user-rank", `🟢 PayScore ${res.payscore}점 · ${rankLabel}`);
-
-        const rankIdx = res.payscore >= 71 ? 3 : (res.payscore >= 41 ? 2 : 1);
-        for (let i = 1; i <= 3; i++) {
-            const row = d.getElementById(`pdf-rank-row-${i}`);
-            if (row && i === rankIdx) {
-                row.style.backgroundColor = "#e7f5ff";
-                row.style.fontWeight = "700";
-            }
-        }
-
-        setTimeout(() => {
-            printWin.print();
-        }, 500);
-
-    } catch (err) {
-        console.error("PDF 생성 오류:", err);
-        showToast("PDF 생성 중 오류가 발생했습니다.");
+      updateEl("pdf-total-fixed-cost", formatWon(totalFixed));
+      updateEl("pdf-total-analysis-period", `${formatWon(totalFixed * months)} (분석 전 기간 합계)`);
     }
+
+    updateEl("pdf-score-big-2", res.payscore);
+    updateEl("pdf-score-badge-2", rankLabel);
+
+    const itms = state.selection.items.filter(x => x.selected);
+    const cats = new Set(itms.map(x => String(x.key).split(":")[0]));
+    const maxMonths = Math.max(...itms.map(x => x.months || 0));
+    const totalMonthly = itms.reduce((acc, x) => acc + (x.monthly_amount || 0), 0);
+
+    const durP = Math.round(clamp(maxMonths / 36, 0, 1) * 50);
+    const scaP = Math.round(clamp(totalMonthly / 5_000_000, 0, 1) * 30);
+    const divP = Math.round(clamp(cats.size / 4, 0, 1) * 20);
+
+    updateEl("pdf-score-duration", durP);
+    updateEl("pdf-score-amount", scaP);
+    updateEl("pdf-score-diversity", divP);
+    updateEl("pdf-score-duration-label", `${maxMonths}개월간 지속적인 납부 이력`);
+    updateEl("pdf-score-amount-label", `월 평균 ${formatWon(totalMonthly)} 관리`);
+    updateEl("pdf-score-diversity-label", `${cats.size}개 고정비 항목 관리`);
+
+    updateEl("pdf-analysis-duration-desc", comments.duration);
+    updateEl("pdf-analysis-amount-desc", comments.amount);
+    updateEl("pdf-analysis-diversity-desc", comments.diversity);
+    updateEl("pdf-score-summary-val", res.payscore);
+    updateEl("pdf-score-summary-desc", comments.summaryDesc);
+
+    const plusVal = res.credit_score_increase ? res.credit_score_increase.max : 0;
+    for (let i = 1; i <= 3; i++) {
+      updateEl(`pdf-plus-val-${i}`, `+${plusVal}점`);
+      const base = (i === 1 ? 680 : (i === 2 ? 705 : 730));
+      updateEl(`pdf-final-val-${i}`, (base + plusVal) + "점");
+    }
+
+    updateEl("pdf-user-rank-name", rankLabel);
+    updateEl("pdf-user-rank-desc", months >= 24 ? "24개월 이상" : (months >= 12 ? "12개월 이상" : "신규"));
+    updateEl("pdf-recommend-user-rank", `🟢 PayScore ${res.payscore}점 · ${rankLabel}`);
+
+    const rankIdx = res.payscore >= 71 ? 3 : (res.payscore >= 41 ? 2 : 1);
+    for (let i = 1; i <= 3; i++) {
+      const row = d.getElementById(`pdf-rank-row-${i}`);
+      if (row && i === rankIdx) {
+        row.style.backgroundColor = "#e7f5ff";
+        row.style.fontWeight = "700";
+      }
+    }
+
+    setTimeout(() => {
+      printWin.print();
+    }, 500);
+
+  } catch (err) {
+    console.error("PDF 생성 오류:", err);
+    showToast("PDF 생성 중 오류가 발생했습니다.");
+  }
 }
