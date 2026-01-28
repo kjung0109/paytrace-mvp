@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayScore 분석 리포트</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: white;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      margin: 0 auto;
+      background: white;
+      page-break-after: always;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: #4263eb;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin: 24px 0 12px;
+      color: #333;
+    }
+
+    h3 {
+      font-size: 16px;
+      margin: 16px 0 8px;
+      color: #666;
+    }
+
+    p {
+      margin-bottom: 12px;
+    }
+
+    .strong {
+      font-weight: 700;
+    }
+
+    .score-panel {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      color: white;
+      margin: 24px 0;
+    }
+
+    .score-big {
+      font-size: 72px;
+      font-weight: 700;
+      margin: 16px 0;
+    }
+
+    .score-den {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .badge-rank {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.25);
+      padding: 8px 24px;
+      border-radius: 24px;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #f8f9fa;
+      font-weight: 700;
+    }
+
+    .num {
+      text-align: right;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .note-box {
+      background: #fff9e6;
+      border-left: 4px solid #ffb900;
+      padding: 16px;
+      margin: 16px 0;
+    }
+
+    .hr-brand {
+      border: none;
+      border-top: 2px solid #4263eb;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Cover Page -->
+  <div class="page">
+    <div style="text-align: center; padding-top: 80px;">
+      <h1 style="font-size: 36px; margin-bottom: 8px;">PayScore 분석 리포트</h1>
+      <p style="font-size: 16px; color: #666;">월세 납부 내역 기반 신용 평가</p>
+      <div style="margin-top: 80px;">
+        <p style="font-size: 14px; color: #999;">Report ID</p>
+        <p id="pdf-report-id" class="strong" style="font-size: 18px; margin-top: 8px;">PT-XXXXXX</p>
+      </div>
+      <div style="margin-top: 32px;">
+        <p style="font-size: 14px; color: #999;">발행일</p>
+        <p id="pdf-report-date" class="strong" style="font-size: 18px; margin-top: 8px;">2024년 1월 1일</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page 1: Summary -->
+  <div class="page">
+    <h1>1. 리포트 요약</h1>
+    <hr class="hr-brand" />
+
+    <h3>납부 성향 요약</h3>
+    <p>
+      귀하는 <span id="pdf-summary-desc" class="strong">24개월간 월세 및 5개 고정비 항목</span>을 성실하게 납부한 이력을 보유하고 있습니다.
+      장기간에 걸친 일정한 지출 패턴은 재무 관리 능력의 긍정적 신호로 평가됩니다.
+    </p>
+
+    <h2>PayScore 결과</h2>
+    <div class="score-panel">
+      <div>
+        <p id="pdf-score-big" class="score-big">78</p>
+        <div class="score-den">/ 100점</div>
+        <span id="pdf-score-badge" class="badge-rank">마스터 납부러</span>
+      </div>
+    </div>
+
+    <p style="text-align: center; color: #666;">
+      예상 신용점수 상승: <span id="pdf-score-increase" class="strong">+30점 (참고치)</span>
+    </p>
+
+    <div class="note-box">
+      <p class="strong">⚠️ 중요 고지</p>
+      <p style="margin-top: 8px;">
+        본 리포트는 신용평가사(NICE신용평가, 코리아크레딧뷰로)의 산출하는 신용점수를 대체하거나
+        보장하는 자료가 아닙니다. 금융기관별 심사 결과는 실제로 각 기관의 내부 기준에 따라 달라질 수 있습니다.
+        실제 심사 결과는 각 기관의 내부 기준에 따라 달라질 수 있습니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- Page 2: Input Summary -->
+  <div class="page">
+    <h1>2. 입력 정보 요약</h1>
+    <hr class="hr-brand" />
+
+    <h2>2.1 월세 계약 정보</h2>
+    <table>
+      <tr>
+        <th>항목</th>
+        <th>내용</th>
+      </tr>
+      <tr>
+        <td class="strong">계약 기간</td>
+        <td id="pdf-contract-period">2024-01-01 ~ 2026-01-01 (24개월)</td>
+      </tr>
+      <tr>
+        <td class="strong">월세 금액</td>
+        <td id="pdf-rent-amount">650,000원</td>
+      </tr>
+      <tr>
+        <td class="strong">관리비</td>
+        <td id="pdf-mgmt-included">포함</td>
+      </tr>
+      <tr>
+        <td class="strong">관리비 금액</td>
+        <td id="pdf-mgmt-amount">120,000원</td>
+      </tr>
+      <tr>
+        <td class="strong">총 주거비</td>
+        <td id="pdf-total-housing-cost" class="strong">770,000원</td>
+      </tr>
+    </table>
+
+    <h2>2.2 고정비 항목</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th class="num">월 금액</th>
+          <th class="center">납부 개월수</th>
+        </tr>
+      </thead>
+      <tbody id="pdf-fixed-table-body">
+        <tr>
+          <td class="strong">월세</td>
+          <td class="num strong">650,000원</td>
+          <td class="center strong">24개월</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="text-align: right; margin-top: 8px;">
+      <strong>총 분석 대상 금액:</strong> <span id="pdf-total-fixed-cost">650,000원</span> / 월<br>
+      <span id="pdf-total-analysis-period" style="font-size: 14px; color: #666;">15,600,000원 (분석 전 기간 합계)</span>
+    </p>
+  </div>
+
+  <!-- Page 3: PayScore Details -->
+  <div class="page">
+    <h1>3. PayScore 상세 분석</h1>
+    <hr class="hr-brand" />
+
+    <div class="score-panel">
+      <div>
+        <p id="pdf-score-big-2" class="score-big">78</p>
+        <div class="score-den">/ 100점</div>
+        <span id="pdf-score-badge-2" class="badge-rank">마스터 납부러</span>
+      </div>
+    </div>
+
+    <h2>3.1 점수 구성 요소</h2>
+    <table>
+      <tr>
+        <th>항목</th>
+        <th class="num">점수</th>
+        <th>설명</th>
+      </tr>
+      <tr>
+        <td class="strong">납부 기간 (50%)</td>
+        <td id="pdf-score-duration" class="num strong">40</td>
+        <td id="pdf-score-duration-label">24개월간 지속적인 납부 이력</td>
+      </tr>
+      <tr>
+        <td class="strong">지출 규모 (30%)</td>
+        <td id="pdf-score-amount" class="num strong">25</td>
+        <td id="pdf-score-amount-label">월 평균 770,000원 관리</td>
+      </tr>
+      <tr>
+        <td class="strong">항목 다양성 (20%)</td>
+        <td id="pdf-score-diversity" class="num strong">13</td>
+        <td id="pdf-score-diversity-label">3개 고정비 항목 관리</td>
+      </tr>
+    </table>
+
+    <h2>3.2 분석 코멘트</h2>
+    <div style="margin-top: 16px;">
+      <h3>📅 납부 기간</h3>
+      <p id="pdf-analysis-duration-desc">장기적인 납부 이력이 귀하의 성실함을 증명합니다.</p>
+
+      <h3 style="margin-top: 16px;">💰 지출 규모</h3>
+      <p id="pdf-analysis-amount-desc">규모 있는 지출 관리가 매우 안정적입니다.</p>
+
+      <h3 style="margin-top: 16px;">📊 항목 다양성</h3>
+      <p id="pdf-analysis-diversity-desc">다양한 고정비 항목이 체계적으로 관리되고 있습니다.</p>
+    </div>
+
+    <div class="note-box" style="margin-top: 24px;">
+      <p class="strong">종합 평가</p>
+      <p style="margin-top: 8px;">
+        PayScore <span id="pdf-score-summary-val" class="strong">78</span>점 -
+        <span id="pdf-score-summary-desc">귀하는 완벽한 납부 습관을 가진 '마스터 납부러'입니다.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Page 4: Credit Impact -->
+  <div class="page">
+    <h1>4. 신용점수 영향 예측</h1>
+    <hr class="hr-brand" />
+
+    <p>월세 및 고정비 납부 이력이 신용평가사에 반영될 경우, 다음과 같은 신용점수 상승 효과를 기대할 수 있습니다.</p>
+
+    <h2>4.1 예상 점수 변화</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>신용평가사</th>
+          <th class="num">현재 점수 (예시)</th>
+          <th class="num">예상 상승</th>
+          <th class="num">예상 점수</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="strong">NICE신용평가</td>
+          <td class="num">680점</td>
+          <td id="pdf-plus-val-1" class="num strong">+35점</td>
+          <td id="pdf-final-val-1" class="num strong">715점</td>
+        </tr>
+        <tr>
+          <td class="strong">KCB 코리아크레딧뷰로</td>
+          <td class="num">705점</td>
+          <td id="pdf-plus-val-2" class="num strong">+35점</td>
+          <td id="pdf-final-val-2" class="num strong">740점</td>
+        </tr>
+        <tr>
+          <td class="strong">서민금융진흥원</td>
+          <td class="num">730점</td>
+          <td id="pdf-plus-val-3" class="num strong">+35점</td>
+          <td id="pdf-final-val-3" class="num strong">765점</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <p class="strong">📌 참고사항</p>
+      <p style="margin-top: 8px;">
+        위 예상 점수는 현재 귀하의 PayScore를 기반으로 한 시뮬레이션이며,
+        실제 신용점수는 금융거래 이력, 대출 상환 이력 등 다양한 요소에 의해 결정됩니다.
+      </p>
+    </div>
+
+    <h2>4.2 등급별 설명</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>PayScore 구간</th>
+          <th>등급</th>
+          <th>특징</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="pdf-rank-row-1">
+          <td>0 ~ 40점</td>
+          <td class="strong">새싹 납부러</td>
+          <td>납부 이력 축적 시작 단계</td>
+        </tr>
+        <tr id="pdf-rank-row-2">
+          <td>41 ~ 70점</td>
+          <td class="strong">성실 납부러</td>
+          <td>안정적인 납부 패턴 확보</td>
+        </tr>
+        <tr id="pdf-rank-row-3">
+          <td>71 ~ 100점</td>
+          <td class="strong">마스터 납부러★</td>
+          <td>우수한 재무 관리 능력 입증</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top: 32px; padding: 16px; background: #f8f9fa; border-radius: 8px;">
+      <p class="strong">귀하의 등급</p>
+      <p style="margin-top: 8px; font-size: 18px;">
+        <span id="pdf-user-rank-name" class="strong" style="color: #4263eb;">마스터 납부러★</span>
+        (<span id="pdf-user-rank-desc">24개월 이상</span>)
+      </p>
+    </div>
+  </div>
+
+  <!-- Page 5: Recommendations -->
+  <div class="page">
+    <h1>5. 추천 금융 상품</h1>
+    <hr class="hr-brand" />
+
+    <p>귀하의 <span id="pdf-recommend-user-rank" class="strong">🟢 PayScore 78점 · 마스터 납부러</span> 등급에 적합한 금융 상품을 추천합니다.</p>
+
+    <h2>5.1 대출 상품</h2>
+    <div style="padding: 16px; border: 1px solid #ddd; border-radius: 8px; margin: 16px 0;">
+      <h3>신용대출 (중금리)</h3>
+      <p style="margin-top: 8px; color: #666;">
+        • 예상 금리: 연 7% ~ 12%<br>
+        • 한도: 최대 5,000만원<br>
+        • 상환 기간: 최대 5년
+      </p>
+    </div>
+
+    <h2>5.2 신용카드</h2>
+    <div style="padding: 16px; border: 1px solid #ddd; border-radius: 8px; margin: 16px 0;">
+      <h3>중급 신용카드</h3>
+      <p style="margin-top: 8px; color: #666;">
+        • 연회비: 1만원 ~ 3만원대<br>
+        • 혜택: 주유/편의점/대중교통 할인<br>
+        • 추천
+
+        : 주거비 자동이체 시 캐시백
+      </p>
+    </div>
+
+    <h2>5.3 금융 개선 팁</h2>
+    <div class="note-box">
+      <p class="strong">💡 신용점수 향상을 위한 조언</p>
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li>현재의 성실한 월세 납부 패턴을 유지하세요</li>
+        <li>추가 고정비 항목(통신비, 보험료 등)을 등록하면 다양성 점수가 향상됩니다</li>
+        <li>신용카드 사용 후 매월 전액 결제하면 신용점수에 긍정적입니다</li>
+      </ul>
+    </div>
+
+    <div style="margin-top: 48px; text-align: center; color: #999; font-size: 12px;">
+      <p>본 리포트는 발신 전용이며, 예측된 점수는 실제 금융사의 심사 기준과 다를 수 있습니다.</p>
+      <p style="margin-top: 8px;">© 2024 PayTrace. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script>
+    // PDF 인쇄 자동 실행 (선택사항)
+    // window.onload = function() {
+    //     setTimeout(() => window.print(), 1000);
+    // };
+  </script>
+</body>
+
+</html>
