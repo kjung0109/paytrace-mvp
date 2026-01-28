@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="ko-KR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Paytrace 고정비 성실 납부 리포트</title>
+
+  <!-- Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      /* A4 (96dpi 근사) */
+      --page-w: 794px;
+      --page-h: 1123px;
+
+      /* Padding (좀 더 컴팩트하게) */
+      --pad-x: 66px;
+      --pad-y: 56px;
+
+      --radius: 18px;
+
+      /* Typography */
+      --font: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+
+      /* Colors */
+      --bg: #ffffff;
+      --ink: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+
+      --brand: #4a63f1;
+      --brand-2: #4969f3;
+      --brand-line: #2f57ff;
+
+      --warn-bg: #fff3cd;
+      --warn-border: #f59e0b;
+
+      --danger-bg: #fde2e2;
+      --danger-border: #ef4444;
+
+      --info-bg: #f3f4f6;
+      --info-border: #2f57ff;
+
+      --success-bg: #2f9e44;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: #f3f0ea;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Viewer */
+    .viewer {
+      min-height: 100%;
+      padding: 26px 18px 50px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .doc {
+      width: min(var(--page-w), 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Page
+       ✅ 화면에서도 A4 px 높이 고정 (aspect-ratio 제거)
+       ✅ overflow는 기본 visible (잘림 방지)
+    */
+    .page {
+      width: 100%;
+      height: var(--page-h);
+      background: var(--bg);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: var(--radius);
+      overflow: visible;
+      /* 핵심: 화면에서 숨김 금지 */
+      position: relative;
+    }
+
+    .page-inner {
+      height: 100%;
+      padding: var(--pad-y) var(--pad-x);
+    }
+
+    /* Headings (전체적으로 축소) */
+    .h1 {
+      font-size: 30px;
+      letter-spacing: -0.03em;
+      margin: 0 0 12px;
+      font-weight: 900;
+    }
+
+    .h2 {
+      font-size: 18px;
+      margin: 24px 0 10px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .h3 {
+      font-size: 15px;
+      margin: 16px 0 8px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #374151;
+    }
+
+    .hr-brand {
+      height: 2px;
+      background: var(--brand-line);
+      border: 0;
+      margin: 0 0 22px;
+      opacity: 0.9;
+    }
+
+    .p {
+      margin: 0;
+      line-height: 1.7;
+      font-size: 13.5px;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .strong {
+      font-weight: 900;
+      color: #111;
+    }
+
+    /* Cover */
+    .cover {
+      background: linear-gradient(180deg, var(--brand), var(--brand-2));
+      color: #fff;
+      border: none;
+    }
+
+    .cover .page-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 14px;
+    }
+
+    .cover .brand {
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .cover .title {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .cover .subtitle {
+      font-size: 16px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .cover .meta {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .pill-note {
+      margin-top: 22px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 255, 255, 0.92);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 13px;
+      max-width: 420px;
+      line-height: 1.5;
+    }
+
+    /* PayScore panel */
+    .score-panel {
+      background: #4f6ef2;
+      border-radius: 14px;
+      padding: 30px 30px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 230px;
+    }
+
+    .score-big {
+      font-size: 76px;
+      font-weight: 900;
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+
+    .score-den {
+      margin: 6px 0 14px;
+      font-size: 18px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .badge-rank {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 900;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .center-note {
+      text-align: center;
+      margin-top: 12px;
+      font-weight: 900;
+      color: #374151;
+      font-size: 13.5px;
+    }
+
+    .center-note .plus {
+      color: var(--brand-line);
+      font-weight: 900;
+    }
+
+    /* Callouts */
+    .callout {
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 5px solid var(--info-border);
+      background: var(--info-bg);
+      color: #374151;
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .callout .title {
+      font-weight: 900;
+      margin-bottom: 6px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .callout.warn {
+      background: var(--warn-bg);
+      border-left-color: var(--warn-border);
+    }
+
+    .callout.danger {
+      background: var(--danger-bg);
+      border-left-color: var(--danger-border);
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      color: #111827;
+      margin-top: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    thead th {
+      text-align: left;
+      background: #f3f4f6;
+      color: #374151;
+      font-weight: 900;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    tbody td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .row-strong td {
+      background: #f3f4f6;
+      font-weight: 900;
+    }
+
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    /* Metric cards */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .mcard {
+      background: #f3f4f6;
+      border-radius: 12px;
+      padding: 16px 16px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .mcard .k {
+      font-weight: 900;
+      color: #6b7280;
+      margin: 0 0 8px;
+      font-size: 12.5px;
+    }
+
+    .mcard .v {
+      margin: 0 0 8px;
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--brand-line);
+      letter-spacing: -0.03em;
+    }
+
+    .mcard .v small {
+      font-size: 18px;
+      font-weight: 900;
+      color: #111827;
+    }
+
+    .mcard .d {
+      margin: 0;
+      color: #374151;
+      line-height: 1.55;
+      font-size: 12.8px;
+      font-weight: 700;
+    }
+
+    .block {
+      margin-top: 14px;
+      color: #374151;
+      line-height: 1.7;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .block b {
+      font-weight: 900;
+    }
+
+    /* ✅ 추천상품 레이아웃이 화면에서 "잘리는" 주 원인:
+       페이지 하단에 내용이 남았는데 다음 페이지가 없어서.
+       해결: 5.1/5.2를 페이지로 분리 + 카드 높이/간격 컴팩트화
+    */
+    .success-banner {
+      background: var(--success-bg);
+      border-radius: 12px;
+      padding: 18px 18px;
+      color: #fff;
+      text-align: center;
+      margin: 16px 0 10px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .success-banner .t1 {
+      margin: 0 0 6px;
+      font-weight: 900;
+      opacity: 0.92;
+      font-size: 13px;
+    }
+
+    .success-banner .t2 {
+      margin: 0;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    .success-banner .t3 {
+      margin: 8px 0 0;
+      font-weight: 800;
+      opacity: 0.92;
+      font-size: 12.5px;
+    }
+
+    .plist {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .pcard {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 16px 16px;
+      position: relative;
+    }
+
+    .pcard:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--brand-line);
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+    }
+
+    .pcard .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .pcard .name {
+      margin: 0;
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      color: #111827;
+    }
+
+    .pcard .org {
+      margin: 2px 0 0;
+      color: #6b7280;
+      font-weight: 900;
+      font-size: 12.5px;
+      white-space: nowrap;
+    }
+
+    .pcard .desc {
+      margin: 8px 0 0;
+      color: #374151;
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .mt-10 {
+      margin-top: 10px;
+    }
+
+    .mt-14 {
+      margin-top: 14px;
+    }
+
+    .mt-18 {
+      margin-top: 18px;
+    }
+
+    .mt-22 {
+      margin-top: 22px;
+    }
+
+    /* Print/PDF: ✅ 여기서만 overflow hidden + page-break 확실히 */
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .viewer {
+        padding: 0;
+      }
+
+      .doc {
+        gap: 0;
+      }
+
+      .page {
+        border: none;
+        border-radius: 0;
+        width: var(--page-w);
+        height: var(--page-h);
+        overflow: hidden;
+        /* 인쇄 시에는 페이지 밖 렌더 금지 */
+        page-break-after: always;
+        break-after: page;
+      }
+
+      .page-inner {
+        height: 100%;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="viewer">
+    <div class="doc">
+
+      <!-- PAGE 0: COVER -->
+      <section class="page cover">
+        <div class="page-inner">
+          <h1 class="brand">Paytrace</h1>
+          <h2 class="title">고정비 성실 납부 리포트</h2>
+          <p class="subtitle">월세 및 고정비 납부 이력 기반 보조 신용 지표</p>
+
+          <div class="meta">
+            <div>생성일: 2026년 1월 27일</div>
+            <div>리포트 ID: PT-2026-0127-A8F3K2</div>
+          </div>
+
+          <div class="pill-note">
+            본 문서는 신용평가 대체 자료가 아닌<br />
+            참고용 보조 지표입니다
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 1: SUMMARY -->
+      <section class="page">
+        <div class="page-inner">
+          <h1 class="h1">1. 리포트 요약</h1>
+          <hr class="hr-brand" />
+
+          <div class="h3">납부 성향 요약</div>
+          <p class="p">
+            귀하는 <span class="strong">24개월간 월세 및 5개 고정비 항목</span>을 성실하게 납부한 이력을 보유하고 있습니다.
+            장기간에 걸친 일정한 지출 패턴은 재무 관리 능력의 긍정적 신호로 평가됩니다.
+          </p>
+
+          <div class="h2">PayScore 결과</div>
+
+          <div class="score-panel">
+            <div>
+              <p class="score-big">78</p>
+              <div class="score-den">/ 100점</div>
+              <span class="badge-rank">마스터 납부러</span>
+            </div>
+          </div>
+
+          <div class="center-note">
+            예상 신용점수 영향: <span class="plus">+30점 (참고치)</span>
+          </div>
+
+          <div class="mt-22 callout warn">
+            <div class="title">⚠️ 중요 고지</div>
+            본 리포트는 신용평가사(NICE신용평가, 코리아크레딧뷰로)가 산출하는 신용점수를 대체하거나 보장하는 자료가 아닙니다.
+            금융기관 심사 시 참고 자료로만 활용 가능하며, 실제 심사 결과는 각 기관의 내부 기준에 따라 달라질 수 있습니다.
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 2: INPUT SUMMARY -->
+      <section class="page">
+        <div class="page-inner">
+          <h1 class="h1">2. 입력 정보 요약</h1>
+          <hr class="hr-brand" />
+
+          <div class="h2">2.1 임대차 계약 정보</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width:32%;">항목</th>
+                <th>내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong">계약 기간</td>
+                <td><span class="strong">2024년 2월 1일 ~ 2026년 1월 31일 (24개월)</span></td>
+              </tr>
+              <tr>
+                <td class="strong">월세 금액</td>
+                <td><span class="strong">650,000원</span></td>
+              </tr>
+              <tr>
+                <td class="strong">관리비 포함 여부</td>
+                <td><span class="strong">미포함</span></td>
+              </tr>
+              <tr>
+                <td class="strong">별도 관리비</td>
+                <td><span class="strong">120,000원</span></td>
+              </tr>
+              <tr class="row-strong">
+                <td>월 총 주거비</td>
+                <td>770,000원</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="h2">2.2 고정비 항목별 월 평균 지출</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>항목</th>
+                <th class="num">월 평균 금액</th>
+                <th class="center" style="width:18%;">납부 기간</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong">월세</td>
+                <td class="num strong">650,000원</td>
+                <td class="center strong">24개월</td>
+              </tr>
+              <tr>
+                <td class="strong">관리비</td>
+                <td class="num strong">120,000원</td>
+                <td class="center strong">24개월</td>
+              </tr>
+              <tr>
+                <td class="strong">OTT 구독 (Netflix, Wavve)</td>
+                <td class="num strong">23,000원</td>
+                <td class="center strong">24개월</td>
+              </tr>
+              <tr>
+                <td class="strong">음악 스트리밍 (Spotify)</td>
+                <td class="num strong">10,900원</td>
+                <td class="center strong">24개월</td>
+              </tr>
+              <tr>
+                <td class="strong">전자책 구독 (밀리의 서재)</td>
+                <td class="num strong">9,900원</td>
+                <td class="center strong">22개월</td>
+              </tr>
+              <tr class="row-strong">
+                <td>월 고정비 합계</td>
+                <td class="num">813,800원</td>
+                <td class="center">-</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="p mt-14 muted">
+            분석 기간 총 지출: <span class="strong">약 19,531,200원</span> (24개월 기준)
+          </p>
+        </div>
+      </section>
+
+      <!-- PAGE 3: PAYSCORE DETAILS -->
+      <section class="page">
+        <div class="page-inner">
+          <h1 class="h1">3. PayScore 산출 결과</h1>
+          <hr class="hr-brand" />
+
+          <div class="h2">3.1 종합 점수</div>
+
+          <div class="score-panel" style="margin-top:12px;">
+            <div>
+              <p class="score-big">78</p>
+              <div class="score-den">/ 100점</div>
+              <span class="badge-rank">마스터 납부러</span>
+            </div>
+          </div>
+
+          <div class="h2">3.2 항목별 기여도 분석</div>
+
+          <div class="grid-3">
+            <div class="mcard">
+              <p class="k">기간 점수 (50%)</p>
+              <p class="v">45<small>/50</small></p>
+              <p class="d">24개월간 지속적인 납부 이력</p>
+            </div>
+            <div class="mcard">
+              <p class="k">금액 점수 (30%)</p>
+              <p class="v">21<small>/30</small></p>
+              <p class="d">월 평균 813,800원 관리</p>
+            </div>
+            <div class="mcard">
+              <p class="k">다양성 점수 (20%)</p>
+              <p class="v">12<small>/20</small></p>
+              <p class="d">5개 고정비 항목 관리</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <p><b>기간 점수 분석:</b> 24개월간 지속적인 납부 이력은 장기 신뢰성을 나타냅니다. 임대차 계약 만료일까지 중단 없이 납부한 기록은 높은 평가를 받습니다.</p>
+            <p class="mt-10"><b>금액 점수 분석:</b> 월 평균 813,800원의 고정 지출을 관리한 이력은 일정 수준 이상의 소득 안정성을 시사합니다. 금액 규모가 클수록 책임감 있는
+              재무 관리 능력을 보여줍니다.</p>
+            <p class="mt-10"><b>항목 다양성 분석:</b> 주거비(월세, 관리비) 외 3개 구독 서비스를 포함하여 총 5개 항목을 관리했습니다. 다양한 고정비 항목의 성실 납부는 폭넓은 재무
+              관리 습관을 반영합니다.</p>
+          </div>
+
+          <p class="p mt-14">
+            귀하의 PayScore 78점은 <span class="strong">장기간(24개월) 동안 안정적으로 월세 및 고정비를 납부한 패턴</span>에서 도출되었습니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- PAGE 4: IMPACT ANALYSIS -->
+      <section class="page">
+        <div class="page-inner">
+          <h1 class="h1">4. 예상 신용점수 영향 분석</h1>
+          <hr class="hr-brand" />
+
+          <div class="h2">4.1 Thin-file 고객 기준 예상 신용점수 범위</div>
+
+          <div class="callout" style="margin-top:10px;">
+            <div class="title">참고 Base Score (추정치): <span class="strong">680~730점</span></div>
+            신용 이력이 짧거나 제한적인 고객(Thin-file)의 일반적인 신용점수 범위입니다.
+            이 수치는 실제 신용평가사의 점수가 아닌, 통계적 평균을 기반으로 한 추정치입니다.
+          </div>
+
+          <div class="h2">4.2 PayScore 반영 후 예상 점수</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width:24%;">구분</th>
+                <th class="center">Base Score (추정)</th>
+                <th class="center">PayScore 가산</th>
+                <th class="center">예상 점수 범위</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong">보수적 추정</td>
+                <td class="center strong">680점</td>
+                <td class="center strong">+30점</td>
+                <td class="center strong">710점</td>
+              </tr>
+              <tr>
+                <td class="strong">중립적 추정</td>
+                <td class="center strong">705점</td>
+                <td class="center strong">+30점</td>
+                <td class="center strong">735점</td>
+              </tr>
+              <tr>
+                <td class="strong">낙관적 추정</td>
+                <td class="center strong">730점</td>
+                <td class="center strong">+30점</td>
+                <td class="center strong">760점</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="h2">4.3 등급별 설명</div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width:22%;">PayScore 구간</th>
+                <th style="width:22%;">등급</th>
+                <th style="width:20%;">예상 가산 효과</th>
+                <th>설명</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="strong">0~40점</td>
+                <td class="strong">새싹 납부러</td>
+                <td class="strong">+5점</td>
+                <td class="strong">고정비 납부 이력 초기 단계</td>
+              </tr>
+              <tr>
+                <td class="strong">41~70점</td>
+                <td class="strong">성실 납부러</td>
+                <td class="strong">+15점</td>
+                <td class="strong">중기 이상 성실 납부 이력 확인</td>
+              </tr>
+              <tr class="row-strong">
+                <td>71~100점</td>
+                <td>마스터 납부러</td>
+                <td>+30점</td>
+                <td>장기 안정적 납부 패턴 입증</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="p mt-14">
+            귀하는 <span class="strong">마스터 납부러</span> 등급으로, <span class="strong">24개월 이상</span>의 장기 납부 이력을 보유한 고객군에 해당합니다.
+          </p>
+
+          <div class="callout danger mt-18">
+            <div class="title">📌 중요 안내</div>
+            위 예상 점수는 Paytrace 자체 알고리즘을 기반으로 한 추정치이며, 실제 금융기관의 심사 결과와는 다를 수 있습니다.
+            본 리포트의 PayScore는 공식 신용점수 산정 요소를 반영하지 않으므로 보조 참고 자료로만 활용하시기 바랍니다.
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 5A: RECOMMENDATIONS (INTRO + 5.1) -->
+      <section class="page">
+        <div class="page-inner">
+          <h1 class="h1">5. PayScore 기반 금융 추천상품</h1>
+          <hr class="hr-brand" />
+
+          <div class="callout" style="margin-top:10px;">
+            <div class="title">💡 추천상품 안내</div>
+            이 추천은 자동 승인·보장 상품이 아닙니다. PayScore 구간과 일반적인 금융 조건을 기준으로 한 참고용 추천이며,
+            실제 승인 여부는 각 금융기관의 심사 기준에 따라 달라집니다.
+          </div>
+
+          <div class="success-banner">
+            <p class="t1">귀하의 현재 등급</p>
+            <p class="t2">🟢 PayScore 78점 · 마스터 납부러</p>
+            <p class="t3">현재 PayScore 구간에서 신청 가능성이 비교적 높은 상품을 추천합니다</p>
+          </div>
+
+          <div class="h2">5.1 추천 신용카드</div>
+
+          <div class="plist">
+            <div class="pcard">
+              <div class="head">
+                <div>
+                  <p class="name">토스 체크카드 (신용 전환형)</p>
+                  <p class="desc">전월 실적 30만원 이상 시 통신비 1만원 할인 / 편의점·카페 5% 적립 (월 최대 1만원) / 신용 이력 짧아도 신청 가능</p>
+                </div>
+                <div class="org">토스뱅크</div>
+              </div>
+            </div>
+
+            <div class="pcard">
+              <div class="head">
+                <div>
+                  <p class="name">카카오뱅크 신용카드</p>
+                  <p class="desc">카카오페이 결제 시 1% 무제한 적립 / 해외 결제 수수료 우대 (1.0%) / 연회비 없음, 실적 조건 없음</p>
+                </div>
+                <div class="org">카카오뱅크</div>
+              </div>
+            </div>
+
+            <div class="pcard">
+              <div class="head">
+                <div>
+                  <p class="name">신한 Deep Dream 카드</p>
+                  <p class="desc">구독 서비스 10% 캐시백 (월 최대 2만원) / OTT·음악·도서 앱 통합 할인 / 소득 증빙 시 한도 우대</p>
+                </div>
+                <div class="org">신한카드</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 5B: RECOMMENDATIONS (5.2) -->
+      <section class="page">
+        <div class="page-inner">
+          <h1 class="h1">5. PayScore 기반 금융 추천상품</h1>
+          <hr class="hr-brand" />
+
+          <div class="h2">5.2 추천 소액 대출</div>
+
+          <div class="plist">
+            <div class="pcard">
+              <div class="head">
+                <div>
+                  <p class="name">토스 비상금대출</p>
+                  <p class="desc">한도 최대 300만원 / 금리 연 3.9</p>
+                </div>
+                <div class="org">토스</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout mt-18">
+            <div class="title">참고</div>
+            대출/카드 승인 여부는 개인의 기존 금융거래, 소득·재직, 연체 이력, 신용 조회 이력 등에 따라 달라질 수 있습니다.
+            본 추천은 PayScore 구간 기반의 참고용 안내입니다.
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="./pdf_update.js"></script>
+</body>
+
+</html>

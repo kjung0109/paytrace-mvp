@@ -937,7 +937,13 @@
                         <span class="pdf-preview-file-status">준비됨</span>
                     </div>
                     <div class="pdf-preview-scroll">
-                        <section class="pdf-preview-section" aria-label="1. 리포트 요약">
+                        <!-- 실제 PDF 원문 미리보기 -->
+                        <iframe id="pdf-preview-iframe" src="./pdf.html"
+                            style="width: 100%; height: 1400px; border: 1px solid #e5e7eb; border-radius: 12px; background: #f3f0ea;"
+                            title="PDF 리포트 미리보기"></iframe>
+
+                        <!-- 기존 간략 정보 (옵션) -->
+                        <section class="pdf-preview-section" aria-label="1. 리포트 요약" style="margin-top: 24px;">
                             <h3 class="pdf-preview-section-title">1. 리포트 요약</h3>
                             <p id="pdf-preview-tendency" class="pdf-preview-tendency">귀하는 24개월 이력을 보유하고 있습니다.</p>
                             <div class="pdf-preview-score-box">
