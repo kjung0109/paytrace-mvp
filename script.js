@@ -10,6 +10,87 @@ const RULES = {
     ruleVersionScore: "payscore-rule-v1",
 };
 
+const PRODUCT_DATA = {
+    SPROUT: [ // 새싹 납부러 (0~40점)
+        {
+            type: "카드",
+            name: "KB국민 체크-신용 하이브리드",
+            desc: "체크카드에 신용 기능을 더하다",
+            url: "https://m.kbcard.com/SVC/DVIEW/MSCMCXHIASVC0010"
+        },
+        {
+            type: "대출",
+            name: "서민금융진흥원 햇살론유스",
+            desc: "청년층의 자금애로 해소",
+            url: "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do"
+        },
+        {
+            type: "대출",
+            name: "우리은행 WON Easy 생활비 대출",
+            desc: "소액 생활자금 필요시 간편하게",
+            url: "https://spot.wooribank.com/pot/Dream?withyou=POLON0052&cc=c010528:c010531;c012425:c012399&PRD_CD=P020006604"
+        },
+        {
+            type: "카드",
+            name: "신한카드 처음(First)",
+            desc: "첫 출발을 위한 맞춤 혜택",
+            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1227020_2207.html"
+        }
+    ],
+    SINCERE: [ // 성실 납부러 (41~70점)
+        {
+            type: "대출",
+            name: "카카오뱅크 비상금대출",
+            desc: "휴대폰 본인인증만으로 간편한 대출",
+            url: "https://www.kakaobank.com/products/emergencyLoan"
+        },
+        {
+            type: "카드",
+            name: "현대카드 ZERO Edition3 (할인형)",
+            desc: "조건 없는 무제한 할인 혜택",
+            url: "https://www.hyundaicard.com/cpc/cr/CPCCR0201_01.hc?cardWcd=ZROE3"
+        },
+        {
+            type: "카드",
+            name: "삼성카드 taptap O",
+            desc: "내 라이프스타일에 맞춘 맞춤형 카드",
+            url: "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001?code=AAP1483"
+        },
+        {
+            type: "카드",
+            name: "신한카드 Deep Dream",
+            desc: "전월 실적 조건 없는 기본 적립",
+            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1188220_2207.html"
+        }
+    ],
+    MASTER: [ // 마스터 납부러 (71~100점)
+        {
+            type: "대출",
+            name: "햇살론뱅크",
+            desc: "성실 상환자를 위한 징검다리 대출",
+            url: "https://www.kinfa.or.kr/financialProduct/hessalLoanBank.do"
+        },
+        {
+            type: "카드",
+            name: "신한카드 Mr.Life",
+            desc: "공과금 및 생활비 밀착형 할인",
+            url: "https://www.shinhancard.com/pconts/html/card/apply/credit/1187937_2207.html"
+        },
+        {
+            type: "카드",
+            name: "KB국민 청춘대로 톡톡",
+            desc: "온라인 쇼핑부터 음식점까지 할인",
+            url: "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?cooperationcode=09174&mainCC=a"
+        },
+        {
+            type: "대출",
+            name: "토스뱅크 마이너스통장",
+            desc: "필요할 때 쓰고 이자만 내세요",
+            url: "https://www.tossbank.com/product-service/loans/minus-account"
+        }
+    ]
+};
+
 const REASON_TEXT = {
     RENT_OUT_OF_RANGE: "월세 금액이 기준 범위를 벗어나 추가 확인이 필요합니다.",
     MGMT_OUT_OF_RANGE: "관리비 금액이 기준 범위를 벗어나 추가 확인이 필요합니다.",
@@ -567,12 +648,15 @@ function renderReportPreview() {
     const niceEl = $("report-preview-nice");
     const kcbEl = $("report-preview-kcb");
     const basisEl = $("report-preview-product-basis");
+    const productListEl = $("report-preview-products");
+
     if (!res?.scorable) {
         if (badgeEl) badgeEl.textContent = "-";
         if (scoreEl) scoreEl.textContent = "-";
         if (niceEl) niceEl.textContent = "-";
         if (kcbEl) kcbEl.textContent = "-";
         if (basisEl) basisEl.textContent = "PayScore -점 기준 추천";
+        if (productListEl) productListEl.innerHTML = "";
         return;
     }
     const cr = res.credit_score_increase;
@@ -582,6 +666,23 @@ function renderReportPreview() {
     if (niceEl) niceEl.textContent = niceText;
     if (kcbEl) kcbEl.textContent = niceText;
     if (basisEl) basisEl.textContent = `PayScore ${res.payscore}점 기준 추천`;
+
+    // 추천 상품 렌더링
+    if (productListEl) {
+        let category = "SPROUT";
+        if (res.payscore >= 71) category = "MASTER";
+        else if (res.payscore >= 41) category = "SINCERE";
+
+        const products = PRODUCT_DATA[category];
+        productListEl.innerHTML = products.map(p => `
+            <div class="report-preview-product-card">
+                <span class="report-preview-product-type">${escapeHtml(p.type)}</span>
+                <h4 class="report-preview-product-name">${escapeHtml(p.name)}</h4>
+                <p class="report-preview-product-desc">${escapeHtml(p.desc)}</p>
+                <button type="button" class="btn btn-ghost btn-sm" onclick="window.open('${p.url}', '_blank')">상세보기</button>
+            </div>
+        `).join("");
+    }
 }
 
 function bindPdfPreview() {

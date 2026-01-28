@@ -874,6 +874,7 @@ button.form-topbar {
     border-bottom: 1px solid #e9ecef;
     color: var(--muted);
     font-size: 15px;
+    text-align: left;
 }
 
 button.result-topbar {
@@ -2045,6 +2046,7 @@ button.result-topbar {
 .report-preview-heading {
     display: grid;
     gap: 6px;
+    justify-items: start;
 }
 
 .report-preview-title {
