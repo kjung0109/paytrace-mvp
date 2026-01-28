@@ -679,7 +679,7 @@ function renderReportPreview() {
                 <span class="report-preview-product-type">${escapeHtml(p.type)}</span>
                 <h4 class="report-preview-product-name">${escapeHtml(p.name)}</h4>
                 <p class="report-preview-product-desc">${escapeHtml(p.desc)}</p>
-                <button type="button" class="btn btn-ghost btn-sm" onclick="window.open('${p.url}', '_blank')">상세보기</button>
+                <a href="${p.url}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">상세보기</a>
             </div>
         `).join("");
     }

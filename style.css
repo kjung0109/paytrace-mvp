@@ -757,6 +757,10 @@ button.form-topbar {
 }
 
 .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     border: 1px solid transparent;
     border-radius: 14px;
     padding: 13px 14px;
@@ -2076,6 +2080,8 @@ button.result-topbar {
     color: #155724;
     font-size: 14px;
     font-weight: 700;
+    width: fit-content;
+    justify-self: start;
 }
 
 .report-preview-body {
