@@ -481,7 +481,21 @@ function bindScore() {
         7000,
       );
 
-      state.score = { status: "SUCCESS", result: res, reason_code: res.reason_code ?? null };
+      // 리포트 ID 생성 (한 번만)
+      const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+      const reportDate = new Date().toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+      state.score = {
+        status: "SUCCESS",
+        result: res,
+        reason_code: res.reason_code ?? null,
+        reportId: reportId,
+        reportDate: reportDate
+      };
       setView("score");
       renderScoreState("SUCCESS");
       setReportButtonEnabled(res.scorable === true);
@@ -1725,8 +1739,10 @@ function updatePdfPreviewIframe() {
   const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
   const rankLabel = getScoreBadgeLabel(res.payscore);
   const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
-  const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
-  const today = new Date().toLocaleDateString("ko-KR", {
+
+  // state에 저장된 리포트 ID와 날짜 사용 (없으면 새로 생성 - fallback)
+  const reportId = state.score.reportId || cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+  const today = state.score.reportDate || new Date().toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "long",
     day: "numeric"
@@ -1772,8 +1788,10 @@ async function handlePdfDownload() {
     const months = calcContractMonths(payload.startDate, payload.endDate) || 0;
     const rankLabel = getScoreBadgeLabel(res.payscore);
     const rankKey = res.payscore >= 71 ? "master" : (res.payscore >= 41 ? "sincere" : "sprout");
-    const reportId = cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
-    const today = new Date().toLocaleDateString("ko-KR", {
+
+    // state에 저장된 리포트 ID와 날짜 사용
+    const reportId = state.score.reportId || cryptoRandomId("PT").toUpperCase().replace(/_/g, "-");
+    const today = state.score.reportDate || new Date().toLocaleDateString("ko-KR", {
       year: "numeric",
       month: "long",
       day: "numeric"
